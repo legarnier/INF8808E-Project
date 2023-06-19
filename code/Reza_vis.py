@@ -1,4 +1,14 @@
 import plotly.graph_objects as go
+import pandas as pd
+
+
+
+dataframe = pd.read_csv('dataset.csv')
+
+#preprocessing
+
+
+
 
 # Define the main values, maximum values, and minimum values
 main_values = [1, 2, 3, 4, 5]
