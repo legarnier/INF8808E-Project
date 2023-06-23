@@ -183,8 +183,8 @@ def graphV2(df):
         'text':'Forecast Latency',
         'xanchor': 'center',
         'yanchor': 'top',
-        'font': {'size': 30}  # Increase the font size to 24
-
+        'font': {'size': 30},  # Increase the font size to 24,
+         'y': 0.995  # Adjust the y coordinate to position the title higher
         },
     xaxis=dict(title='Time',
                #tickangle=45, 
@@ -223,8 +223,40 @@ def graphV2(df):
     # Display the chart
     
     
+     
+    time.sleep(2)
     
-    fig.show()
+    
+  
+    
+    
+    x_half = x[10:mid_index+10]
+    y1_half = y1[10:mid_index+10]
+    y2_half = y2[10:mid_index+10]
+    y3_half = y3[10:mid_index+10]
+    last_confidence_level = round(df['Confidence Level'].iloc[mid_index],2)
+    last_volatility_level = round(df['Volatility'].iloc[mid_index],2)
+    # Re-layout the graph
+    
+    fig.data[0].y = y1_half
+    fig.data[1].y = y2_half
+    fig.data[2].y = y3_half
+
+    print(fig.data[0])
+    print(fig.data[1])
+    print(fig.data[2])
+
+    fig.update_layout()
+    
+    
+    
+    time.sleep(2)
+    
+    # Re-layout the graph
+    fig.update_layout()
+    
+    
+    #fig.show()
     return fig
     f2 = go.FigureWidget(fig)
 

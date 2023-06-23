@@ -9,7 +9,7 @@ import dash_bootstrap_components as dbc
 
 
 
-app = dash.Dash(__name__)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 
@@ -21,6 +21,7 @@ dataframe = pd.read_csv('../data/dataset.csv')
 #Get the vis5 
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
 fig5 = vis5.initial(vis5_df)
+
 fig5.update_layout(height = 700, width = 1800)
 fig5.update_layout(autosize=True)
 
@@ -31,13 +32,78 @@ fig4.update_layout(autosize=True)
 
 
 
+<<<<<<< HEAD
+=======
+##
+
+
+# Styling the sidebar
+SIDEBAR_STYLE = {
+    "position": "fixed",
+    "top": 0,
+    "left": 0,
+    "bottom": 0,
+    "width": "16rem",
+    "padding": "2rem 1rem",
+    "background-color": "#f8f9fa",
+}
+>>>>>>> 01f5926 (update app.py)
+
+
+# Sidebar content
+sidebar = html.Div(
+    [
+        html.H2("INF8808", className="display-4"),
+        html.Hr(),
+        dbc.Nav(
+            [
+                dbc.NavLink("Dashboard", href="/", active="exact"),
+                dbc.NavLink("Transformer Performance", href="/page-1", active="exact"),
+                dbc.NavLink("Tap changer Performance", href="/page-2", active="exact"),
+                dbc.Button(
+                            "Visualization 5",
+                            id="button-5",
+                            n_clicks=0,
+                            className="button-style",
+                        )
+                        
+            ],
+            vertical=True,
+            pills=True,
+        ),
+        dcc.Graph(
+                                id = 'fig5',
+                                figure = fig5,
+                                style={'width': '%100', 'display': 'inline-block'}
+                        ),
+        dcc.Graph(
+                                id = 'fig5',
+                                figure = fig5,
+                                style={'width': '%100', 'display': 'inline-block'}
+                        ),
+      
+
+    ],
+    style=SIDEBAR_STYLE,
+)
+
+
+
+content = html.Div(id="page-content", children=[], style=CONTENT_STYLE)
+
+app.layout = html.Div([
+    dcc.Location(id="url"),
+    sidebar,
+    content
+    
+])
 
 
 
 
 
 
-
+"""
 app.layout = html.Div(
     children=[
 
@@ -109,11 +175,15 @@ app.layout = html.Div(
                 )], style={"display": "flex",'width': '100%'}),
     ],
 )
+"""
 
 
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 01f5926 (update app.py)
 @app.callback(
     Output('fig5', 'style'),
     [Input('button-5', 'n_clicks')]
@@ -157,4 +227,4 @@ def update_plot(n_clicks):
        button_index = int(triggered_button_id.split("-")[1]) - 1
        return button_texts[button_index]
     
-    return ""
+    return None
