@@ -21,8 +21,12 @@ dataframe = pd.read_csv('../data/dataset.csv')
 #Get the vis5 
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
 fig5 = vis5.initial(vis5_df)
-fig5.update_layout(height = 800, width = 1500)
-fig5.update_layout(dragmode = False)
+fig5.update_layout(height = 700, width = 1800)
+#fig5.update_layout(dragmode = False)
+
+fig5.update_layout(autosize=True)
+
+
 
 
 # Styling the sidebar
@@ -88,7 +92,11 @@ app.layout = html.Div(
                             className="button-style",
                         ),
                         
-                        dcc.Graph(id = 'fig5',figure = fig5),
+                        dcc.Graph(
+                                id = 'fig5',
+                                figure = fig5,
+                                style={'width': '%100', 'display': 'inline-block'}
+                        ),
 
                         #html.Label('You can find forecasting visualization here:'),
                         
@@ -107,10 +115,16 @@ app.layout = html.Div(
                     children=[
                         html.H1(id="plot-text", children=""),
                     ],
-                )], style={"display": "flex"}),
+                )], style={"display": "flex",'width': '100%'}),
     ],
 )
 
+
+
+dcc.Graph(
+    id='graph',
+    style={'width': '100%', 'display': 'inline-block'}
+)
 
 @app.callback(
     Output('fig5', 'style'),
