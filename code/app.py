@@ -3,7 +3,7 @@ from dash import Dash, dcc, html, Input, Output
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
-import preprocess,vis5
+import preprocess,vis5,viz4
 import pandas as pd
 import dash_bootstrap_components as dbc
 
@@ -22,30 +22,16 @@ dataframe = pd.read_csv('../data/dataset.csv')
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
 fig5 = vis5.initial(vis5_df)
 fig5.update_layout(height = 700, width = 1800)
-#fig5.update_layout(dragmode = False)
-
 fig5.update_layout(autosize=True)
 
 
+fig4 = vis5.initial(dataframe)
+fig4.update_layout(height = 700, width = 1800)
+fig4.update_layout(autosize=True)
 
 
-# Styling the sidebar
-SIDEBAR_STYLE = {
-    "position": "fixed",
-    "top": 0,
-    "left": 0,
-    "bottom": 0,
-    "width": "16rem",
-    "padding": "2rem 1rem",
-    "background-color": "#f8f9fa",
-}
 
-# Padding for the page content
-CONTENT_STYLE = {
-    "margin-left": "18rem",
-    "margin-right": "2rem",
-    "padding": "2rem 1rem",
-}
+
 
 
 
@@ -85,6 +71,11 @@ app.layout = html.Div(
                             n_clicks=0,
                             className="button-style",
                         ),
+                        dcc.Graph(
+                                id = 'fig4',
+                                figure = fig4,
+                                style={'width': '%100', 'display': 'inline-block'}
+                        ),
                         html.Button(
                             "Visualization 5",
                             id="button-5",
@@ -121,10 +112,7 @@ app.layout = html.Div(
 
 
 
-dcc.Graph(
-    id='graph',
-    style={'width': '100%', 'display': 'inline-block'}
-)
+
 
 @app.callback(
     Output('fig5', 'style'),
@@ -135,7 +123,17 @@ def toggle_graph_visibility(n_clicks):
         return {'display': 'none'}  # Hide the graph
     else:
         return {'display': 'block'}  # Show the graph
-    
+
+@app.callback(
+    Output('fig4', 'style'),
+    [Input('button-4', 'n_clicks')]
+)   
+def toggle_graph_visibility(n_clicks):
+    if n_clicks and n_clicks % 2 == 1:
+        return {'display': 'none'}  # Hide the graph
+    else:
+        return {'display': 'block'}  # Show the graph  
+
 @app.callback(
     Output("plot-text", "children"),
     Input("button-1", "n_clicks"),
