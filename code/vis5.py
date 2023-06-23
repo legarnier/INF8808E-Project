@@ -8,7 +8,59 @@ import time
 from IPython.display import display
 import ipywidgets as widgets
 
+def addBoxes(fig,last_confidence_level,last_volatility_level) : 
+        fig.update_layout(
+                shapes=[
+                    # Annotation box 1
+                    go.layout.Shape(
+                        type="rect",
+                        xref="paper",
+                        yref="paper",
+                        x0=0.1,
+                        y0=1.05,
+                        x1=0.3,
+                        y1=1.15,
+                        fillcolor="lightblue",
+                        line=dict(color="black", width=1),
+                    ),
+                    # Annotation box 2
+                    go.layout.Shape(
+                        type="rect",
+                        xref="paper",
+                        yref="paper",
+                        x0=0.7,
+                        y0=1.05,
+                        x1=0.9,
+                        y1=1.15,
+                        fillcolor="lightblue",
+                        line=dict(color="black", width=1),
+                    ),
+                ],
+                annotations=[
+                    # Annotation text 1
+                    go.layout.Annotation(
+                        xref="paper",
+                        yref="paper",
+                        x=0.15,
+                        y=1.11,
+                        text="Confidence Level: " + str(last_confidence_level) + "%",
+                        showarrow=False,
+                        font=dict(size=14),
+                    ),
+                    # Annotation text 2
+                    go.layout.Annotation(
+                        xref="paper",
+                        yref="paper",
+                        x=0.83,
+                        y=1.11,
+                        text="Volatility: " + str(last_volatility_level) + "%",
+                        showarrow=False,
+                        font=dict(size=14),
+                    ),
+                ]
+            )
 
+    
 
 
 def add_forecasting(df):
@@ -93,8 +145,12 @@ def graphV2(df):
     y1_half = y1[:mid_index]
     y2_half = y2[:mid_index]
     y3_half = y3[:mid_index]
-    
+    last_confidence_level = round(df['Confidence Level'].iloc[mid_index-1],2)
+    last_volatility_level = round(df['Volatility'].iloc[mid_index-1],2)
 
+
+    # Print the first half of the dataframe
+    print(df.head(mid_index) ,mid_index, df['Confidence Level'].iloc[mid_index-1])
     
     # create variable
     
@@ -123,7 +179,13 @@ def graphV2(df):
 
 
     layout = go.Layout(
-    title='Forecast Latency',
+    title={
+        'text':'Forecast Latency',
+        'xanchor': 'center',
+        'yanchor': 'top',
+        'font': {'size': 30}  # Increase the font size to 24
+
+        },
     xaxis=dict(title='Time',
                #tickangle=45, 
                tickmode='array',
@@ -134,11 +196,16 @@ def graphV2(df):
                ),
     yaxis=dict(title='Latency',range= y_range)
     )
+    
+    
 
     # Create figure
     fig = go.Figure(data=data, layout=layout)
 
     fig.update_layout(
+        title={
+        'x': 0.5,  # Adjust the vertical position of the title if needed
+        },
         # on the y-axis
         yaxis_ticksuffix=" ms",
         # on the colorbar
@@ -149,18 +216,18 @@ def graphV2(df):
     )
     
     
-    # Configure layout
-    fig.update_layout(
-        title='Line Chart (First Half)',
-        xaxis=dict(title='X'),
-        yaxis=dict(title='Y')
-)
+    # Add annotations with curved box borders
+
+    addBoxes(fig,last_confidence_level,last_volatility_level)
+   
     # Display the chart
     
+    
+    
+    fig.show()
     return fig
     f2 = go.FigureWidget(fig)
 
-    #f2.show()
     
 
 
@@ -181,12 +248,7 @@ def graphV3(df):
     # Add the trace to the figure
     fig.append_trace(trace, row=1, col=1)
 
-    # Configure layout
-    fig.update_layout(
-        title='Real-Time Line Chart',
-        xaxis=dict(title='X'),
-        yaxis=dict(title='Y')
-    )
+
 
     # Create a figure widget
     fig_widget = go.FigureWidget(fig)
