@@ -70,7 +70,7 @@ fig.update_layout(height = 700, width = 1000)
 
 viz1_title = "Current protocol latency"
 viz2_title = "Average Latency per application type"
-viz3_title = "viz3_title"
+viz3_title = "Current Latency Geographical Map"
 viz4_title = "viz4_title"
 viz5_title = "Forecasting Latency"
 viz6_title = "viz6_title"
