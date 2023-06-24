@@ -68,6 +68,20 @@ def line_chart_df(df, application_type, s_date, e_date):
     date_df = filter_date(df, s_date, e_date)
     line_df = date_df.loc[date_df['Application type'] == application_type]
     return line_df
+
+def bubble_select(df, start_date, end_date, protocol, clickedData): # understand which application type is selected
+    application_type = ['Communication', 'Voice and File Transfe', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
+
+    if protocol == 'All':
+        application_type_idx = clickedData['points'][0]['curveNumber']
+        return application_type[application_type_idx]
+    elif protocol != 'All':
+        date_df = filter_date(df, start_date, end_date)
+        protocol_df = filter_protocol(date_df, protocol)
+        bubble_df = bubble_chart_df(protocol_df)
+        for index, row in bubble_df.iterrows():
+            if row['Frequency'] == clickedData['points'][0]['x'] and row['Average latency'] == clickedData['points'][0]['y'] and row['Average packet loss'] == clickedData['points'][0]['marker.size']:
+                return row['Application type']
 #viz_3
 def to_df(data):
     # Convert JSON formatted data to dataframe
