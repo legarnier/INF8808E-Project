@@ -187,34 +187,34 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                        dbc.Alert(
-                                            [
-                                                html.H4("Graph 5", className="graph-title"),
-                                                 dcc.Graph(
-                                                        id = 'fig5',
-                                                        figure = fig5,
-                                                        style={'width': '%100', 'display': 'inline-block'}
-                                                )
+                        # dbc.Row(
+                        #     [
+                        #         dbc.Col(
+                        #             [
+                        #                 dbc.Alert(
+                        #                     [
+                        #                         html.H4("Graph 5", className="graph-title"),
+                        #                          dcc.Graph(
+                        #                                 id = 'fig5',
+                        #                                 figure = fig5,
+                        #                                 style={'width': '%100', 'display': 'inline-block'}
+                        #                         )
                                                 
-                                            ],
-                                            id="graph-alert-5",
-                                            color="info",
-                                            dismissable=True,
-                                        ),
-                                    ],
-                                    width=12,
-                                    style={
-                                        'position': 'relative',
-                                        'top': 0,
-                                        'left': '30%'
-                                    },
-                                ),
-                            ]
-                        ),
+                        #                     ],
+                        #                     id="graph-alert-5",
+                        #                     color="info",
+                        #                     dismissable=True,
+                        #                 ),
+                        #             ],
+                        #             width=12,
+                        #             style={
+                        #                 'position': 'relative',
+                        #                 'top': 0,
+                        #                 'left': '30%'
+                        #             },
+                        #         ),
+                        #     ]
+                        # ),
                         dbc.Row(
                             [
                                 dbc.Col(
