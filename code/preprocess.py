@@ -20,6 +20,8 @@ def filter_groupby_time_city(df):
     
     return new_datafram
 
+
+#vis2
 def filter_date(df, start_date, end_date):
     df['Time'] = pd.to_datetime(df['Time']).dt.date
     date_df = df.loc[(df['Time'] >= start_date) & (df['Time'] <= end_date)]
@@ -56,10 +58,14 @@ def bubble_chart_df(df):
             mean_latency.append(0) 
 
     zipped = list(zip(application_type, mean_latency, mean_packet_loss, frequency))
-    new_df = pd.DataFrame(zipped, columns=['Application type', 'Average latency', 'Average packet loss', 'Frequency'])
-    new_df = new_df[new_df['Frequency'] > 0]
-    return new_df
+    bubble_df = pd.DataFrame(zipped, columns=['Application type', 'Average latency', 'Average packet loss', 'Frequency'])
+    bubble_df = bubble_df[bubble_df['Frequency'] > 0]
+    return bubble_df
 
+def line_chart_df(df, application_type, s_date, e_date):
+    date_df = filter_date(df, s_date, e_date)
+    line_df = date_df.loc[date_df['Application type'] == application_type]
+    return line_df
 #viz_3
 def to_df(data):
     # Convert JSON formatted data to dataframe
