@@ -539,14 +539,15 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
         vis2_line_df = preprocess.line_chart_df(dataframe, application_type[application_type_idx], date(2023, 6, 1), date(2023, 6, 5))
         fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
 
-    elif bubble_clicked is not None and start_date is not None and protocol == 'All': # draw line chart based on date range filter only
+    elif start_date is not None and protocol == 'All': # draw line chart based on date range filter only
         start_date_object = date.fromisoformat(start_date)
         end_date_object = date.fromisoformat(end_date)
         application_type_idx = bubble_clicked['points'][0]['curveNumber']
-        vis2_line_df = preprocess.line_chart_df(dataframe, application_type[application_type_idx], start_date_object, end_date_object)
+        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        vis2_line_df = preprocess.line_chart_df(date_df, application_type[application_type_idx], start_date_object, end_date_object)
         fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
 
-    elif bubble_clicked is not None and protocol != 'All': #draw the line chart based on protocol filter only
+    elif start_date is None and protocol != 'All': #draw the line chart based on protocol filter only
         application_type_idx = bubble_clicked['points'][0]['curveNumber']
         filtered_df = preprocess.filter_protocol(dataframe, protocol)
         vis2_line_df = preprocess.line_chart_df(filtered_df, application_type[application_type_idx],  date(2023, 6, 1), date(2023, 6, 5))
