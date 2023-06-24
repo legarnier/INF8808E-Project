@@ -64,7 +64,7 @@ fig = map_viz.add_scatter_traces(fig, dataframe)
 fig = helper.adjust_map_style(fig)
 fig = helper.adjust_map_sizing(fig)
 fig = helper.adjust_map_info(fig)
-fig.update_layout(height = 700, width = 1000)
+fig.update_layout(height = 500, width = 1000)
 
 #add your graph title here: 
 
