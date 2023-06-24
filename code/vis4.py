@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[46]:
-
-
 import plotly.graph_objects as go
 import pandas as pd
 
@@ -24,7 +18,6 @@ def animated_line(df):
     #display(df)
 
 
-    # In[47]:
 
 
     # Base plot

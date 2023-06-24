@@ -150,7 +150,7 @@ def graphV2(df):
 
 
     # Print the first half of the dataframe
-    print(df.head(mid_index) ,mid_index, df['Confidence Level'].iloc[mid_index-1])
+    #print(df.head(mid_index) ,mid_index, df['Confidence Level'].iloc[mid_index-1])
     
     # create variable
     
@@ -180,7 +180,7 @@ def graphV2(df):
 
     layout = go.Layout(
     title={
-        'text':'Forecast Latency',
+        'text':'',
         'xanchor': 'center',
         'yanchor': 'top',
         'font': {'size': 30},  # Increase the font size to 24,
