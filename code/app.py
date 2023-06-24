@@ -160,10 +160,81 @@ app.layout = html.Div(
                                         dbc.Alert(
                                             [
                                                 html.H4("Graph 3", className="graph-title"),
-                                                dcc.Graph(
-                                                    figure={"data": [{"y": [3, 1, 4, 2]}]},
-                                                    id='fig3'
-                                                ),
+                                                html.Div(
+                                                    style={
+                                                        'display':'flex'
+                                                    },
+                                                    children=[
+                                                    dcc.Graph(figure=fig, id='graph',
+                                                              config=dict(
+                                                                  showTips=False,
+                                                                  showAxisDragHandles=False,
+                                                                  displayModeBar=False)),
+
+                                                    html.Div(
+                                                        style={
+                                                            'width': '100px',
+                                                            'margin-top': '120px'
+                                                        },
+                                                        className='panel-div',
+                                                        children=[
+                                                            html.P('Letancy',
+                                                                   style={
+                                                                       'font-family': 'Oswald',
+                                                                       'font-size': '28'
+                                                                   }),
+                                                            html.Div(id='panel', style={
+                                                                'border': '1px solid black',
+                                                                'padding': '3px',
+                                                                'display': 'flex',
+                                                                'flex-direction': 'column',
+                                                                'align-items': 'center'
+                                                            },
+                                                                     children=[
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'display': 'flex',
+                                                                                 'flex-direction': 'row'
+                                                                             },
+                                                                             children=[
+                                                                                 html.Div(
+                                                                                     id='first_circle'
+                                                                                 ),
+                                                                                 html.P('21.04 ms',
+                                                                                        style={
+                                                                                            'margin': '0px',
+                                                                                            'font-size': '.6rem',
+                                                                                            'padding-left': '8px'
+                                                                                        })]
+                                                                         ),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'margin-right': '42px'
+                                                                             },
+                                                                             id='second_circle'
+                                                                         ),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'margin-right': '42px'
+                                                                             }, id='third_circle'),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'display': 'flex',
+                                                                                 'flex-direction': 'row'
+                                                                             },
+                                                                             children=[
+                                                                                 html.Div(
+                                                                                     id='fourth_circle'
+                                                                                 ),
+                                                                                 html.P('97.88 ms',
+                                                                                        style={
+                                                                                            'margin-top': '20px',
+                                                                                            'font-size': '0.6rem',
+                                                                                            'padding-left': '8px'
+                                                                                        })]),
+                                                                     ])]
+                                                    )]
+                                                )
                                             ],
                                             id="graph-alert-3",
                                             color="info",
