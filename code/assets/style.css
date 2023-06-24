@@ -38,40 +38,6 @@ button {
     background-color: #51D5B8;
 }
 /**viz_3**/
-#first_circle{
-height: 10.52px;
-  width: 10.52px;
-  background-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid black;
-  margin:2px
-}
-#second_circle{
-height: 23.32px;
-  width: 23.32px;
-  background-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid black;
-}
-#third_circle{
-height: 36.14px;
-  width: 36.14px;
-  background-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid black;
-  margin:2px
-}
-#fourth_circle{
-height: 48.94px;
-  width: 48.94px;
-  background-color: transparent;
-  border-radius: 50%;
-  display: inline-block;
-  border: 1px solid black;
-}
 .plot-container {
 overflow: hidden !important;
 }
