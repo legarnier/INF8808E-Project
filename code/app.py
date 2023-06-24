@@ -277,6 +277,7 @@ app.layout = html.Div(
                                                                    }),
                                                             html.Div(id='panel', style={
                                                                 'border': '1px solid black',
+                                                                'width': '100px',
                                                                 'padding': '3px',
                                                                 'display': 'flex',
                                                                 'flex-direction': 'column',
@@ -290,7 +291,15 @@ app.layout = html.Div(
                                                                              },
                                                                              children=[
                                                                                  html.Div(
-                                                                                     id='first_circle'
+                                                                                     style={
+                                                                                            'height': '10.52px',
+                                                                                            'width': '10.52px',
+                                                                                            'background-color': 'transparent',
+                                                                                            'border-radius': '50%',
+                                                                                            'display': 'inline-block',
+                                                                                            'border': '1px solid black',
+                                                                                            'margin':'2px'
+                                                                                     }
                                                                                  ),
                                                                                  html.P('21.04 ms',
                                                                                         style={
@@ -301,14 +310,25 @@ app.layout = html.Div(
                                                                          ),
                                                                          html.Div(
                                                                              style={
-                                                                                 'margin-right': '42px'
-                                                                             },
-                                                                             id='second_circle'
+                                                                                 'margin-right': '42px',
+                                                                                 'height': '23.32px',
+                                                                                 'width': '23.32px',
+                                                                                 'background-color': 'transparent',
+                                                                                 'border-radius': '50%',
+                                                                                 'display': 'inline-block',
+                                                                                 'border': '1px solid black',
+                                                                             }  
                                                                          ),
                                                                          html.Div(
                                                                              style={
-                                                                                 'margin-right': '42px'
-                                                                             }, id='third_circle'),
+                                                                                'margin':'2px 42px 2px 0',
+                                                                                'height': '36.14px',
+                                                                                'width': '36.14px',
+                                                                                'background-color': 'transparent',
+                                                                                'border-radius': '50%',
+                                                                                'display': 'inline-block',
+                                                                                'border': '1px solid black',
+                                                                             }),
                                                                          html.Div(
                                                                              style={
                                                                                  'display': 'flex',
@@ -316,7 +336,14 @@ app.layout = html.Div(
                                                                              },
                                                                              children=[
                                                                                  html.Div(
-                                                                                     id='fourth_circle'
+                                                                                    style={
+                                                                                         'height': '48.94px',
+                                                                                         'width': '48.94px',
+                                                                                         'background-color': 'transparent',
+                                                                                         'border-radius': '50%',
+                                                                                         'display': 'inline-block',
+                                                                                         'border': '1px solid black',
+                                                                                     }
                                                                                  ),
                                                                                  html.P('97.88 ms',
                                                                                         style={
