@@ -138,7 +138,7 @@ app.layout = html.Div(
                             'position': 'fixed',
                             'top': 0,
                             'height': '100vh',
-                            'width': '23%',
+                            'width': '22%',
                              'backgroundColor': '#B0E2FF'
                         },
                     className="sidebar",
