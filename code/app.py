@@ -9,6 +9,9 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 import preprocess
 import vis5,vis4
+import vis6
+import plotly.express as px
+
 from dash.dependencies import Input, Output
 #viz_3
 import json
@@ -21,6 +24,7 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
+df_dense = pd.read_csv(('../data/dense_dataset.csv'))
 
 # viz_3
 with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
@@ -411,10 +415,9 @@ app.layout = html.Div(
                                                 dbc.CardHeader(dbc.Button("Graph 6: " + viz6_title, className="graph-title",id="graph-title-6")),
                                                 dbc.CardBody(
                                                     [
-                                                        dcc.Graph(
-                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                            id='fig6'
-                                                        ),
+                                                        #####
+                                                        vis6.layout
+                                                        #####
                                                     ],
                                                     id="graph-body-6"
                                                 ),
@@ -510,6 +513,56 @@ def toggle_graph(n_clicks):
         return {'display': 'block'}  # Show the graph
     
 
+
+@app.callback(
+    Output('heatmap', 'figure'),
+    Input('place', 'value'),
+    Input('type', 'value'))
+def update_graph(place_name, type_name):
+
+    # Create the heatmap figure
+    fig = px.imshow(vis6.extract_heatmap_data(df_dense,
+                                         place_name,
+                                         type_name).T,
+                    color_continuous_scale='Reds',
+                    origin='lower',
+                    aspect='auto')
+    
+    fig.update_xaxes({
+        'showgrid': False,  # thin lines in the background
+        'zeroline': False,  # thick line at x=0
+        'visible': True,  # numbers below
+    })
+
+    fig.update_yaxes({
+        'showgrid': False,  # thin lines in the background
+        'zeroline': False,  # thick line at x=0
+        'visible': True,  # numbers below
+    })
+
+    # fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
+
+    return fig
+
+
+
+@app.callback(
+    Output('linegraph', 'figure'),
+    Input('heatmap', 'hoverData'),
+    Input('place', 'value'),
+    Input('type', 'value')
+    )
+def update_line_graph(hoverData,place_name,type_name,protocol_name='HTTP'):
+    protocol_name = 'HTTP'
+    if hoverData is not None:
+        protocol_name = hoverData['points'][0]['y']
+    dataline = df_dense.loc[(df_dense['Site']==place_name)&
+                   (df_dense['Type']==type_name)&
+                   (df_dense['Protocol']==protocol_name)]
+    fig = px.line(dataline,x='Time',y='Latency',
+                  title=protocol_name)
+    
+    return fig
 
 if __name__ == "__main__":
     app.run_server(debug=True)
