@@ -35,7 +35,7 @@ def animated_line(df):
             title="Latency averages for each site based on type",
         ))
 
-    # Add traces
+    # Traces
     init = 1
 
     fig.add_trace(
@@ -63,12 +63,6 @@ def animated_line(df):
                 visible=True,
                 line=dict(color="#0000FF", dash="dash")))
 
-    # fig.add_trace(
-    #     go.Scatter(x=df.Time[:init],
-    #                y=df.app_Average_Latency[:init],
-    #                name="Average Latency",
-    #                visible=True,
-    #                line=dict(color="#bf00ff", dash="dash")))
 
     # Animation
     fig.update(frames=[
@@ -86,7 +80,7 @@ def animated_line(df):
         for k in range(init, len(df)+1)
     ])
 
-    # Extra Formatting
+    # Format & Layout
     ##print(len(df.Time.unique()))
     fig.update_xaxes(range=[0,len(df.Time.unique())], ticks="outside", tickwidth=2, tickcolor='grey', ticklen=12)
     fig.update_yaxes(ticks="outside", tickwidth=2, tickcolor='white', ticklen=1)
