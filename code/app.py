@@ -193,8 +193,8 @@ app.layout = html.Div(
                                                             dcc.RadioItems(
                                                                 id="radio-type",
                                                                 options=[
-                                                                    {"label": "Protocol type Application", "value": "app"},
-                                                                    {"label": "Protocol type Network", "value": "network"}
+                                                                    {"label": " Application ", "value": "app"},
+                                                                    {"label": " Network ", "value": "network"}
                                                                 ],
                                                                 value="app",
                                                                 className="mb-2"
