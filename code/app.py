@@ -73,7 +73,7 @@ fig5.update_layout(autosize=True)
 
 fig4 = vis4.animated_line(dataframe)
 
-fig4.update_layout(height = 700, width = 1300)
+fig4.update_layout(height = 700, width = 1500)
 fig4.update_layout(autosize=True)
 
 
