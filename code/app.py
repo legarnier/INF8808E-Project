@@ -8,7 +8,7 @@ import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
 import preprocess
-import vis5,vis4, vis2
+import vis5,vis4, vis2, vis1
 import vis6
 import plotly.express as px
 from datetime import date
@@ -28,6 +28,30 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 dataframe = pd.read_csv('../data/dataset.csv')
 df_dense = pd.read_csv(('../data/dense_dataset.csv'))
 
+
+# Get the vis1
+
+dict_data_site = preprocess.filter_by_Site(dataframe)
+
+Qc_by_type = preprocess.filter_by_type(dict_data_site['Quebec'])
+On_by_type = preprocess.filter_by_type(dict_data_site['Ontario'])
+Man_by_type = preprocess.filter_by_type(dict_data_site['Manitoba'])
+
+QC_latency_network = Qc_by_type['network']
+QC_latency_app = Qc_by_type['app']
+
+ON_latency_network = On_by_type['network']
+ON_latency_app = On_by_type['app']
+
+MAN_latency_network = Man_by_type['network']
+MAN_latency_app = Man_by_type['app']
+
+variables = MAN_latency_app['Protocol'].unique()
+df_values = MAN_latency_app[MAN_latency_app['Time'] == MAN_latency_app['Time'].unique()[0]]
+values = df_values['Latency'].tolist()
+gauges = vis1.gauge_chart(variables,values)
+
+
 # viz_3
 with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
     map_data = json.load(data_file)
@@ -44,7 +68,7 @@ fig.update_layout(height = 700, width = 1000)
 
 #add your graph title here: 
 
-viz1_title = "viz1_title"
+viz1_title = "Current protocol latency"
 viz2_title = "Average Latency per application type"
 viz3_title = "viz3_title"
 viz4_title = "viz4_title"
@@ -149,38 +173,56 @@ app.layout = html.Div(
                     [
                         
                         
-                        dbc.Row(
+                         dbc.Row(
                             [
                                 dbc.Col(
-                                    [
-                                         dbc.Card(
-                                            [
-                                                dbc.CardHeader(dbc.Button("Graph 1: " + viz1_title, className="graph-title",id="graph-title-1")),
-                                                dbc.CardBody(
-                                                    [
-                                                        dcc.Graph(
-                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                            id='fig1'
-                                                        ),
-                                                    ],
-                                                    id="graph-body-1"
-                                                ),
-                                            ],
-                                            id="graph-card-1",
-                                            color="info",
-                                        ),
-                                    ],
-                                    width=12,
-                                   style={
-                                        'position': 'relative',
-                                        'top': 0,
-                                        'left': '30%',
-                                        'margin-top' : 20
-                                        
-                                    },
-                                ),
+                                        [
+                                            dbc.Card(
+                                                [
+                                                    dbc.CardHeader(
+                                                        [
+                                                            dbc.Button("Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"),
+                                                        ]
+                                                    ),
+                                                    dbc.CardBody(
+                                                        [
+                                                            html.H5("Site :"),
+                                                            dbc.Button("Quebec", id="button-site-qc", color="primary", className="mr-1"),
+                                                            dbc.Button("Ontario", id="button-site-on", color="primary", className="mr-1"),
+                                                            dbc.Button("Manitoba", id="button-site-man", color="primary", className="mr-1"),
+                                                            dcc.RadioItems(
+                                                                id="radio-type",
+                                                                options=[
+                                                                    {"label": "Protocol type Application", "value": "app"},
+                                                                    {"label": "Protocol type Network", "value": "network"}
+                                                                ],
+                                                                value="app",
+                                                                className="mb-2"
+                                                            ),
+                                                            dcc.Graph(
+                                                                figure=gauges,
+                                                                id='fig1'
+                                                            ),
+                                                        ],
+                                                        id="graph-body-1"
+                                                    ),
+                                                ],
+                                                id="graph-card-1",
+                                                color="info",
+                                                    ),
+                                                ],
+                                                width=12,
+                                                style={
+                                                    'position': 'relative',
+                                                    'top': 0,
+                                                    'left': '30%',
+                                                    'margin-top': 20
+                                                },
+                                            )
+                                    ,
                             ]
                         ),
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -512,6 +554,36 @@ app.layout = html.Div(
         ),
     ]
 )
+
+# # Updating the current latencies
+# @app.callback(
+#     Output('fig1', 'figure'),
+#     Input('button-site-qc', 'n_clicks'),
+#     Input('button-site-on', 'n_clicks'),
+#     Input('button-site-man', 'n_clicks'),
+#     Input('source-type', 'value')
+# )
+# def update_gauges(source1_clicks, source2_clicks, source3_clicks, type_value):
+#     # check selected source
+#     if source1_clicks:
+#         # site 1 sélectionnée
+#         source = "Source 1"
+#     elif source2_clicks:
+#         # Source 2 sélectionnée
+#         source = "Source 2"
+#     elif source3_clicks:
+#         # Source 3 sélectionnée
+#         source = "Source 3"
+#     else:
+#         # Par défaut, utilisez la Source 1
+#         source = "Source 1"
+
+#     # Déterminez le type sélectionné
+#     if type1_value == "type1":
+#         # Type 1 sélectionné
+#         type_value = "Type 1"
+#     else:
+#         # Type
 
 
 #apply filters on graph 2
