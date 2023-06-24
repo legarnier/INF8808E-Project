@@ -1,6 +1,6 @@
 #preprocessing
 import pandas as pd
-from datetime import date
+from datetime import datetime
 
 def filter_groupby_time_city(df):
     '''
@@ -23,8 +23,10 @@ def filter_groupby_time_city(df):
 
 #vis2
 def filter_date(df, start_date, end_date):
-    df['Time'] = pd.to_datetime(df['Time']).dt.date
-    date_df = df.loc[(df['Time'] >= start_date) & (df['Time'] <= end_date)]
+    df['Time'] = pd.to_datetime(df['Time'])
+    s = datetime(year=start_date.year, month=start_date.month, day=start_date.day, hour=0,minute=0,second=0)
+    e = datetime(year=end_date.year, month=end_date.month, day=end_date.day, hour=22,minute=0,second=0)
+    date_df = df.loc[(df['Time'] >= s) & (df['Time'] <= e)]
     return date_df
 
 def filter_protocol(df, protocol):
