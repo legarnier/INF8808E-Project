@@ -21,8 +21,13 @@ dataframe = pd.read_csv('../data/dataset.csv')
 # vis5_df = preprocess.filter_groupby_time_city(dataframe)
 # fig5 = vis5.initial(vis5_df)
 
+<<<<<<< HEAD
 # fig5.update_layout(height = 700, width = 1300)
 # fig5.update_layout(autosize=True)
+=======
+fig5.update_layout(height = 700, width = 1300)
+fig5.update_layout(autosize=True)
+>>>>>>> 022f53a (update app.py)
 
 
 app.layout = html.Div(
@@ -187,6 +192,7 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
+<<<<<<< HEAD
                         # dbc.Row(
                         #     [
                         #         dbc.Col(
@@ -215,6 +221,36 @@ app.layout = html.Div(
                         #         ),
                         #     ]
                         # ),
+=======
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dbc.Alert(
+                                            [
+                                                html.H4("Graph 5", className="graph-title"),
+                                                 dcc.Graph(
+                                                        id = 'fig5',
+                                                        figure = fig5,
+                                                        style={'width': '%100', 'display': 'inline-block'}
+                                                )
+                                                
+                                            ],
+                                            id="graph-alert-5",
+                                            color="info",
+                                            dismissable=True,
+                                        ),
+                                    ],
+                                    width=12,
+                                    style={
+                                        'position': 'relative',
+                                        'top': 0,
+                                        'left': '30%'
+                                    },
+                                ),
+                            ]
+                        ),
+>>>>>>> 022f53a (update app.py)
                         dbc.Row(
                             [
                                 dbc.Col(
