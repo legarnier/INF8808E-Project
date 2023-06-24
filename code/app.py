@@ -10,13 +10,30 @@ import dash_bootstrap_components as dbc
 import preprocess
 import vis5
 from dash.dependencies import Input, Output
-
+#viz_3
+import json
+import plotly.graph_objects as go
+from viz3 import map_viz
+from viz3 import helper
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
+
+# viz_3
+with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
+    map_data = json.load(data_file)
+locations = preprocess.get_neighborhoods(map_data)
+z = len(map_data['features']) * [1]
+fig = go.Figure()
+fig = map_viz.add_choro_trace(fig, map_data, locations, z)
+fig = map_viz.add_scatter_traces(fig, dataframe)
+
+fig = helper.adjust_map_style(fig)
+fig = helper.adjust_map_sizing(fig)
+fig = helper.adjust_map_info(fig)
 
 #Get the vis5 
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
