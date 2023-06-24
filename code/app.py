@@ -22,6 +22,33 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
 
+# viz_3
+with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
+    map_data = json.load(data_file)
+locations = preprocess.get_neighborhoods(map_data)
+z = len(map_data['features']) * [1]
+fig = go.Figure()
+fig = map_viz.add_choro_trace(fig, map_data, locations, z)
+fig = map_viz.add_scatter_traces(fig, dataframe)
+
+fig = helper.adjust_map_style(fig)
+fig = helper.adjust_map_sizing(fig)
+fig = helper.adjust_map_info(fig)
+fig.update_layout(height = 700, width = 1000)
+
+#add your graph title here: 
+
+viz1_title = "viz1_title"
+viz2_title = "viz2_title"
+viz3_title = "viz3_title"
+viz4_title = "viz4_title"
+viz5_title = "Forecasting Latency"
+viz6_title = "viz6_title"
+
+viz_titles = [viz1_title,viz2_title,viz3_title,viz4_title,viz5_title,viz6_title]
+
+
+
 #Get the vis5 
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
 fig5 = vis5.initial(vis5_df)
@@ -136,7 +163,9 @@ app.layout = html.Div(
                                    style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%'
+                                        'left': '30%',
+                                        'margin-top' : 20
+                                        
                                     },
                                 ),
                             ]
@@ -147,27 +176,24 @@ app.layout = html.Div(
                                     [
                                         dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 2: " + viz2_title, className="graph-title",id="graph-title-2")),
-
-                                                dbc.CardBody(
-                                                    [
-                                                        dcc.Graph(
-                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                            id='fig2'
-                                                        ),
-                                                    ],
-                                                    id="graph-body-2"
+                                                html.H4("Graph 2", className="graph-title"),
+                                                dcc.Graph(
+                                                    figure={"data": [{"y": [1, 3, 2, 4]}]},
+                                                    id='fig2'
                                                 ),
                                             ],
-                                            id="graph-card-2",
+                                            id="graph-alert-2",
                                             color="info",
+                                            #dismissable=True,
                                         ),
                                     ],
                                     width=12,
                                     style={
                                         'position': 'relative',
-                                        'top': 20,
-                                        'left': '30%'
+                                        'top': 0,
+                                        'left': '30%',
+                                          'margin-top' : 20
+
                                     },
                                 ),
                             ]
@@ -176,15 +202,121 @@ app.layout = html.Div(
                             [
                                 dbc.Col(
                                     [
-                                         dbc.Card(
+                                        dbc.Alert(
                                             [
                                                 html.H4("Graph 3", className="graph-title"),
-                                                dcc.Graph(
-                                                    figure={"data": [{"y": [3, 1, 4, 2]}]},
-                                                    id='fig3'
-                                                ),
+                                                html.Div(
+                                                    style={
+                                                        'display':'flex'
+                                                    },
+                                                    children=[
+                                                    dcc.Graph(figure=fig, id='graph',
+                                                              config=dict(
+                                                                  showTips=False,
+                                                                  showAxisDragHandles=False,
+                                                                  displayModeBar=False)),
+
+                                                    html.Div(
+                                                        style={
+                                                            'width': '100px',
+                                                            'margin-top': '120px'
+                                                        },
+                                                        className='panel-div',
+                                                        children=[
+                                                            html.P('Letancy',
+                                                                   style={
+                                                                       'font-family': 'Oswald',
+                                                                       'font-size': '28'
+                                                                   }),
+                                                            html.Div(id='panel', style={
+                                                                'border': '1px solid black',
+                                                                'padding': '3px',
+                                                                'display': 'flex',
+                                                                'flex-direction': 'column',
+                                                                'align-items': 'center'
+                                                            },
+                                                                     children=[
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'display': 'flex',
+                                                                                 'flex-direction': 'row'
+                                                                             },
+                                                                             children=[
+                                                                                 html.Div(
+                                                                                     id='first_circle'
+                                                                                 ),
+                                                                                 html.P('21.04 ms',
+                                                                                        style={
+                                                                                            'margin': '0px',
+                                                                                            'font-size': '.6rem',
+                                                                                            'padding-left': '8px'
+                                                                                        })]
+                                                                         ),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'margin-right': '42px'
+                                                                             },
+                                                                             id='second_circle'
+                                                                         ),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'margin-right': '42px'
+                                                                             }, id='third_circle'),
+                                                                         html.Div(
+                                                                             style={
+                                                                                 'display': 'flex',
+                                                                                 'flex-direction': 'row'
+                                                                             },
+                                                                             children=[
+                                                                                 html.Div(
+                                                                                     id='fourth_circle'
+                                                                                 ),
+                                                                                 html.P('97.88 ms',
+                                                                                        style={
+                                                                                            'margin-top': '20px',
+                                                                                            'font-size': '0.6rem',
+                                                                                            'padding-left': '8px'
+                                                                                        })]),
+                                                                     ])]
+                                                    )]
+                                                )
                                             ],
                                             id="graph-alert-3",
+                                            color="info",
+                                            dismissable=True,
+                                        ),
+                                    ],
+                                    width=12,
+                                    style={
+                                        'position': 'relative',
+                                        'top': 0,
+                                        'left': '30%',
+                                        'margin-top' : 20
+
+                                    },
+                                ),
+                            ]
+                        ),
+                        
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                         dbc.Card(
+                                            [
+                                                dbc.CardHeader(dbc.Button("Graph 3: " + viz3_title, className="graph-title",id="graph-title-3")),
+
+                                                dbc.CardBody(
+                                                    [
+                                                        dcc.Graph(
+                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
+                                                            id='fig3'
+                                                        ),
+                                                    ],
+                                                    id="graph-body-3"
+                                                ),
+                                            ],
+                                            id="graph-card-3",
                                             color="info",
                                         ),
                                     ],
@@ -192,7 +324,9 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 40,
-                                        'left': '30%'
+                                        'left': '30%',
+                                      'margin-top' : 20
+
                                     },
                                 ),
                             ]
@@ -224,7 +358,9 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 60,
-                                        'left': '30%'
+                                        'left': '30%',
+                                        'margin-top' : 20
+
                                     },
                                 ),
                             ]
@@ -255,7 +391,9 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 80,
-                                        'left': '30%'
+                                        'left': '30%',
+                                        'margin-top' : 20
+
                                     },
                                 ),
                             ]
@@ -285,7 +423,9 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 100,
-                                        'left': '30%'
+                                        'left': '30%',
+                                        'margin-top' : 20
+
                                     },
                                 ),
                             ]
