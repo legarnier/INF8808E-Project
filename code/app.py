@@ -7,7 +7,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
-import preprocess,vis5,viz4
+# import preprocess
+import vis5,viz4
 from dash.dependencies import Input, Output
 
 
