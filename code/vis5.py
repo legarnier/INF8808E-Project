@@ -41,7 +41,7 @@ def addBoxes(fig,last_confidence_level,last_volatility_level) :
                     go.layout.Annotation(
                         xref="paper",
                         yref="paper",
-                        x=0.15,
+                        x=0.11,
                         y=1.11,
                         text="Confidence Level: " + str(last_confidence_level) + "%",
                         showarrow=False,
@@ -51,7 +51,7 @@ def addBoxes(fig,last_confidence_level,last_volatility_level) :
                     go.layout.Annotation(
                         xref="paper",
                         yref="paper",
-                        x=0.83,
+                        x=0.85,
                         y=1.11,
                         text="Volatility: " + str(last_volatility_level) + "%",
                         showarrow=False,
@@ -241,10 +241,7 @@ def graphV2(df):
     fig.data[0].y = y1_half
     fig.data[1].y = y2_half
     fig.data[2].y = y3_half
-
-    print(fig.data[0])
-    print(fig.data[1])
-    print(fig.data[2])
+   
 
     fig.update_layout()
     
@@ -265,7 +262,6 @@ def graphV2(df):
 
 def graphV3(df):
 
-    print(widgets.__version__)
 
 
     # Create a count variable to generate continuous x-axis values
