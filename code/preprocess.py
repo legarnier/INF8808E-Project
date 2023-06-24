@@ -91,7 +91,7 @@ def get_neighborhoods(data):
 
 
 
-# Preprocess forVisual 1
+# Preprocess for Visual 1
 ###################################
 def filter_by_Site(df):
     '''
