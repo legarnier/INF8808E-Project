@@ -187,7 +187,7 @@ app.layout = html.Div(
                                     [
                                         dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 2: " + viz1_title, className="graph-title",id="graph-title-2")),
+                                                dbc.CardHeader(dbc.Button("Graph 2: " + viz2_title, className="graph-title",id="graph-title-2")),
                                                 dbc.CardBody(
                                                     [
                                                         html.Div(className='vis2-container', style={'display': 'flex'} ,children=[
