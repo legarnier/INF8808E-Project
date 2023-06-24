@@ -176,15 +176,19 @@ app.layout = html.Div(
                                     [
                                         dbc.Card(
                                             [
-                                                html.H4("Graph 2", className="graph-title"),
-                                                dcc.Graph(
-                                                    figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                    id='fig2'
+                                                dbc.CardHeader(dbc.Button("Graph 2: " + viz1_title, className="graph-title",id="graph-title-2")),
+                                                dbc.CardBody(
+                                                    [
+                                                        dcc.Graph(
+                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
+                                                            id='fig2'
+                                                        ),
+                                                    ],
+                                                    id="graph-body-2"
                                                 ),
                                             ],
-                                            id="graph-alert-2",
+                                            id="graph-card-2",
                                             color="info",
-                                            #dismissable=True,
                                         ),
                                     ],
                                     width=12,
@@ -323,7 +327,7 @@ app.layout = html.Div(
                                     width=12,
                                     style={
                                         'position': 'relative',
-                                        'top': 40,
+                                        'top': 0,
                                         'left': '30%',
                                       'margin-top' : 20
 
@@ -357,7 +361,7 @@ app.layout = html.Div(
                                     width=12,
                                     style={
                                         'position': 'relative',
-                                        'top': 60,
+                                        'top': 0,
                                         'left': '30%',
                                         'margin-top' : 20
 
@@ -390,7 +394,7 @@ app.layout = html.Div(
                                     width=12,
                                     style={
                                         'position': 'relative',
-                                        'top': 80,
+                                        'top': 0,
                                         'left': '30%',
                                         'margin-top' : 20
 
@@ -422,7 +426,7 @@ app.layout = html.Div(
                                     width=12,
                                     style={
                                         'position': 'relative',
-                                        'top': 100,
+                                        'top': 0,
                                         'left': '30%',
                                         'margin-top' : 20
 
@@ -489,7 +493,7 @@ def toggle_graph_visibility(n_clicks):
 )
 @app.callback(
     Output("graph-body-4", "style"),
-    Input("graph-title-5", "n_clicks")
+    Input("graph-title-4", "n_clicks")
 )
 @app.callback(
     Output("graph-body-5", "style"),
