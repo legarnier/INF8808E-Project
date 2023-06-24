@@ -291,9 +291,12 @@ app.layout = html.Div(
                             [
                                 dbc.Col(
                                     [
-                                        dbc.Alert(
+                                        dbc.Card(
                                             [
-                                                html.H4("Graph 3", className="graph-title"),
+                                                dbc.CardHeader(dbc.Button("Graph 3: " + viz3_title, className="graph-title",
+                                                               id="graph-title-3")),
+                                                dbc.CardBody(
+                                                    [
                                                 html.Div(
                                                     style={
                                                         'display':'flex'
@@ -394,12 +397,14 @@ app.layout = html.Div(
                                                                                             'padding-left': '8px'
                                                                                         })]),
                                                                      ])]
-                                                    )]
+                                                    )])
+                                                    ],
+                                                    id="graph-body-3"
                                                 )
                                             ],
-                                            id="graph-alert-3",
+                                            id="graph-card-3",
                                             color="info",
-                                            dismissable=True,
+
                                         ),
                                     ],
                                     width=12,
@@ -414,39 +419,8 @@ app.layout = html.Div(
                             ]
                         ),
                         
-                        dbc.Row(
-                            [
-                                dbc.Col(
-                                    [
-                                         dbc.Card(
-                                            [
-                                                dbc.CardHeader(dbc.Button("Graph 3: " + viz3_title, className="graph-title",id="graph-title-3")),
 
-                                                dbc.CardBody(
-                                                    [
-                                                        dcc.Graph(
-                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                            id='fig3'
-                                                        ),
-                                                    ],
-                                                    id="graph-body-3"
-                                                ),
-                                            ],
-                                            id="graph-card-3",
-                                            color="info",
-                                        ),
-                                    ],
-                                    width=12,
-                                    style={
-                                        'position': 'relative',
-                                        'top': 0,
-                                        'left': '30%',
-                                      'margin-top' : 20
-
-                                    },
-                                ),
-                            ]
-                        ),
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
