@@ -2,8 +2,8 @@ import plotly.graph_objects as go
 import pandas as pd
 
 def animated_line(df):
-    url = 'https://github.com/legarnier/INF8808E-Project/blob/main/data/dataset.csv'
-    df = pd.read_csv(url,index_col=0)
+    #url = 'https://github.com/legarnier/INF8808E-Project/blob/main/data/dataset.csv'
+    #df = pd.read_csv(url,index_col=0)
     #df = pd.read_csv('INF8808E.csv')
     df.drop(['Protocol', 'Latency'], axis=1, inplace=True)
     df = df.groupby(['Site', 'Time', 'Type'], as_index=False)['Average Latency'].mean()
