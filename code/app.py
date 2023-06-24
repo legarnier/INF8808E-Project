@@ -8,9 +8,11 @@ import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
 import preprocess
-import vis5,vis4
+import vis5,vis4, vis2
 import vis6
 import plotly.express as px
+from datetime import date
+
 
 from dash.dependencies import Input, Output
 #viz_3
@@ -43,7 +45,7 @@ fig.update_layout(height = 700, width = 1000)
 #add your graph title here: 
 
 viz1_title = "viz1_title"
-viz2_title = "viz2_title"
+viz2_title = "Average Latency per application type"
 viz3_title = "viz3_title"
 viz4_title = "viz4_title"
 viz5_title = "Forecasting Latency"
@@ -51,6 +53,11 @@ viz6_title = "viz6_title"
 
 viz_titles = [viz1_title,viz2_title,viz3_title,viz4_title,viz5_title,viz6_title]
 
+#Get the vis2
+vis2_bubble_df = preprocess.bubble_chart_df(dataframe)
+fig2_bubble = vis2.buble_chart(vis2_bubble_df)
+
+fig2_line = vis2.get_empty_figure()
 
 
 #Get the vis5 
@@ -183,10 +190,42 @@ app.layout = html.Div(
                                                 dbc.CardHeader(dbc.Button("Graph 2: " + viz1_title, className="graph-title",id="graph-title-2")),
                                                 dbc.CardBody(
                                                     [
-                                                        dcc.Graph(
-                                                            figure={"data": [{"y": [1, 3, 2, 4]}]},
-                                                            id='fig2'
-                                                        ),
+                                                        html.Div(className='vis2-container', style={'display': 'flex'} ,children=[
+                                                            dcc.Graph(
+                                                                    id = 'fig2-bubble',
+                                                                    className = 'vis2-graph',
+                                                                    figure = fig2_bubble,
+                                                                    style={'display': 'inline', 'width': '60%'}
+                                                                ),
+                                                            dcc.Graph(
+                                                                    id = 'fig2-line',
+                                                                    className = 'vis2-graph',
+                                                                    figure = fig2_line,
+                                                                    style={'display': 'inline', 'width': '40%'}
+                                                                ),
+                                                            ]),
+                                                            html.Div(className = 'filter-container', children=[
+                                                            html.Label('Date range', style={'padding-top': '2%', 'padding-left': '2%'}),
+                                                            html.Div([
+                                                                dcc.DatePickerRange(
+                                                                        id='filter_date',
+                                                                        start_date_placeholder_text="Start Period",
+                                                                        end_date_placeholder_text="End Period",
+                                                                        calendar_orientation='vertical',
+                                                                        min_date_allowed=date(2023, 6, 1),
+                                                                        max_date_allowed=date(2023, 6, 5),
+                                                                        initial_visible_month=date(2023, 6, 5),
+                                                                        end_date=date(2023, 6, 5),
+                                                                        style={'padding': '2%'}
+                                                                    ), 
+                                                                    html.Div(id='output-container-date-picker-range')
+                                                                ]),
+                                                                html.Label('Protocol', style={'padding-top': '2%', 'padding-left': '2%'}),
+                                                                html.Div([
+                                                                    dcc.Dropdown(['All', 'HTTP','HTTPS', 'TCP', 'UDP', 'ICMP', 'TWAMP'], 'All', id='filter_protocol', style={'width': '100px'}),
+                                                                    html.Div(id='output'),     
+                                                                ], style={'padding': '2%', 'display': 'inline-flex'}),
+                                                            ]),
                                                     ],
                                                     id="graph-body-2"
                                                 ),
@@ -447,6 +486,82 @@ app.layout = html.Div(
     ]
 )
 
+
+#apply filters on graph 2
+@app.callback(
+        Output('fig2-bubble', 'figure'), 
+        [Input('filter_date', 'start_date'),
+        Input('filter_date', 'end_date'),
+        Input('filter_protocol', 'value')]
+        )
+def update_output(start_date, end_date, value):
+    dataframe = pd.read_csv('../data/dataset.csv') 
+    if value == 'All' and start_date is None:
+        fig2 = vis2.buble_chart(vis2_bubble_df)
+    elif value != 'All' and start_date is None:
+        protocol_df = preprocess.filter_protocol(dataframe, value)
+        vis2_df_filtered = preprocess.bubble_chart_df(protocol_df)
+        fig2 = vis2.buble_chart(vis2_df_filtered)
+    elif value == 'All' and start_date is not None and end_date is not None:
+        start_date_object = date.fromisoformat(start_date)
+        end_date_object = date.fromisoformat(end_date)
+
+        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        vis2_df_filtered = preprocess.bubble_chart_df(date_df)
+        fig2 = vis2.buble_chart(vis2_df_filtered)
+    else:
+        start_date_object = date.fromisoformat(start_date)
+        end_date_object = date.fromisoformat(end_date)
+
+        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        filtered_df = preprocess.filter_protocol(date_df, value)
+        vis2_df_filtered = preprocess.bubble_chart_df(filtered_df)
+        fig2 = vis2.buble_chart(vis2_df_filtered)
+
+    return fig2
+
+# Graph2: change line chart based in the clicked point on bubble chart
+@app.callback(
+    Output('fig2-line', 'figure'),
+    [Input('fig2-bubble', 'clickData'),
+    Input('filter_date', 'start_date'),
+    Input('filter_date', 'end_date'),
+    Input('filter_protocol', 'value')]
+)
+def bubble_clicked(bubble_clicked, start_date, end_date, protocol): 
+    application_type = ['Communication', 'Voice and File Transfe', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
+    dataframe = pd.read_csv('../data/dataset.csv')
+    if bubble_clicked is None:
+        fig2_line = vis2.get_empty_figure()
+
+    elif bubble_clicked is not None and start_date is None and protocol == 'All': #draw line chart without any filetr
+        application_type_idx = bubble_clicked['points'][0]['curveNumber']
+        vis2_line_df = preprocess.line_chart_df(dataframe, application_type[application_type_idx], date(2023, 6, 1), date(2023, 6, 5))
+        fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
+
+    elif bubble_clicked is not None and start_date is not None and protocol == 'All': # draw line chart based on date range filter only
+        start_date_object = date.fromisoformat(start_date)
+        end_date_object = date.fromisoformat(end_date)
+        application_type_idx = bubble_clicked['points'][0]['curveNumber']
+        vis2_line_df = preprocess.line_chart_df(dataframe, application_type[application_type_idx], start_date_object, end_date_object)
+        fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
+
+    elif bubble_clicked is not None and protocol != 'All': #draw the line chart based on protocol filter only
+        application_type_idx = bubble_clicked['points'][0]['curveNumber']
+        filtered_df = preprocess.filter_protocol(dataframe, protocol)
+        vis2_line_df = preprocess.line_chart_df(filtered_df, application_type[application_type_idx],  date(2023, 6, 1), date(2023, 6, 5))
+        fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
+
+    else: #draw the line chart based on filters and bubble clicked
+        application_type_idx = bubble_clicked['points'][0]['curveNumber']
+        start_date_object = date.fromisoformat(start_date)
+        end_date_object = date.fromisoformat(end_date)
+
+        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        filtered_df = preprocess.filter_protocol(date_df, protocol)
+        vis2_line_df = preprocess.line_chart_df(filtered_df, application_type[application_type_idx], start_date_object, end_date_object)
+        fig2_line = vis2.line_chart(vis2_line_df, application_type[application_type_idx])
+    return fig2_line
 
 @app.callback(
     Output('fig1', 'style'),
