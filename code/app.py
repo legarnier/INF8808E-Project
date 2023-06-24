@@ -7,8 +7,8 @@ import dash_core_components as dcc
 import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
-# import preprocess
-import vis5,viz4
+import preprocess
+import vis5
 from dash.dependencies import Input, Output
 
 
@@ -19,8 +19,8 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 dataframe = pd.read_csv('../data/dataset.csv')
 
 #Get the vis5 
-# vis5_df = preprocess.filter_groupby_time_city(dataframe)
-# fig5 = vis5.initial(vis5_df)
+vis5_df = preprocess.filter_groupby_time_city(dataframe)
+fig5 = vis5.initial(vis5_df)
 
 fig5.update_layout(height = 700, width = 1300)
 fig5.update_layout(autosize=True)

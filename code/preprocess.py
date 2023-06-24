@@ -16,8 +16,7 @@ def filter_groupby_time_city(df):
     # Group by 'city' and calculate average of 'age'
     new_datafram = df.groupby(['Site', 'Time']).mean().reset_index()
     
-
-    new_datafram = new_datafram[['Site','Time','Latency','Forecast max','Forecast min','Confidence Level','Volatility', 'Packet loss', 'Application type']]    
+    new_datafram = new_datafram[['Site','Time','Latency','Forecast max','Forecast min','Confidence Level','Volatility']]    
     
     return new_datafram
 
