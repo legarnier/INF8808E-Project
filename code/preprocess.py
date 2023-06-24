@@ -59,3 +59,10 @@ def bubble_chart_df(df):
     new_df = pd.DataFrame(zipped, columns=['Application type', 'Average latency', 'Average packet loss', 'Frequency'])
     new_df = new_df[new_df['Frequency'] > 0]
     return new_df
+
+#viz_3
+def to_df(data):
+    # Convert JSON formatted data to dataframe
+    return pd.json_normalize(data['features'])
+def get_neighborhoods(data):
+    return to_df(data)['properties.prov_name_en'].unique()
