@@ -74,7 +74,7 @@ viz2_title = "Average Latency per application type"
 viz3_title = "Current Latency Geographical Map"
 viz4_title = "Average Latency per Site"
 viz5_title = "Forecasting Latency"
-viz6_title = "viz6_title"
+viz6_title = "Anomaly detection"
 
 viz_titles = [viz1_title,viz2_title,viz3_title,viz4_title,viz5_title,viz6_title]
 
