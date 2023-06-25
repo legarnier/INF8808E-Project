@@ -22,7 +22,9 @@ def extract_heatmap_data(df, site, typ):
     heatmap_data.columns = ['HTTP', 'HTTPS', 'ICMP', 'TCP', 'TWAMP', 'UDP']
     return heatmap_data
 
-
+def get_empty_figure():
+    fig = px.line({})
+    return fig
 layout = html.Div([
     html.Div([
         # BEGIN LEFT PART
@@ -59,7 +61,7 @@ layout = html.Div([
         # END LEFT PART
 
         # BEGIN RIGHT PART
-        html.Div(["GRAPH"], style={'width': '49%',
+        html.Div(["Click on the heatmap and select a time window!"], style={'width': '49%',
                  'float': 'right', 'display': 'inline-block'})
         # END RIGHT PART
 
@@ -75,10 +77,17 @@ layout = html.Div([
         )
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
     html.Div([
-        dcc.Graph(id='linegraph'),
+        dcc.Graph(figure=get_empty_figure(),id='linegraph'),
     ], style={'display': 'inline-block', 'width': '49%'}),
 
-    html.Div("zoom level:")
+    html.Div(["Window range:",
+                               dcc.Slider(
+                 20,
+                 100,
+                 10,
+                 id='zoom_level',
+                 value=15
+             )],style={'width': '49%', 'padding': '0px 20px 20px 20px'})
 ])
 
 

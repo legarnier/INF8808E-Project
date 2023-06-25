@@ -14,7 +14,7 @@ import plotly.express as px
 from datetime import date
 
 
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 #viz_3
 import json
 import plotly.graph_objects as go
@@ -27,7 +27,7 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
 df_dense = pd.read_csv(('../data/dense_dataset.csv'))
-
+df_dense['Time'] = pd.to_datetime(df_dense['Time'])
 
 # Get the vis1
 
@@ -752,17 +752,23 @@ def update_graph(place_name, type_name):
 
 @app.callback(
     Output('linegraph', 'figure'),
-    Input('heatmap', 'hoverData'),
-    Input('place', 'value'),
-    Input('type', 'value')
+    Input('heatmap', 'clickData'),
+    Input('zoom_level', 'value'),
+    State('place', 'value'),
+    State('type', 'value'),
     )
-def update_line_graph(hoverData,place_name,type_name,protocol_name='HTTP'):
+def update_line_graph(clickData,zoom_level,place_name,type_name):
     protocol_name = 'HTTP'
-    if hoverData is not None:
-        protocol_name = hoverData['points'][0]['y']
+    time_range = int(zoom_level)
+    if clickData is not None:
+        protocol_name = clickData['points'][0]['y']
+        selected_time = pd.to_datetime(clickData['points'][0]['x'])
+    
     dataline = df_dense.loc[(df_dense['Site']==place_name)&
                    (df_dense['Type']==type_name)&
-                   (df_dense['Protocol']==protocol_name)]
+                   (df_dense['Protocol']==protocol_name)&
+                   (df_dense['Time']>=selected_time-pd.Timedelta(seconds=time_range))&
+                   (df_dense['Time']<=selected_time+pd.Timedelta(seconds=time_range))]
     fig = px.line(dataline,x='Time',y='Latency',
                   title=protocol_name)
     
