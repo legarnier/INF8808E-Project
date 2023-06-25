@@ -53,13 +53,14 @@ gauges = vis1.gauge_chart(variables,values)
 
 
 # viz_3
+df_viz3 = pd.read_csv('../data/map_data.csv')
 with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
     map_data = json.load(data_file)
 locations = preprocess.get_neighborhoods(map_data)
 z = len(map_data['features']) * [1]
 fig = go.Figure()
 fig = map_viz.add_choro_trace(fig, map_data, locations, z)
-fig = map_viz.add_scatter_traces(fig, dataframe)
+fig = map_viz.add_scatter_traces(fig, df_viz3)
 
 fig = helper.adjust_map_style(fig)
 fig = helper.adjust_map_sizing(fig)
