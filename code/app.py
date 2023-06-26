@@ -8,14 +8,17 @@ import dash_html_components as html
 import pandas as pd
 import dash_bootstrap_components as dbc
 import preprocess
-import vis5,vis4, vis2, vis1
+import vis5
+import vis4
+import vis2
+import vis1
 import vis6
 import plotly.express as px
 from datetime import date
 
 
 from dash.dependencies import Input, Output, State
-#viz_3
+# viz_3
 import json
 import plotly.graph_objects as go
 from viz3 import map_viz
@@ -47,9 +50,10 @@ MAN_latency_network = Man_by_type['network']
 MAN_latency_app = Man_by_type['app']
 
 variables = MAN_latency_app['Protocol'].unique()
-df_values = MAN_latency_app[MAN_latency_app['Time'] == MAN_latency_app['Time'].unique()[0]]
+df_values = MAN_latency_app[MAN_latency_app['Time']
+                            == MAN_latency_app['Time'].unique()[0]]
 values = df_values['Latency'].tolist()
-gauges = vis1.gauge_chart(variables,values)
+gauges = vis1.gauge_chart(variables, values)
 
 
 # viz_3
@@ -65,9 +69,9 @@ fig = map_viz.add_scatter_traces(fig, df_viz3)
 fig = helper.adjust_map_style(fig)
 fig = helper.adjust_map_sizing(fig)
 fig = helper.adjust_map_info(fig)
-fig.update_layout(height = 500, width = 1000)
+fig.update_layout(height=500, width=1000)
 
-#add your graph title here: 
+# add your graph title here:
 
 viz1_title = "Current protocol latency"
 viz2_title = "Average Latency per application type"
@@ -76,29 +80,29 @@ viz4_title = "Average Latency per Site"
 viz5_title = "Forecasting Latency"
 viz6_title = "Anomaly detection"
 
-viz_titles = [viz1_title,viz2_title,viz3_title,viz4_title,viz5_title,viz6_title]
+viz_titles = [viz1_title, viz2_title, viz3_title,
+              viz4_title, viz5_title, viz6_title]
 
-#Get the vis2
+# Get the vis2
 vis2_bubble_df = preprocess.bubble_chart_df(dataframe)
 fig2_bubble = vis2.buble_chart(vis2_bubble_df)
 
 fig2_line = vis2.get_empty_figure()
 
 
-#Get the vis5 
+# Get the vis5
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
 fig5 = vis5.initial(vis5_df)
 
-fig5.update_layout(height = 700, width = 1300)
+fig5.update_layout(height=700, width=1300)
 fig5.update_layout(autosize=True)
 
 
-
-#Get the vis4
+# Get the vis4
 
 fig4 = vis4.animated_line(dataframe)
 
-fig4.update_layout(height = 700, width = 1500)
+fig4.update_layout(height=700, width=1500)
 fig4.update_layout(autosize=True)
 
 
@@ -110,21 +114,22 @@ app.layout = html.Div(
                 dbc.Col(
                     [
                         html.Div(
-                            children=
-                            [
+                            children=[
                                 html.H1("INF8808 ", className="project-title"),
-                               html.H1("Final Project ", className="project-title"),
+                                html.H1("Final Project ",
+                                        className="project-title"),
 
-                                html.H3("Team Number: 7", className="team-number"),
+                                html.H3("Team Number: 7",
+                                        className="team-number"),
                                 html.H3("Summer 2023", className="date"),
                             ],
                             className="header-container",
 
                             style={
-                                
+
                                 'backgroundColor': '#B0E2FF'
-                                
-                              },
+
+                            },
                         ),
                         dbc.ListGroup(
                             [
@@ -135,140 +140,163 @@ app.layout = html.Div(
                                             id='button-' + str(graph_id),
                                             color="primary",
                                             outline=True,
-                                            style={"text-align": "left","margin-bottom":20},
+                                            style={"text-align": "left",
+                                                   "margin-bottom": 20},
                                         ),
-                                          dbc.CardBody(
+                                        dbc.CardBody(
                                             [
-                                                html.H4(viz_titles[graph_id-1], className="card-title"),
+                                                html.H4(
+                                                    viz_titles[graph_id-1], className="card-title"),
                                             ]
                                         ),
                                         dbc.Collapse(
-                                            dcc.Graph(id={"type": "graph", "index": graph_id}),
-                                            id={"type": "collapse", "index": graph_id},
+                                            dcc.Graph(
+                                                id={"type": "graph", "index": graph_id}),
+                                            id={"type": "collapse",
+                                                "index": graph_id},
                                             is_open=False,
                                         ),
                                     ]
-                                )   
-                                
-                                for graph_id in range(1, 7)  # Update the range based on the number of graphs
+                                )
+
+                                # Update the range based on the number of graphs
+                                for graph_id in range(1, 7)
                             ],
                             className="sidebar-content",
 
                         ),
-                        
-                        
+
+
                     ],
                     width=3,
                     style={
-                            'position': 'fixed',
-                            'top': 0,
-                            'height': '100vh',
-                            'width': '22%',
-                             'backgroundColor': '#B0E2FF'
-                        },
+                        'position': 'fixed',
+                        'top': 0,
+                        'height': '100vh',
+                        'width': '22%',
+                        'backgroundColor': '#B0E2FF'
+                    },
                     className="sidebar",
-                    
+
                 ),
                 # Graphs
                 dbc.Col(
                     [
-                        
-                        
-                         dbc.Row(
-                            [
-                                dbc.Col(
-                                        [
-                                            dbc.Card(
-                                                [
-                                                    dbc.CardHeader(
-                                                        [
-                                                            dbc.Button("Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"),
-                                                        ]
-                                                    ),
-                                                    dbc.CardBody(
-                                                        [
-                                                            html.H5("Site :"),
-                                                            dbc.Button("Quebec", id="button-site-qc", color="primary", className="mr-1"),
-                                                            dbc.Button("Ontario", id="button-site-on", color="primary", className="mr-1"),
-                                                            dbc.Button("Manitoba", id="button-site-man", color="primary", className="mr-1"),
-                                                            dcc.RadioItems(
-                                                                id="radio-type",
-                                                                options=[
-                                                                    {"label": " Application ", "value": "app"},
-                                                                    {"label": " Network ", "value": "network"}
-                                                                ],
-                                                                value="app",
-                                                                className="mb-2"
-                                                            ),
-                                                            dcc.Graph(
-                                                                figure=gauges,
-                                                                id='fig1'
-                                                            ),
-                                                        ],
-                                                        id="graph-body-1"
-                                                    ),
-                                                ],
-                                                id="graph-card-1",
-                                                color="info",
-                                                    ),
-                                                ],
-                                                width=12,
-                                                style={
-                                                    'position': 'relative',
-                                                    'top': 0,
-                                                    'left': '30%',
-                                                    'margin-top': 20
-                                                },
-                                            )
-                                    ,
-                            ]
-                        ),
-                        
+
+
                         dbc.Row(
                             [
                                 dbc.Col(
                                     [
                                         dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 2: " + viz2_title, className="graph-title",id="graph-title-2")),
+                                                dbc.CardHeader(
+                                                    [
+                                                        dbc.Button(
+                                                            "Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"),
+                                                    ]
+                                                ),
                                                 dbc.CardBody(
                                                     [
-                                                        html.Div(className='vis2-container', style={'display': 'flex'} ,children=[
+                                                        html.H5("Site :"),
+                                                        dbc.Button(
+                                                            "Quebec", id="button-site-qc", color="primary", className="mr-1"),
+                                                        dbc.Button(
+                                                            "Ontario", id="button-site-on", color="primary", className="mr-1"),
+                                                        dbc.Button(
+                                                            "Manitoba", id="button-site-man", color="primary", className="mr-1"),
+                                                        dcc.RadioItems(
+                                                            id="radio-type",
+                                                            options=[
+                                                                {"label": " Application ",
+                                                                 "value": "app"},
+                                                                {"label": " Network ",
+                                                                 "value": "network"}
+                                                            ],
+                                                            value="app",
+                                                            className="mb-2"
+                                                        ),
+                                                        dcc.Graph(
+                                                            figure=gauges,
+                                                            id='fig1'
+                                                        ),
+                                                    ],
+                                                    id="graph-body-1"
+                                                ),
+                                            ],
+                                            id="graph-card-1",
+                                            color="info",
+                                        ),
+                                    ],
+                                    width=12,
+                                    style={
+                                        'position': 'relative',
+                                                    'top': 0,
+                                                    'left': '30%',
+                                                    'margin-top': 20
+                                    },
+                                ),
+                            ]
+                        ),
+
+                        dbc.Row(
+                            [
+                                dbc.Col(
+                                    [
+                                        dbc.Card(
+                                            [
+                                                dbc.CardHeader(dbc.Button(
+                                                    "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
+                                                dbc.CardBody(
+                                                    [
+                                                        html.Div(className='vis2-container', style={'display': 'flex'}, children=[
                                                             dcc.Graph(
-                                                                    id = 'fig2-bubble',
-                                                                    className = 'vis2-graph',
-                                                                    figure = fig2_bubble,
-                                                                    style={'display': 'inline', 'width': '60%'}
-                                                                ),
+                                                                id='fig2-bubble',
+                                                                className='vis2-graph',
+                                                                figure=fig2_bubble,
+                                                                style={
+                                                                    'display': 'inline', 'width': '60%'}
+                                                            ),
                                                             dcc.Graph(
-                                                                    id = 'fig2-line',
-                                                                    className = 'vis2-graph',
-                                                                    figure = fig2_line,
-                                                                    style={'display': 'inline', 'width': '40%'}
-                                                                ),
-                                                            ]),
-                                                            html.Div(className = 'filter-container', children=[
-                                                            html.Label('Date range', style={'padding-top': '2%', 'padding-left': '2%'}),
+                                                                id='fig2-line',
+                                                                className='vis2-graph',
+                                                                figure=fig2_line,
+                                                                style={
+                                                                    'display': 'inline', 'width': '40%'}
+                                                            ),
+                                                        ]),
+                                                        html.Div(className='filter-container', children=[
+                                                            html.Label('Date range', style={
+                                                                       'padding-top': '2%', 'padding-left': '2%'}),
                                                             html.Div([
                                                                 dcc.DatePickerRange(
-                                                                        id='filter_date',
-                                                                        start_date_placeholder_text="Start Period",
-                                                                        end_date_placeholder_text="End Period",
-                                                                        calendar_orientation='vertical',
-                                                                        min_date_allowed=date(2023, 6, 1),
-                                                                        max_date_allowed=date(2023, 6, 5),
-                                                                        initial_visible_month=date(2023, 6, 5),
-                                                                        end_date=date(2023, 6, 5),
-                                                                        style={'padding': '2%'}
-                                                                    ), 
-                                                                    html.Div(id='output-container-date-picker-range')
-                                                                ]),
-                                                                html.Label('Protocol', style={'padding-top': '2%', 'padding-left': '2%'}),
-                                                                html.Div([
-                                                                    dcc.Dropdown(['All', 'HTTP','HTTPS', 'TCP', 'UDP', 'ICMP', 'TWAMP'], 'All', id='filter_protocol', style={'width': '100px'}),
-                                                                    html.Div(id='output'),     
-                                                                ], style={'padding': '2%', 'display': 'inline-flex'}),
+                                                                    id='filter_date',
+                                                                    start_date_placeholder_text="Start Period",
+                                                                    end_date_placeholder_text="End Period",
+                                                                    calendar_orientation='vertical',
+                                                                    min_date_allowed=date(
+                                                                        2023, 6, 1),
+                                                                    max_date_allowed=date(
+                                                                        2023, 6, 5),
+                                                                    initial_visible_month=date(
+                                                                        2023, 6, 5),
+                                                                    end_date=date(
+                                                                        2023, 6, 5),
+                                                                    style={
+                                                                        'padding': '2%'}
+                                                                ),
+                                                                html.Div(
+                                                                    id='output-container-date-picker-range')
                                                             ]),
+                                                            html.Label('Protocol', style={
+                                                                'padding-top': '2%', 'padding-left': '2%'}),
+                                                            html.Div([
+                                                                dcc.Dropdown(['All', 'HTTP', 'HTTPS', 'TCP', 'UDP', 'ICMP', 'TWAMP'], 'All', id='filter_protocol', style={
+                                                                    'width': '100px'}),
+                                                                html.Div(
+                                                                    id='output'),
+                                                            ], style={'padding': '2%', 'display': 'inline-flex'}),
+                                                        ]),
                                                     ],
                                                     id="graph-body-2"
                                                 ),
@@ -282,7 +310,7 @@ app.layout = html.Div(
                                         'position': 'relative',
                                         'top': 0,
                                         'left': '30%',
-                                          'margin-top' : 20
+                                        'margin-top': 20
 
                                     },
                                 ),
@@ -298,107 +326,107 @@ app.layout = html.Div(
                                                                id="graph-title-3")),
                                                 dbc.CardBody(
                                                     [
-                                                html.Div(
-                                                    style={
-                                                        'display':'flex'
-                                                    },
-                                                    children=[
-                                                    dcc.Graph(figure=fig, id='graph',
-                                                              config=dict(
-                                                                  showTips=False,
-                                                                  showAxisDragHandles=False,
-                                                                  displayModeBar=False)),
-
-                                                    html.Div(
-                                                        style={
-                                                            'width': '100px',
-                                                            'margin-top': '120px'
-                                                        },
-                                                        className='panel-div',
-                                                        children=[
-                                                            html.P('Letancy',
-                                                                   style={
-                                                                       'font-family': 'Oswald',
-                                                                       'font-size': '28'
-                                                                   }),
-                                                            html.Div(id='panel', style={
-                                                                'border': '1px solid black',
-                                                                'width': '100px',
-                                                                'padding': '3px',
-                                                                'display': 'flex',
-                                                                'flex-direction': 'column',
-                                                                'align-items': 'center'
+                                                        html.Div(
+                                                            style={
+                                                                'display': 'flex'
                                                             },
-                                                                     children=[
-                                                                         html.Div(
-                                                                             style={
-                                                                                 'display': 'flex',
-                                                                                 'flex-direction': 'row'
-                                                                             },
-                                                                             children=[
-                                                                                 html.Div(
-                                                                                     style={
+                                                            children=[
+                                                                dcc.Graph(figure=fig, id='graph',
+                                                                          config=dict(
+                                                                              showTips=False,
+                                                                              showAxisDragHandles=False,
+                                                                              displayModeBar=False)),
+
+                                                                html.Div(
+                                                                    style={
+                                                                        'width': '100px',
+                                                                        'margin-top': '120px'
+                                                                    },
+                                                                    className='panel-div',
+                                                                    children=[
+                                                                        html.P('Letancy',
+                                                                               style={
+                                                                                   'font-family': 'Oswald',
+                                                                                   'font-size': '28'
+                                                                               }),
+                                                                        html.Div(id='panel', style={
+                                                                            'border': '1px solid black',
+                                                                            'width': '100px',
+                                                                            'padding': '3px',
+                                                                            'display': 'flex',
+                                                                            'flex-direction': 'column',
+                                                                            'align-items': 'center'
+                                                                        },
+                                                                            children=[
+                                                                            html.Div(
+                                                                                style={
+                                                                                    'display': 'flex',
+                                                                                    'flex-direction': 'row'
+                                                                                },
+                                                                                children=[
+                                                                                    html.Div(
+                                                                                        style={
                                                                                             'height': '10.52px',
                                                                                             'width': '10.52px',
                                                                                             'background-color': 'transparent',
                                                                                             'border-radius': '50%',
                                                                                             'display': 'inline-block',
                                                                                             'border': '1px solid black',
-                                                                                            'margin':'2px'
-                                                                                     }
-                                                                                 ),
-                                                                                 html.P('21.04 ms',
+                                                                                            'margin': '2px'
+                                                                                        }
+                                                                                    ),
+                                                                                    html.P('21.04 ms',
+                                                                                           style={
+                                                                                               'margin': '0px',
+                                                                                               'font-size': '.6rem',
+                                                                                               'padding-left': '8px'
+                                                                                           })]
+                                                                            ),
+                                                                            html.Div(
+                                                                                style={
+                                                                                    'margin-right': '42px',
+                                                                                    'height': '23.32px',
+                                                                                    'width': '23.32px',
+                                                                                    'background-color': 'transparent',
+                                                                                    'border-radius': '50%',
+                                                                                    'display': 'inline-block',
+                                                                                    'border': '1px solid black',
+                                                                                }
+                                                                            ),
+                                                                            html.Div(
+                                                                                style={
+                                                                                    'margin': '2px 42px 2px 0',
+                                                                                    'height': '36.14px',
+                                                                                    'width': '36.14px',
+                                                                                    'background-color': 'transparent',
+                                                                                    'border-radius': '50%',
+                                                                                    'display': 'inline-block',
+                                                                                    'border': '1px solid black',
+                                                                                }),
+                                                                            html.Div(
+                                                                                style={
+                                                                                    'display': 'flex',
+                                                                                    'flex-direction': 'row'
+                                                                                },
+                                                                                children=[
+                                                                                    html.Div(
                                                                                         style={
-                                                                                            'margin': '0px',
-                                                                                            'font-size': '.6rem',
-                                                                                            'padding-left': '8px'
-                                                                                        })]
-                                                                         ),
-                                                                         html.Div(
-                                                                             style={
-                                                                                 'margin-right': '42px',
-                                                                                 'height': '23.32px',
-                                                                                 'width': '23.32px',
-                                                                                 'background-color': 'transparent',
-                                                                                 'border-radius': '50%',
-                                                                                 'display': 'inline-block',
-                                                                                 'border': '1px solid black',
-                                                                             }  
-                                                                         ),
-                                                                         html.Div(
-                                                                             style={
-                                                                                'margin':'2px 42px 2px 0',
-                                                                                'height': '36.14px',
-                                                                                'width': '36.14px',
-                                                                                'background-color': 'transparent',
-                                                                                'border-radius': '50%',
-                                                                                'display': 'inline-block',
-                                                                                'border': '1px solid black',
-                                                                             }),
-                                                                         html.Div(
-                                                                             style={
-                                                                                 'display': 'flex',
-                                                                                 'flex-direction': 'row'
-                                                                             },
-                                                                             children=[
-                                                                                 html.Div(
-                                                                                    style={
-                                                                                         'height': '48.94px',
-                                                                                         'width': '48.94px',
-                                                                                         'background-color': 'transparent',
-                                                                                         'border-radius': '50%',
-                                                                                         'display': 'inline-block',
-                                                                                         'border': '1px solid black',
-                                                                                     }
-                                                                                 ),
-                                                                                 html.P('97.88 ms',
-                                                                                        style={
-                                                                                            'margin-top': '20px',
-                                                                                            'font-size': '0.6rem',
-                                                                                            'padding-left': '8px'
-                                                                                        })]),
-                                                                     ])]
-                                                    )])
+                                                                                            'height': '48.94px',
+                                                                                            'width': '48.94px',
+                                                                                            'background-color': 'transparent',
+                                                                                            'border-radius': '50%',
+                                                                                            'display': 'inline-block',
+                                                                                            'border': '1px solid black',
+                                                                                        }
+                                                                                    ),
+                                                                                    html.P('97.88 ms',
+                                                                                           style={
+                                                                                               'margin-top': '20px',
+                                                                                               'font-size': '0.6rem',
+                                                                                               'padding-left': '8px'
+                                                                                           })]),
+                                                                        ])]
+                                                                )])
                                                     ],
                                                     id="graph-body-3"
                                                 )
@@ -413,29 +441,31 @@ app.layout = html.Div(
                                         'position': 'relative',
                                         'top': 0,
                                         'left': '30%',
-                                        'margin-top' : 20
+                                        'margin-top': 20
 
                                     },
                                 ),
                             ]
                         ),
-                        
 
-                        
+
+
                         dbc.Row(
                             [
                                 dbc.Col(
                                     [
-                                         dbc.Card(
+                                        dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 4: " + viz4_title, className="graph-title",id="graph-title-4")),
-                                               
+                                                dbc.CardHeader(dbc.Button(
+                                                    "Graph 4: " + viz4_title, className="graph-title", id="graph-title-4")),
+
                                                 dbc.CardBody(
                                                     [
                                                         dcc.Graph(
-                                                            id = 'fig',
-                                                            figure = fig4,
-                                                            style={'width': '%100', 'display': 'inline-block'}
+                                                            id='fig',
+                                                            figure=fig4,
+                                                            style={
+                                                                'width': '%100', 'display': 'inline-block'}
                                                         ),
                                                     ],
                                                     id="graph-body-4"
@@ -450,7 +480,7 @@ app.layout = html.Div(
                                         'position': 'relative',
                                         'top': 0,
                                         'left': '30%',
-                                        'margin-top' : 20
+                                        'margin-top': 20
 
                                     },
                                 ),
@@ -460,15 +490,17 @@ app.layout = html.Div(
                             [
                                 dbc.Col(
                                     [
-                                         dbc.Card(
+                                        dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 5: " + viz5_title, className="graph-title",id="graph-title-5")),
+                                                dbc.CardHeader(dbc.Button(
+                                                    "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5")),
                                                 dbc.CardBody(
                                                     [
                                                         dcc.Graph(
-                                                            id = 'fig5',
-                                                            figure = fig5,
-                                                            style={'width': '%100', 'display': 'inline-block'}
+                                                            id='fig5',
+                                                            figure=fig5,
+                                                            style={
+                                                                'width': '%100', 'display': 'inline-block'}
                                                         ),
                                                     ],
                                                     id="graph-body-5"
@@ -483,7 +515,7 @@ app.layout = html.Div(
                                         'position': 'relative',
                                         'top': 0,
                                         'left': '30%',
-                                        'margin-top' : 20
+                                        'margin-top': 20
 
                                     },
                                 ),
@@ -493,9 +525,10 @@ app.layout = html.Div(
                             [
                                 dbc.Col(
                                     [
-                                          dbc.Card(
+                                        dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button("Graph 6: " + viz6_title, className="graph-title",id="graph-title-6")),
+                                                dbc.CardHeader(dbc.Button(
+                                                    "Graph 6: " + viz6_title, className="graph-title", id="graph-title-6")),
                                                 dbc.CardBody(
                                                     [
                                                         #####
@@ -514,7 +547,7 @@ app.layout = html.Div(
                                         'position': 'relative',
                                         'top': 0,
                                         'left': '30%',
-                                        'margin-top' : 20
+                                        'margin-top': 20
 
                                     },
                                 ),
@@ -561,15 +594,15 @@ app.layout = html.Div(
 #         # Type
 
 
-#apply filters on graph 2
+# apply filters on graph 2
 @app.callback(
-        Output('fig2-bubble', 'figure'), 
-        [Input('filter_date', 'start_date'),
-        Input('filter_date', 'end_date'),
-        Input('filter_protocol', 'value')]
-        )
+    Output('fig2-bubble', 'figure'),
+    [Input('filter_date', 'start_date'),
+     Input('filter_date', 'end_date'),
+     Input('filter_protocol', 'value')]
+)
 def update_output(start_date, end_date, value):
-    dataframe = pd.read_csv('../data/dataset.csv') 
+    dataframe = pd.read_csv('../data/dataset.csv')
     if value == 'All' and start_date is None:
         fig2 = vis2.buble_chart(vis2_bubble_df)
     elif value != 'All' and start_date is None:
@@ -580,14 +613,16 @@ def update_output(start_date, end_date, value):
         start_date_object = date.fromisoformat(start_date)
         end_date_object = date.fromisoformat(end_date)
 
-        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        date_df = preprocess.filter_date(
+            dataframe, start_date_object, end_date_object)
         vis2_df_filtered = preprocess.bubble_chart_df(date_df)
         fig2 = vis2.buble_chart(vis2_df_filtered)
     else:
         start_date_object = date.fromisoformat(start_date)
         end_date_object = date.fromisoformat(end_date)
 
-        date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+        date_df = preprocess.filter_date(
+            dataframe, start_date_object, end_date_object)
         filtered_df = preprocess.filter_protocol(date_df, value)
         vis2_df_filtered = preprocess.bubble_chart_df(filtered_df)
         fig2 = vis2.buble_chart(vis2_df_filtered)
@@ -595,73 +630,84 @@ def update_output(start_date, end_date, value):
     return fig2
 
 # Graph2: change line chart based in the clicked point on bubble chart
+
+
 @app.callback(
     Output('fig2-line', 'figure'),
     [Input('fig2-bubble', 'clickData'),
-    Input('filter_date', 'start_date'),
-    Input('filter_date', 'end_date'),
-    Input('filter_protocol', 'value')]
+     Input('filter_date', 'start_date'),
+     Input('filter_date', 'end_date'),
+     Input('filter_protocol', 'value')]
 )
-def bubble_clicked(bubble_clicked, start_date, end_date, protocol): 
+def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     dataframe = pd.read_csv('../data/dataset.csv')
     if bubble_clicked is None:
         fig2_line = vis2.get_empty_figure()
 
-    elif bubble_clicked is not None and start_date is None and protocol == 'All': #draw line chart without any filetr
-        application_type = preprocess.bubble_select(dataframe, date(2023, 6, 1), date(2023, 6, 5), protocol, bubble_clicked)
+    # draw line chart without any filetr
+    elif bubble_clicked is not None and start_date is None and protocol == 'All':
+        application_type = preprocess.bubble_select(dataframe, date(
+            2023, 6, 1), date(2023, 6, 5), protocol, bubble_clicked)
         if application_type == None:
             fig2_line = vis2.get_empty_figure()
         else:
-            vis2_line_df = preprocess.line_chart_df(dataframe, application_type, date(2023, 6, 1), date(2023, 6, 5))
+            vis2_line_df = preprocess.line_chart_df(
+                dataframe, application_type, date(2023, 6, 1), date(2023, 6, 5))
             fig2_line = vis2.line_chart(vis2_line_df, application_type)
 
-    elif start_date is not None and protocol == 'All': # draw line chart based on date range filter only
+    elif start_date is not None and protocol == 'All':  # draw line chart based on date range filter only
         start_date_object = date.fromisoformat(start_date)
         end_date_object = date.fromisoformat(end_date)
-        application_type = preprocess.bubble_select(dataframe, start_date_object, end_date_object, protocol, bubble_clicked)
+        application_type = preprocess.bubble_select(
+            dataframe, start_date_object, end_date_object, protocol, bubble_clicked)
         if application_type == None:
             fig2_line = vis2.get_empty_figure()
         else:
-            date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
-            vis2_line_df = preprocess.line_chart_df(date_df, application_type, start_date_object, end_date_object)
+            date_df = preprocess.filter_date(
+                dataframe, start_date_object, end_date_object)
+            vis2_line_df = preprocess.line_chart_df(
+                date_df, application_type, start_date_object, end_date_object)
             fig2_line = vis2.line_chart(vis2_line_df, application_type)
 
-    elif start_date is None and protocol != 'All': #draw the line chart based on protocol filter only
-        application_type = preprocess.bubble_select(dataframe, date(2023, 6, 1), date(2023, 6, 5), protocol, bubble_clicked)
+    elif start_date is None and protocol != 'All':  # draw the line chart based on protocol filter only
+        application_type = preprocess.bubble_select(dataframe, date(
+            2023, 6, 1), date(2023, 6, 5), protocol, bubble_clicked)
 
         if application_type == None:
             fig2_line = vis2.get_empty_figure()
         else:
             filtered_df = preprocess.filter_protocol(dataframe, protocol)
-            vis2_line_df = preprocess.line_chart_df(filtered_df, application_type,  date(2023, 6, 1), date(2023, 6, 5))
+            vis2_line_df = preprocess.line_chart_df(
+                filtered_df, application_type,  date(2023, 6, 1), date(2023, 6, 5))
             fig2_line = vis2.line_chart(vis2_line_df, application_type)
 
-    else: #draw the line chart based on filters and bubble clicked
+    else:  # draw the line chart based on filters and bubble clicked
         start_date_object = date.fromisoformat(start_date)
         end_date_object = date.fromisoformat(end_date)
-        application_type = preprocess.bubble_select(dataframe, start_date_object, end_date_object, protocol, bubble_clicked)
+        application_type = preprocess.bubble_select(
+            dataframe, start_date_object, end_date_object, protocol, bubble_clicked)
 
         if application_type == None:
             fig2_line = vis2.get_empty_figure()
         else:
-            date_df = preprocess.filter_date(dataframe, start_date_object, end_date_object)
+            date_df = preprocess.filter_date(
+                dataframe, start_date_object, end_date_object)
             filtered_df = preprocess.filter_protocol(date_df, protocol)
-            vis2_line_df = preprocess.line_chart_df(filtered_df, application_type, start_date_object, end_date_object)
+            vis2_line_df = preprocess.line_chart_df(
+                filtered_df, application_type, start_date_object, end_date_object)
             fig2_line = vis2.line_chart(vis2_line_df, application_type)
-    
 
     return fig2_line
+
 
 @app.callback(
     Output('fig1', 'style'),
     [Input('button-1', 'n_clicks')]
 )
-
 @app.callback(
     Output('fig2', 'style'),
     [Input('button-2', 'n_clicks')]
 )
-
 @app.callback(
     Output('fig3', 'style'),
     [Input('button-3', 'n_clicks')]
@@ -670,7 +716,6 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     Output('fig4', 'style'),
     [Input('button-4', 'n_clicks')]
 )
-
 @app.callback(
     Output('fig5', 'style'),
     [Input('button-5', 'n_clicks')]
@@ -715,64 +760,32 @@ def toggle_graph(n_clicks):
         return {"display": "none"}
     else:  # Show graph on even clicks (or before any clicks)
         return {'display': 'block'}  # Show the graph
-    
 
 
 @app.callback(
     Output('heatmap', 'figure'),
     Input('place', 'value'),
     Input('type', 'value'))
-def update_graph(place_name, type_name):
+def vis6_update_heatmap(place, typ):
 
     # Create the heatmap figure
-    fig = px.imshow(vis6.extract_heatmap_data(df_dense,
-                                         place_name,
-                                         type_name).T,
-                    color_continuous_scale='Reds',
-                    origin='lower',
-                    aspect='auto')
-    
-    fig.update_xaxes({
-        'showgrid': False,  # thin lines in the background
-        'zeroline': False,  # thick line at x=0
-        'visible': True,  # numbers below
-    })
-
-    fig.update_yaxes({
-        'showgrid': False,  # thin lines in the background
-        'zeroline': False,  # thick line at x=0
-        'visible': True,  # numbers below
-    })
-
-    # fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest')
-
+    fig = vis6.update_heatmap(df_dense,
+                              place,
+                              typ)
     return fig
-
 
 
 @app.callback(
     Output('linegraph', 'figure'),
     Input('heatmap', 'clickData'),
     Input('zoom_level', 'value'),
-    State('place', 'value'),
-    State('type', 'value'),
-    )
-def update_line_graph(clickData,zoom_level,place_name,type_name):
-    protocol_name = 'HTTP'
-    time_range = int(zoom_level)
-    if clickData is not None:
-        protocol_name = clickData['points'][0]['y']
-        selected_time = pd.to_datetime(clickData['points'][0]['x'])
-    
-    dataline = df_dense.loc[(df_dense['Site']==place_name)&
-                   (df_dense['Type']==type_name)&
-                   (df_dense['Protocol']==protocol_name)&
-                   (df_dense['Time']>=selected_time-pd.Timedelta(seconds=time_range))&
-                   (df_dense['Time']<=selected_time+pd.Timedelta(seconds=time_range))]
-    fig = px.line(dataline,x='Time',y='Latency',
-                  title=protocol_name)
-    
+    Input('place', 'value'),
+    Input('type', 'value'),
+)
+def vis6_update_line(clickData, zoom_level, place, typ):
+    fig = vis6.update_line(df_dense, clickData, zoom_level, place, typ)
     return fig
+
 
 if __name__ == "__main__":
     app.run_server(debug=True)

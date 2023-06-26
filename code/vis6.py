@@ -1,13 +1,14 @@
-from dash import Dash, html, dcc, Input, Output, callback
+from dash import html, dcc
 import pandas as pd
 import plotly.express as px
-import plotly.graph_objects as go
 import numpy as np
 import pandas as pd
 
 
-
 df = pd.read_csv(('../data/dense_dataset.csv'))
+
+
+######## Heatmap ########
 
 def extract_heatmap_data(df, site, typ):
     heatmap_data = df.loc[(df['Site'] == site) & (df['Type'] == typ)]
@@ -22,9 +23,75 @@ def extract_heatmap_data(df, site, typ):
     heatmap_data.columns = ['HTTP', 'HTTPS', 'ICMP', 'TCP', 'TWAMP', 'UDP']
     return heatmap_data
 
+
+def update_heatmap(df, place_name, type_name):
+
+    # Create the heatmap figure
+    fig = px.imshow(extract_heatmap_data(df,
+                                         place_name,
+                                         type_name).T,
+                    color_continuous_scale=[[0, 'rgb(247, 233, 235)'],
+                                            [0.5, 'rgb(247, 233, 235)'],
+                                            [0.75, 'rgb(204, 167, 173)'],
+                                            [1, 'rgb(173, 16, 60)']
+                                            ],
+                    origin='upper',
+                    aspect='auto')
+
+    fig.update_xaxes({
+        'showgrid': False,  # thin lines in the background
+        'zeroline': False,  # thick line at x=0
+        'visible': True,  # numbers below
+    })
+
+    fig.update_yaxes({
+        'showgrid': False,  # thin lines in the background
+        'zeroline': False,  # thick line at x=0
+        'visible': True,  # numbers below
+    })
+
+    fig.update_traces(hovertemplate="<span>Latency: %{z:.2f}<br>Time: %{x|%H:%M}</span><extra></extra>")
+
+    return fig
+
+######## Line ########
+
+
 def get_empty_figure():
     fig = px.line({})
     return fig
+
+
+def update_line(df, clickData, zoom_level, place, typ):
+
+    max_time_range = (df['Time'].max() - df['Time'].min()).seconds
+
+    time_range = int(max_time_range/10**zoom_level)
+
+    if clickData is not None:
+        protocol_name = clickData['points'][0]['y']
+        selected_time = pd.to_datetime(clickData['points'][0]['x'])
+    else:
+        selected_time = df['Time'][0]
+        protocol_name = 'HTTP'
+    dataline = df.loc[(df['Site'] == place) &
+                      (df['Type'] == typ) &
+                      (df['Protocol'] == protocol_name) &
+                      (df['Time'] >= selected_time-pd.Timedelta(seconds=time_range)) &
+                      (df['Time'] <= selected_time+pd.Timedelta(seconds=time_range))]
+    fig = px.line(dataline, x='Time', y='Latency',
+                  title=protocol_name)
+    fig.update_traces(hovertemplate="<span>Latency: %{y:.2f}<br>Time: %{x|%H:%M}</span><extra></extra>")
+
+    return fig
+
+
+def get_empty_figure():
+    fig = px.line({})
+    return fig
+
+
+######## Layout ########
 layout = html.Div([
     html.Div([
         # BEGIN LEFT PART
@@ -61,7 +128,7 @@ layout = html.Div([
         # END LEFT PART
 
         # BEGIN RIGHT PART
-        html.Div(["Click on the heatmap and select a time window!"], style={'width': '49%',
+        html.Div(["Click on the heatmap and select a zoom level"], style={'width': '49%',
                  'float': 'right', 'display': 'inline-block'})
         # END RIGHT PART
 
@@ -77,21 +144,14 @@ layout = html.Div([
         )
     ], style={'width': '49%', 'display': 'inline-block', 'padding': '0 20'}),
     html.Div([
-        dcc.Graph(figure=get_empty_figure(),id='linegraph'),
+        dcc.Graph(id='linegraph'),
     ], style={'display': 'inline-block', 'width': '49%'}),
 
-    html.Div(["Window range:",
-                               dcc.Slider(
-                 20,
-                 100,
-                 10,
-                 id='zoom_level',
-                 value=15
-             )],style={'width': '49%', 'padding': '0px 20px 20px 20px'})
+    html.Div(["Zoom level:",
+              dcc.Slider(0,
+                         3,
+                         marks={0: '0%', 3: '100%'},
+                         value=0,
+                         id='zoom_level')],
+             style={'width': '98%', 'padding': '0px 20px 20px 20px'})
 ])
-
-
-
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
