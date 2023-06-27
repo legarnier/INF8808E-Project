@@ -27,10 +27,14 @@ from viz3 import helper
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 
+
+
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
 df_dense = pd.read_csv(('../data/dense_dataset.csv'))
 df_dense['Time'] = pd.to_datetime(df_dense['Time'])
+
+
 
 # Get the vis1
 
@@ -100,10 +104,10 @@ fig5.update_layout(autosize=True)
 
 # Get the vis4
 
-fig4 = vis4.animated_line(dataframe)
+#fig4 = vis4.animated_line(dataframe)
 
-fig4.update_layout(height=700, width=1500)
-fig4.update_layout(autosize=True)
+#fig4.update_layout(height=700, width=1500)
+#fig4.update_layout(autosize=True)
 
 
 app.layout = html.Div(
@@ -162,7 +166,7 @@ app.layout = html.Div(
                                             dbc.Collapse(
                                             dcc.Graph(
                                                 id={"type": "graph", "index": graph_id}),
-                                            id={"type": "collapse",
+                                                id={"type": "collapse",
                                                 "index": graph_id},
                                             is_open=False,
                                             ),width = 3
@@ -502,12 +506,31 @@ app.layout = html.Div(
 
                                                 dbc.CardBody(
                                                     [
-                                                        dcc.Graph(
-                                                            id='fig',
-                                                            figure=fig4,
-                                                            style={
-                                                                'width': '%100', 'display': 'inline-block'}
+                                                        
+                                                        
+                                                         html.Div(
+                                                            children=[
+                                                                dcc.Graph(id='animation-graph'),  # Base Plot
+                                                                dcc.Dropdown(
+                                                                    id='button-dropdown',
+                                                                    options=[
+                                                                        {'label': 'Play', 'value': 'play'},
+                                                                        {'label': 'Application', 'value': 'application'},
+                                                                        {'label': 'Network', 'value': 'network'},
+                                                                        {'label': 'Both Types', 'value': 'both_types'}
+                                                                    ],
+                                                                    value='play',
+                                                                    style={'display': 'none'}
+                                                                )
+                                                            ]
                                                         ),
+                                                        
+                                                      
+                                                        
+                                                        
+                                                        
+                                                        
+                                                        
                                                     ],
                                                     id="graph-body-4"
                                                 ),
@@ -824,6 +847,19 @@ def vis6_update_heatmap(place, typ):
 def vis6_update_line(clickData, zoom_level, place, typ):
     fig = vis6.update_line(df_dense, clickData, zoom_level, place, typ)
     return fig
+
+
+# Callback for updating the animation graph and buttons
+@app.callback(
+    dash.dependencies.Output('animation-graph', 'figure'),
+    dash.dependencies.Input('button-dropdown', 'value')
+)
+
+def update_graph(button_value):
+   
+    fig = vis4.update_graph(button_value,dataframe)
+    return fig
+        
 
 
 if __name__ == "__main__":

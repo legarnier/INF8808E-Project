@@ -162,3 +162,24 @@ def filter_by_protocol(df):
     return(latency_per_prot)
 
 #######################################################
+
+#vis4
+'''
+        Retrieves all the data by protocol
+
+        Args:
+            dataframe: The dataframe to process
+        Returns:
+            Dictionnary of dataframe containing latency of each Site
+    '''
+def city_average_latency_type(df_viz4):
+    df_viz4.drop(['Protocol', 'Latency'], axis=1, inplace=True)
+    df_viz4 = df_viz4.groupby(['Site', 'Time', 'Type'], as_index=False)['Average Latency'].mean()
+
+
+    app_df_viz4 = df_viz4[df_viz4['Type'] == 'app'].rename(columns={'Average Latency': 'app_Average_Latency'})
+    network_df_viz4 = df_viz4[df_viz4['Type'] == 'network'].rename(columns={'Average Latency': 'network_Average_Latency'})
+    df_viz4 = pd.merge(app_df_viz4, network_df_viz4, on=['Site', 'Time'], suffixes=('_app', '_network'))
+    df_viz4.drop(['Type_network', 'Type_app'], axis=1, inplace=True)
+    #df_viz4 = pd.DataFrame(df_viz4)
+    return(df_viz4) 
