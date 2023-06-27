@@ -181,6 +181,32 @@ app.layout = html.Div(
 
                         ),
                         
+                        html.Hr(),
+                         
+                        
+                        
+                        html.Div(
+                            style={'display': 'flex', 'align-items': 'center'},
+                            children=[
+                                html.H3('Project Description:   '),
+                                html.A('Download PDF', href=' ../data/INF8808E-Plan-Team_07.pdf', 
+                                       download='INF8808E-Plan-Team_07.pdf',
+                                        style={'color': 'black', 'margin-left':'10px','font-size':'0.8 rem'}
+                                       )
+                            
+                            ]
+                        ),
+
+                        html.Hr(),
+                        
+                        html.Div(
+                            style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem'},
+                            children=[
+                                 html.A('Demo video', href='https://www.youtube.com/', className='youtube-link',
+                                        style={'color': 'black'}) # set link color to black)
+                            ]
+                        ),    
+                        
                         
                     ],
                     width=3,
