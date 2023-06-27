@@ -115,7 +115,7 @@ app.layout = html.Div(
                     [
                         html.Div(
                             children=[
-                                html.H1("INF8808 ", className="project-title"),
+                               html.H1("INF8808 ", className="project-title"),
                                 html.H1("Final Project ",
                                         className="project-title"),
 
@@ -135,45 +135,60 @@ app.layout = html.Div(
                             [
                                 dbc.ListGroupItem(
                                     [
-                                        dbc.Button(
+                                         dbc.Row(
+                                        [
+                                            dbc.Col(
+                                            dbc.Button(
                                             f"Graph {graph_id}",
                                             id='button-' + str(graph_id),
                                             color="primary",
                                             outline=True,
-                                            style={"text-align": "left",
-                                                   "margin-bottom": 20},
+                                            style={"text-align": "center", "width":"102%"},
+                                        )
+                                            
+                                            ,width=3
                                         ),
-                                        dbc.CardBody(
+                                        
+                                        dbc.Col(
+                                            
+                                          dbc.CardBody(
                                             [
-                                                html.H4(
+                                                html.H5(
                                                     viz_titles[graph_id-1], className="card-title"),
                                             ]
+                                        ) ,width=9  
                                         ),
-                                        dbc.Collapse(
+                                        dbc.Col(
+                                            dbc.Collapse(
                                             dcc.Graph(
                                                 id={"type": "graph", "index": graph_id}),
                                             id={"type": "collapse",
                                                 "index": graph_id},
                                             is_open=False,
-                                        ),
+                                            ),width = 3
+                                        ) 
+                                            
+                                        ],
+                                         align='center'
+                                        )
+                                        
+                                          
                                     ]
-                                )
-
-                                # Update the range based on the number of graphs
-                                for graph_id in range(1, 7)
+                                ) 
+                                for graph_id in range(1, 7)  # Update the range based on the number of graphs
                             ],
                             className="sidebar-content",
 
                         ),
-
-
+                        
+                        
                     ],
                     width=3,
                     style={
                         'position': 'fixed',
                         'top': 0,
                         'height': '100vh',
-                        'width': '22%',
+                        #'width': '22%',
                         'backgroundColor': '#B0E2FF'
                     },
                     className="sidebar",
@@ -232,7 +247,7 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                                     'top': 0,
-                                                    'left': '30%',
+                                                    'left': '33%',
                                                     'margin-top': 20
                                     },
                                 ),
@@ -309,8 +324,8 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%',
-                                        'margin-top': 20
+                                        'left': '33%',
+                                        'margin-top' : 20
 
                                     },
                                 ),
@@ -440,8 +455,8 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%',
-                                        'margin-top': 20
+                                        'left': '33%',
+                                        'margin-top' : 20
 
                                     },
                                 ),
@@ -479,8 +494,8 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%',
-                                        'margin-top': 20
+                                        'left': '33%',
+                                        'margin-top' : 20
 
                                     },
                                 ),
@@ -514,8 +529,8 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%',
-                                        'margin-top': 20
+                                        'left': '33%',
+                                        'margin-top' : 20
 
                                     },
                                 ),
@@ -546,8 +561,8 @@ app.layout = html.Div(
                                     style={
                                         'position': 'relative',
                                         'top': 0,
-                                        'left': '30%',
-                                        'margin-top': 20
+                                        'left': '33%',
+                                        'margin-top' : 20
 
                                     },
                                 ),
@@ -701,34 +716,33 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
 
 
 @app.callback(
-    Output('fig1', 'style'),
-    [Input('button-1', 'n_clicks')]
+    Output('graph-card-1', 'children'),
+    [Input('button-1', 'update_output')]
 )
 @app.callback(
     Output('fig2', 'style'),
-    [Input('button-2', 'n_clicks')]
+    [Input('button-2', 'update_output')]
 )
 @app.callback(
     Output('fig3', 'style'),
-    [Input('button-3', 'n_clicks')]
+    [Input('button-3', 'update_output')]
 )
 @app.callback(
     Output('fig4', 'style'),
-    [Input('button-4', 'n_clicks')]
+    [Input('button-4', 'update_output')]
 )
 @app.callback(
     Output('fig5', 'style'),
-    [Input('button-5', 'n_clicks')]
+    [Input('button-5', 'update_output')]
 )
 @app.callback(
     Output('fig6', 'style'),
-    [Input('button-6', 'n_clicks')]
+    [Input('button-6', 'update_output')]
 )
-def toggle_graph_visibility(n_clicks):
-    if n_clicks and n_clicks % 2 == 1:
-        return {'display': 'none'}  # Hide the graph
-    else:
-        return {'display': 'block'}  # Show the graph
+  
+def update_output(n_clicks):
+    if n_clicks is not None:  # Button has been clicked
+        return 'You clicked the button!'
 
 
 @app.callback(
@@ -760,7 +774,6 @@ def toggle_graph(n_clicks):
         return {"display": "none"}
     else:  # Show graph on even clicks (or before any clicks)
         return {'display': 'block'}  # Show the graph
-
 
 @app.callback(
     Output('heatmap', 'figure'),
