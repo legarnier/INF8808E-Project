@@ -8,10 +8,11 @@ from datetime import date
 import preprocess
 
 
-def update_graph(button_value,df_viz4):
+def update_graph(df_viz4,button_value):
    # Data Preparation
     #df_viz4 = pd.read_csv('../data/dataset.csv')
 
+    print(button_value,df_viz4)
     df_viz4 = preprocess.city_average_latency_type(df_viz4)
 
     # Add Traces

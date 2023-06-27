@@ -173,6 +173,7 @@ def filter_by_protocol(df):
             Dictionnary of dataframe containing latency of each Site
     '''
 def city_average_latency_type(df_viz4):
+    print("df_viz4" , df_viz4)
     df_viz4.drop(['Protocol', 'Latency'], axis=1, inplace=True)
     df_viz4 = df_viz4.groupby(['Site', 'Time', 'Type'], as_index=False)['Average Latency'].mean()
 
