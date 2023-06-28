@@ -96,10 +96,9 @@ fig2_line = vis2.get_empty_figure()
 
 # Get the vis5
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
-fig5 = vis5.initial(vis5_df)
+#fig5 = vis5.initial(vis5_df)
 
-fig5.update_layout(height=700, width=1300)
-fig5.update_layout(autosize=True)
+#fig5.update_layout(autosize=True)
 
 
 # Get the vis4
@@ -567,10 +566,10 @@ app.layout = html.Div(
                                                         html.Div([
                                                             dcc.Dropdown(
                                                                 [{"label": html.Span("Quebec",
-                                                                                    style={'color': 'red'}),
+                                                                                    style={'color': 'blue'}),
                                                                 "value": "Quebec"},
                                                                 {"label": html.Span("Ontario",
-                                                                                    style={'color': 'blue'}),
+                                                                                    style={'color': 'red'}),
                                                                 "value": "Ontario"},
                                                                 {"label": html.Span("Manitoba",
                                                                                     style={'color': 'green'}),
@@ -596,7 +595,7 @@ app.layout = html.Div(
                                                     }),
                                                         dcc.Graph(
                                                             id='fig5',
-                                                            figure=fig5,
+                                                            #figure=fig5,
                                                             style={
                                                                 'width': '%100', 'display': 'inline-block'}
                                                         ),
@@ -899,12 +898,10 @@ def update_graph(button_value):
     Output('fig5', 'figure'),
     Input('viz5_places', 'value')
 )
-def vis5_update_linechart(viz5_places, typ):
+def vis5_update_linechart(viz5_places):
 
     # Create the line chart figure
-    fig = vis5.update_vis5(dataframe.loc[dataframe['Site'] == viz5_places],
-                              viz5_places
-                              )
+    fig = vis5.update_vis5(vis5_df.loc[vis5_df['Site'] == viz5_places], viz5_places)
     return fig
 
 

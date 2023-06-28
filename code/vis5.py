@@ -9,7 +9,7 @@ from IPython.display import display
 import ipywidgets as widgets
 import hover_template
 
-def addBoxes(fig,last_confidence_level,last_volatility_level) : 
+def addBoxes(fig,last_confidence_level,last_volatility_level,main_color,color_light) : 
         fig.update_layout(
                 shapes=[
                     # Annotation box 1
@@ -21,7 +21,7 @@ def addBoxes(fig,last_confidence_level,last_volatility_level) :
                         y0=1.05,
                         x1=0.3,
                         y1=1.15,
-                        fillcolor="lightblue",
+                        fillcolor=color_light,
                         line=dict(color="black", width=1),
                     ),
                     # Annotation box 2
@@ -33,7 +33,7 @@ def addBoxes(fig,last_confidence_level,last_volatility_level) :
                         y0=1.05,
                         x1=0.9,
                         y1=1.15,
-                        fillcolor="lightblue",
+                        fillcolor=color_light,
                         line=dict(color="black", width=1),
                     ),
                 ],
@@ -63,13 +63,22 @@ def addBoxes(fig,last_confidence_level,last_volatility_level) :
 
 
 
+def update_vis5(df,city):
+    
+    light_red = 'lightpink'
+    light_green =  'lightgreen'
+    light_blue = 'lightblue'
+    
+    colors = [
+    {"name": "Quebec", "color": 'blue', "color_light": light_blue},
+    {"name": "Ontario", "color": 'red', "color_light": light_red},
+    {"name": "Manitoba", "color": 'green', "color_light": light_green}
+    ]
 
-def viz5(df,city):
-    
-    print(df,city)
-    
-    return None
-def graphV2(df):
+    colors_df = pd.DataFrame(colors)
+    main_color = colors_df.query(f"name == '{city}'")['color'].values[0]
+    color_light = colors_df.query(f"name == '{city}'")['color_light'].values[0]
+
     
     x = df['Time']
     y_main = df['Latency']
@@ -77,6 +86,7 @@ def graphV2(df):
     y_min = df['Forecast min']
 
 
+    x_index = len(x)
     mid_index = len(x) // 2
 
     x_half = x[:mid_index]
@@ -87,24 +97,23 @@ def graphV2(df):
     confidence_level = df['Confidence Level']
     volatility_level = df['Volatility']
     
-    last_confidence_level = round(confidence_level.iloc[mid_index-1],2)
-    last_volatility_level = round(volatility_level.iloc[mid_index-1],2)
+    last_confidence_level = round(confidence_level.iloc[x_index-1],2)
+    last_volatility_level = round(volatility_level.iloc[x_index-1],2)
 
-    
     hover_text = hover_template.hover_vis5_forcasting_range(y_min, y_main, y_max, confidence_level, volatility_level)
-
-   
 
     # create variable
     
     y_range = [0.5*min(min(y_max), min(y_main), min(y_min)), 1.5*max(max(y_max), max(y_main), max(y_min))]
     rang_y_linecolor=dict(color='rgba(0,0,0,0)')
-    main_y_linecolor = dict(color='blue')
-    fillcolor = 'lightblue'
+    
+    main_y_linecolor = dict(color= main_color)
+    fillcolor = color_light
     
    
     
     layout = go.Layout(
+        height=700,
         title={
             'text':'',
             'xanchor': 'center',
@@ -145,7 +154,7 @@ def graphV2(df):
     
     
     # Add annotations with box borders
-    addBoxes(fig,last_confidence_level,last_volatility_level)
+    addBoxes(fig,last_confidence_level,last_volatility_level,main_color,color_light)
     
         
     # Create traces for each line
@@ -153,7 +162,7 @@ def graphV2(df):
     trace2 = go.Scatter(x=x, y=y_main, mode='lines+markers', name='Total Current Latency',fill='tonexty', fillcolor = fillcolor , 
                         line = main_y_linecolor,
                         customdata=list(zip(y_max, y_min, confidence_level, volatility_level)),
-                        hoverlabel=dict(bgcolor='lightblue'),  # here you can set the hover background color
+                        hoverlabel=dict(bgcolor=color_light),  # here you can set the hover background color
                         hovertemplate=hover_text
                         )
     trace3 = go.Scatter(x=x, y=y_min, mode='lines', name='Forecasting Min Latency',fill='tonexty', fillcolor= fillcolor , line = rang_y_linecolor,hoverinfo="skip")
@@ -171,29 +180,6 @@ def graphV2(df):
     fig.add_traces(trace2)  # add fill before line
     fig.add_traces(trace3)  # add fill before line
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     #x_half = x[1:mid_index+1]
     #y_max_half = y_max[1:mid_index+1]
     #y_main_half = y_main[1:mid_index+1]
@@ -205,34 +191,9 @@ def graphV2(df):
     #fig.data[1].y = y_main_half
     #fig.data[2].y = y_min_half
      
-   
 
-
-  
     return fig
 
-
-
-
-def initial(dataframe):
-
-
-
-    Quebec_dataframe = dataframe.loc[dataframe['Site'] == 'Quebec']
-    
-    
-    Manitoba_dataframe = dataframe.loc[dataframe['Site'] == 'Manitoba']
-    
-    Ontario_dataframe = dataframe.loc[dataframe['Site'] == 'Ontario']
-
-
-    Cities_datafram = [Quebec_dataframe,Manitoba_dataframe,Ontario_dataframe]
-
-
-
-    fig = graphV2(Ontario_dataframe)
-
-    return (fig)
 
 
 
