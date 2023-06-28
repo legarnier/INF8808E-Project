@@ -330,18 +330,6 @@ app.layout = html.Div(
                                                     "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
                                                 dbc.CardBody(
                                                     [
-                                                        html.Div(className='vis2-container', children=[
-                                                            dcc.Graph(
-                                                                id='fig2-bubble',
-                                                                className='vis2-graph',
-                                                                figure=fig2_bubble
-                                                            ),
-                                                            dcc.Graph(
-                                                                id='fig2-line',
-                                                                className='vis2-graph',
-                                                                figure=fig2_line
-                                                            ),
-                                                        ]),
                                                         html.Div(className='filter-container', children=[
                                                             html.Label('Date range', style={
                                                                        'padding-top': '2%', 'padding-left': '2%'}),
@@ -374,9 +362,18 @@ app.layout = html.Div(
                                                                     id='output'),
                                                             ], style={'padding': '2%', 'display': 'inline-flex'}),
                                                         ]),
-                                                    ],
-                                                    id="graph-body-2"
-                                                ),
+                                                        html.Div(className='vis2-container' ,children=[
+                                                            dcc.Graph(
+                                                                    id = 'fig2-bubble',
+                                                                    className = 'vis2-graph',
+                                                                    figure = fig2_bubble
+                                                                ),
+                                                            dcc.Graph(
+                                                                    id = 'fig2-line',
+                                                                    className = 'vis2-graph',
+                                                                    figure = fig2_line
+                                                                ),
+                                                        ]),
                                             ],
                                             id="graph-card-2",
                                             color="info",
