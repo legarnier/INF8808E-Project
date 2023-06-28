@@ -293,20 +293,16 @@ app.layout = html.Div(
                                                     "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
                                                 dbc.CardBody(
                                                     [
-                                                        html.Div(className='vis2-container', style={'display': 'flex'}, children=[
+                                                        html.Div(className='vis2-container', children=[
                                                             dcc.Graph(
                                                                 id='fig2-bubble',
                                                                 className='vis2-graph',
-                                                                figure=fig2_bubble,
-                                                                style={
-                                                                    'display': 'inline', 'width': '60%'}
+                                                                figure=fig2_bubble
                                                             ),
                                                             dcc.Graph(
                                                                 id='fig2-line',
                                                                 className='vis2-graph',
-                                                                figure=fig2_line,
-                                                                style={
-                                                                    'display': 'inline', 'width': '40%'}
+                                                                figure=fig2_line
                                                             ),
                                                         ]),
                                                         html.Div(className='filter-container', children=[
