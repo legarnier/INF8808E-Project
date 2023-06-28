@@ -60,9 +60,7 @@ def addBoxes(fig,last_confidence_level,last_volatility_level,main_color,color_li
                     ),
                 ]
             )
-
-
-
+        
 def update_vis5(df,city):
     
     light_red = 'lightpink'
@@ -76,6 +74,7 @@ def update_vis5(df,city):
     ]
 
     colors_df = pd.DataFrame(colors)
+    
     main_color = colors_df.query(f"name == '{city}'")['color'].values[0]
     color_light = colors_df.query(f"name == '{city}'")['color_light'].values[0]
 
@@ -86,25 +85,28 @@ def update_vis5(df,city):
     y_min = df['Forecast min']
 
 
-    x_index = len(x)
+    x_len = len(x)
     mid_index = len(x) // 2
 
-    x_half = x[:mid_index]
-    y_max_half = y_max[:mid_index]
-    y_main_half = y_main[:mid_index]
-    y_min_half = y_min[:mid_index]
+    #x_half = x[:mid_index]
+    #y_max_half = y_max[:mid_index]
+    #y_main_half = y_main[:mid_index]
+    #y_min_half = y_min[:mid_index]
+    
     
     confidence_level = df['Confidence Level']
     volatility_level = df['Volatility']
     
-    last_confidence_level = round(confidence_level.iloc[x_index-1],2)
-    last_volatility_level = round(volatility_level.iloc[x_index-1],2)
+    last_confidence_level = round(confidence_level.iloc[x_len-1],2)
+    last_volatility_level = round(volatility_level.iloc[x_len-1],2)
 
     hover_text = hover_template.hover_vis5_forcasting_range(y_min, y_main, y_max, confidence_level, volatility_level)
 
     # create variable
     
-    y_range = [0.5*min(min(y_max), min(y_main), min(y_min)), 1.5*max(max(y_max), max(y_main), max(y_min))]
+    y_range = [0.8*min(min(y_max), min(y_main), min(y_min)), 1.2*max(max(y_max), max(y_main), max(y_min))]
+    x_range = [min(x), max(x)]
+
     rang_y_linecolor=dict(color='rgba(0,0,0,0)')
     
     main_y_linecolor = dict(color= main_color)
@@ -146,9 +148,7 @@ def update_vis5(df,city):
             )# or "first" or "last",
             ,#xaxis=dict(title='X', range=[x[0], x[mid_index]])
     )
-    
-             
-
+            
     # Create figure
     fig = go.Figure(layout=layout)
     
@@ -167,6 +167,14 @@ def update_vis5(df,city):
                         )
     trace3 = go.Scatter(x=x, y=y_min, mode='lines', name='Forecasting Min Latency',fill='tonexty', fillcolor= fillcolor , line = rang_y_linecolor,hoverinfo="skip")
 
+    x_index = int(x_len * 0.90)
+    
+    trace2_1 = go.Scatter(x=x[x_index:],
+                          y=y_main[x_index:],
+                          hoverinfo="skip",
+                          showlegend=False,  # This trace will not appear in the legend
+                          line=dict(width=4, color='white', dash='dash'))
+
     # Create data list
     data = [trace1, trace2, trace3]
     data[0]['showlegend'] = False
@@ -180,25 +188,9 @@ def update_vis5(df,city):
     fig.add_traces(trace2)  # add fill before line
     fig.add_traces(trace3)  # add fill before line
 
-    #x_half = x[1:mid_index+1]
-    #y_max_half = y_max[1:mid_index+1]
-    #y_main_half = y_main[1:mid_index+1]
-    #y_min_half = y_min[1:mid_index+1]
-    
-    # Re-layout the graph
-    
-    #fig.data[0].y = y_max_half
-    #fig.data[1].y = y_main_half
-    #fig.data[2].y = y_min_half
-     
+
+    # add traces to figure
+    fig.add_traces(trace2_1)  # add fill before line
+    fig.update_xaxes(range=x_range)  # set the x-axis range
 
     return fig
-
-
-
-
-
-
-
-
-
