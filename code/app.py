@@ -599,7 +599,7 @@ app.layout = html.Div(
                                                                                     style={'color': 'blue'}),
                                                                 "value": "Quebec"},
                                                                 {"label": html.Span("Ontario",
-                                                                                    style={'color': 'red'}),
+                                                                                    style={'color': 'blue'}),
                                                                 "value": "Ontario"},
                                                                 {"label": html.Span("Manitoba",
                                                                                     style={'color': 'green'}),
