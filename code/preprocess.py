@@ -54,8 +54,8 @@ def bubble_chart_df(df):
     mean_latency = []
     for i in range(len(frequency)):
         if frequency[i] != 0:
-            mean_packet_loss.append(sum_packet_loss[i] / frequency[i]) # calculate the average packet loss for each application type
-            mean_latency.append(sum_latency[i] / frequency[i]) # calculate the average latency for each application type
+            mean_packet_loss.append(round(sum_packet_loss[i] / frequency[i], 4)) # calculate the average packet loss for each application type
+            mean_latency.append(round(sum_latency[i] / frequency[i], 2)) # calculate the average latency for each application type
         else:
             mean_packet_loss.append(0) 
             mean_latency.append(0) 
