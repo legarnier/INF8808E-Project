@@ -558,8 +558,42 @@ app.layout = html.Div(
                                             [
                                                 dbc.CardHeader(dbc.Button(
                                                     "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5")),
+                                               
                                                 dbc.CardBody(
                                                     [
+                                                         
+                                                       html.Div([
+                                                        # BEGIN LEFT PART
+                                                        html.Div([
+                                                            dcc.Dropdown(
+                                                                [{"label": html.Span("Quebec",
+                                                                                    style={'color': 'red'}),
+                                                                "value": "Quebec"},
+                                                                {"label": html.Span("Ontario",
+                                                                                    style={'color': 'blue'}),
+                                                                "value": "Ontario"},
+                                                                {"label": html.Span("Manitoba",
+                                                                                    style={'color': 'green'}),
+                                                                "value": "Manitoba"}
+                                                                ],
+                                                                'Quebec',
+                                                                id='viz5_places',
+                                                                searchable=False,
+                                                                clearable=False,
+                                                            )
+                                                        ],
+                                                        style={'width': '49%', 'display': 'inline-block'}),
+                                                        # END LEFT PART
+
+                                                        # BEGIN RIGHT PART
+                                                        html.Div(["Select each city to see the forecasting values for Latency"], style={'width': '49%',
+                                                                'float': 'right', 'display': 'inline-block'})
+                                                        # END RIGHT PART
+
+
+                                                    ], style={
+                                                        'padding': '10px 5px'
+                                                    }),
                                                         dcc.Graph(
                                                             id='fig5',
                                                             figure=fig5,
@@ -812,7 +846,7 @@ def update_output(n_clicks):
 )
 @app.callback(
     Output("graph-body-5", "style"),
-    Input("graph-title-5", "n_clicks")
+    Input("graph-title-5", "n_clicks")  
 )
 @app.callback(
     Output("graph-body-6", "style"),
@@ -860,6 +894,18 @@ def update_graph(button_value):
     fig = vis4.update_graph(button_value,dataframe)
     return fig
         
+
+@app.callback(
+    Output('fig5', 'figure'),
+    Input('viz5_places', 'value')
+)
+def vis5_update_linechart(viz5_places, typ):
+
+    # Create the line chart figure
+    fig = vis5.update_vis5(dataframe.loc[dataframe['Site'] == viz5_places],
+                              viz5_places
+                              )
+    return fig
 
 
 if __name__ == "__main__":
