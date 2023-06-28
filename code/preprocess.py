@@ -1,6 +1,7 @@
 #preprocessing
 import pandas as pd
 from datetime import datetime
+import plotly.graph_objs as go
 
 def filter_groupby_time_city(df):
     '''
@@ -91,7 +92,9 @@ def get_neighborhoods(data):
 
 
 
-# Preprocess for Visual 1
+
+
+# Visual 1
 ###################################
 def filter_by_Site(df):
     '''
@@ -161,6 +164,46 @@ def filter_by_protocol(df):
 
     return(latency_per_prot)
 
+def Protocol_to_df (dataframe):
+  variables = dataframe['Protocol'].unique()
+  Df_protocol = pd.DataFrame(columns=variables)
+  for temps in dataframe['Time'].unique():
+    df_values = dataframe[dataframe['Time']
+                              == temps ]
+    list_values = df_values['Latency'].tolist()
+    # Add a new row using df.append
+    new_row = pd.DataFrame([list_values], columns=Df_protocol.columns)
+    Df_protocol = pd.concat([Df_protocol, new_row], ignore_index=True)
+  return Df_protocol
+
+
+# Fonction pour générer la figure d'une jauge
+def generate_gauge_figure(value, variable,ref=0):
+    return go.Figure(
+        go.Indicator(
+            mode="gauge+number+delta",
+            value=value,
+            title={'text': variable},
+            delta={'reference': ref,'increasing': {'color': 'red'}, 'decreasing': {'color': 'green'}},
+            gauge={
+                'axis': {'range': [None, 100]},
+                    'bar': {'color': 'rgb(0, 128, 255)'},
+                    'bgcolor': 'white',
+                    'borderwidth': 2,
+                    'bordercolor': 'gray',
+                    'steps': [
+                        {'range': [0, value], 'color': 'rgb(0, 70, 140)'},
+                        {'range': [value, 100], 'color': 'rgb(0, 128, 255)'}
+                    ]
+                
+            }
+        ),
+        layout=go.Layout(
+            margin={"l": 0, "r": 0, "t": 0, "b": 0},
+            width=200,
+            height=200
+        ),
+    )
 #######################################################
 
 #vis4

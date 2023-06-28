@@ -37,7 +37,6 @@ df_dense['Time'] = pd.to_datetime(df_dense['Time'])
 
 
 # Get the vis1
-
 dict_data_site = preprocess.filter_by_Site(dataframe)
 
 Qc_by_type = preprocess.filter_by_type(dict_data_site['Quebec'])
@@ -53,11 +52,33 @@ ON_latency_app = On_by_type['app']
 MAN_latency_network = Man_by_type['network']
 MAN_latency_app = Man_by_type['app']
 
-variables = MAN_latency_app['Protocol'].unique()
-df_values = MAN_latency_app[MAN_latency_app['Time']
-                            == MAN_latency_app['Time'].unique()[0]]
-values = df_values['Latency'].tolist()
-gauges = vis1.gauge_chart(variables, values)
+QC_latency_network_df = preprocess.Protocol_to_df(QC_latency_network)
+ON_latency_network_df = preprocess.Protocol_to_df(ON_latency_network)
+MAN_latency_network_df = preprocess.Protocol_to_df(MAN_latency_network)
+
+
+QC_latency_app_df = preprocess.Protocol_to_df(QC_latency_app)
+ON_latency_app_df = preprocess.Protocol_to_df(ON_latency_app)
+MAN_latency_app_df = preprocess.Protocol_to_df(MAN_latency_app)
+
+Qc_by_type['network'] = QC_latency_network_df
+On_by_type['network'] = ON_latency_network_df
+Man_by_type['network'] = MAN_latency_network_df
+
+Qc_by_type['app'] = QC_latency_app_df
+On_by_type['app'] = ON_latency_app_df
+Man_by_type['app'] = MAN_latency_app_df
+
+dict_data_site['Quebec'] = Qc_by_type
+dict_data_site['Ontario'] = On_by_type
+dict_data_site['Manitoba'] = Man_by_type
+
+data = dict_data_site['Quebec']['app']
+
+# Variables pour les jauges et les boutons radio
+variables = ['HTTP', 'HTTPS', 'TCP', 'ICMP', 'TWAMP', 'UDP']
+num_gauges = len(variables)
+default_row_index = 0
 
 
 # viz_3
@@ -77,7 +98,7 @@ fig.update_layout(height=500, width=1000)
 
 # add your graph title here:
 
-viz1_title = "Current protocol latency"
+viz1_title = "Current protocol latency in Milliseconds"
 viz2_title = "Average Latency per application type"
 viz3_title = "Current Latency Geographical Map"
 viz4_title = "Average Latency per Site"
@@ -241,33 +262,49 @@ app.layout = html.Div(
                                                     ]
                                                 ),
                                                 dbc.CardBody(
-                                                    [
-                                                        html.H5("Site :"),
-                                                        dbc.Button(
-                                                            "Quebec", id="button-site-qc", color="primary", className="mr-1"),
-                                                        dbc.Button(
-                                                            "Ontario", id="button-site-on", color="primary", className="mr-1"),
-                                                        dbc.Button(
-                                                            "Manitoba", id="button-site-man", color="primary", className="mr-1"),
-                                                        dcc.RadioItems(
-                                                            id="radio-type",
-                                                            options=[
-                                                                {"label": " Application ",
-                                                                 "value": "app"},
-                                                                {"label": " Network ",
-                                                                 "value": "network"}
+                                                            [
+                                                                html.H5("Site "),
+                                                                dbc.Button(
+                                                                    "Quebec",
+                                                                    id="button-site-qc",
+                                                                    color="primary",
+                                                                    className="mr-1"
+                                                                ),
+                                                                dbc.Button(
+                                                                    "Ontario",
+                                                                    id="button-site-on",
+                                                                    color="primary",
+                                                                    className="mr-1"
+                                                                ),
+                                                                dbc.Button(
+                                                                    "Manitoba",
+                                                                    id="button-site-man",
+                                                                    color="primary",
+                                                                    className="mr-1"
+                                                                ),
+                                                                html.H5("Protocol Type "),
+                                                                dcc.RadioItems(
+                                                                    id="radio-type",
+                                                                    options=[
+                                                                        {"label": " Application ", "value": "app"},
+                                                                        {"label": " Network ", "value": "network"}
+                                                                    ],
+                                                                    value="app",
+                                                                    className="mb-2"
+                                                                ),
+                                                                html.Div(
+                                                                    id="gauges-container",
+                                                                    style={"display": "flex", "justify-content": "center"}
+                                                                ),
+                                                                dcc.Interval(
+                                                                    id="interval-component",
+                                                                    interval=1000,
+                                                                    n_intervals=0
+                                                                )
                                                             ],
-                                                            value="app",
-                                                            className="mb-2"
-                                                        ),
-                                                        dcc.Graph(
-                                                            figure=gauges,
-                                                            id='fig1'
+                                                            id="graph-body-1"
                                                         ),
                                                     ],
-                                                    id="graph-body-1"
-                                                ),
-                                            ],
                                             id="graph-card-1",
                                             color="info",
                                         ),
@@ -657,34 +694,46 @@ app.layout = html.Div(
 )
 
 # # Updating the current latencies
-# @app.callback(
-#     Output('fig1', 'figure'),
-#     Input('button-site-qc', 'n_clicks'),
-#     Input('button-site-on', 'n_clicks'),
-#     Input('button-site-man', 'n_clicks'),
-#     Input('source-type', 'value')
-# )
-# def update_gauges(source1_clicks, source2_clicks, source3_clicks, type_value):
-#     # check selected source
-#     if source1_clicks:
-#         # site 1 sélectionnée
-#         source = "Source 1"
-#     elif source2_clicks:
-#         # Source 2 sélectionnée
-#         source = "Source 2"
-#     elif source3_clicks:
-#         # Source 3 sélectionnée
-#         source = "Source 3"
-#     else:
-#         # Par défaut, utilisez la Source 1
-#         source = "Source 1"
 
-#     # Déterminez le type sélectionné
-#     if type1_value == "type1":
-#         # Type 1 sélectionné
-#         type_value = "Type 1"
-#     else:
-#         # Type
+@app.callback(
+    Output("gauges-container", "children"),
+    [
+        Input("button-site-qc", "n_clicks"),
+        Input("button-site-on", "n_clicks"),
+        Input("button-site-man", "n_clicks"),
+        Input("radio-type", "value"),
+        Input("interval-component", "n_intervals")
+    ],
+)
+def update_gauges(site_qc_clicks, site_on_clicks, site_man_clicks, radio_type_value, n_intervals):
+    ctx = dash.callback_context
+    button_id = ctx.triggered[0]["prop_id"].split(".")[0] if ctx.triggered else "button-site-qc"
+
+    if button_id == "button-site-qc":
+        selected_data = dict_data_site['Quebec'][radio_type_value]
+    elif button_id == "button-site-on":
+        selected_data = dict_data_site['Ontario'][radio_type_value]
+    elif button_id == "button-site-man":
+        selected_data = dict_data_site['Manitoba'][radio_type_value]
+    else:
+        selected_data = dict_data_site['Quebec'][radio_type_value]
+
+    row_index = n_intervals % len(selected_data)
+    ref_index = row_index - 1
+    gauges = []
+    for i, variable in enumerate(variables):
+        figure = preprocess.generate_gauge_figure(selected_data.iloc[row_index][variable], variable,selected_data.iloc[ref_index][variable])
+        gauges.append(
+            dcc.Graph(
+                id=f"gauge{i+1}",
+                figure=figure,
+                config={"displayModeBar": False},
+                style={"height": "200px", "width": "200px", "margin": "0"},
+            )
+        )
+
+    return gauges
+
 
 
 # apply filters on graph 2
@@ -793,10 +842,10 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     return fig2_line
 
 
-@app.callback(
-    Output('graph-card-1', 'children'),
-    [Input('button-1', 'update_output')]
-)
+# @app.callback(
+#     Output('graph-card-1', 'children'),
+#     [Input('button-1', 'update_output')]
+# )
 @app.callback(
     Output('fig2', 'style'),
     [Input('button-2', 'update_output')]
