@@ -37,7 +37,7 @@ def filter_protocol(df, protocol):
 def bubble_chart_df(df):
     df = df.reset_index()  # make sure indexes pair with number of rows
 
-    application_type = ['Communication', 'Voice and File Transfe', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
+    application_type = ['Communication', 'Voice and File Transfer', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
     frequency = [0]*len(application_type) # frequency of each application type
     sum_packet_loss = [0]*len(application_type)
     sum_latency = [0]*len(application_type)
@@ -70,7 +70,7 @@ def line_chart_df(df, application_type, s_date, e_date):
     return line_df
 
 def bubble_select(df, start_date, end_date, protocol, clickedData): # understand which application type is selected
-    application_type = ['Communication', 'Voice and File Transfe', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
+    application_type = ['Communication', 'Voice and File Transfer', 'Multimedia Streaming', 'Social Commerce', 'Network Management']
 
     if protocol == 'All':
         application_type_idx = clickedData['points'][0]['curveNumber']
