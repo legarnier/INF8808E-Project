@@ -779,7 +779,7 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     Input("graph-title-6", "n_clicks"),
     Input("button-6", "n_clicks")
 )
-def toggle_graph(n_clicks,button_click,button_click):
+def toggle_graph(n_clicks,button_click):
     if n_clicks and n_clicks % 2 == 1:  # Hide graph on odd clicks
         return {"display": "none"}
     elif button_click and button_click % 2 == 1:
