@@ -216,8 +216,9 @@ def generate_gauge_figure(value, variable,ref=0):
             Dictionnary of dataframe containing latency of each Site
     '''
 def city_average_latency_type(df_viz4):
+    pd.set_option('display.max_columns', None)
     print("df_viz4" , df_viz4)
-    df_viz4.drop(['Protocol', 'Latency'], axis=1, inplace=True)
+    #df_viz4.drop(['Protocol', 'Latency'], axis=1, inplace=True)
     df_viz4 = df_viz4.groupby(['Site', 'Time', 'Type'], as_index=False)['Average Latency'].mean()
 
 
