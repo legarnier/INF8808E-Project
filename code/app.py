@@ -771,12 +771,12 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
 )
 @app.callback(
     Output("graph-body-5", "style"),
-    Input("graph-title-5", "n_clicks") 
+    Input("graph-title-5", "n_clicks"),
     Input("button-5", "n_clicks")
 )
 @app.callback(
     Output("graph-body-6", "style"),
-    Input("graph-title-6", "n_clicks")
+    Input("graph-title-6", "n_clicks"),
     Input("button-6", "n_clicks")
 )
 def toggle_graph(n_clicks,button_click,button_click):
