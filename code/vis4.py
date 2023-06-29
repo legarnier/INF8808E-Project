@@ -61,7 +61,15 @@ def update_graph(button_value,df_viz4):
             #title="Latency averages for each site based on type",
         )
     )
+   
+   # ########################################################################################
+   # add traces to the graph
+   # Individual lines on the graph are represented by traces. 
+   # There are different visual properties associated with each trace, such as line color, 
+   # line style, and hover information, based on the data used in the df_viz4 DataFrame
+   # ########################################################################################
 
+   
     fig.add_trace(
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Quebec'].network_Average_Latency[:init], name='Quebec(Network)',
                visible=True,
