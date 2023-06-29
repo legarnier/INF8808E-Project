@@ -15,17 +15,21 @@ def to_df(data):
 def get_neighborhoods(data):
     return to_df(data)['properties.prov_name_en'].unique()
 
-
-# viz_3 
+#read the data from csv (scatter part)
 df_viz3 = pd.read_csv('../data/map_data.csv')
+
+#read the geojson data (map part)
 with open('../data/georef-canada-province@public.geojson', encoding='utf-8') as data_file:
     map_data = json.load(data_file)
+
+#draw maps 
 locations = get_neighborhoods(map_data)
 z = len(map_data['features']) * [1]
 fig = go.Figure()
 fig = map_viz.add_choro_trace(fig, map_data, locations, z)
 fig = map_viz.add_scatter_traces(fig, df_viz3)
 
+#add style to the map
 fig = helper.adjust_map_style(fig)
 fig = helper.adjust_map_sizing(fig)
 fig = helper.adjust_map_info(fig)
