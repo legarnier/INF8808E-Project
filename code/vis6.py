@@ -98,13 +98,13 @@ layout = html.Div([
         html.Div([
             dcc.Dropdown(
                 [{"label": html.Span("Quebec",
-                                     style={'color': 'red'}),
+                                     style={'color': 'red','font-family': 'oswald'}),
                   "value": "Quebec"},
                  {"label": html.Span("Ontario",
-                                     style={'color': 'blue'}),
+                                     style={'color': 'blue','font-family': 'oswald'}),
                   "value": "Ontario"},
                  {"label": html.Span("Manitoba",
-                                     style={'color': 'green'}),
+                                     style={'color': 'green','font-family': 'oswald'}),
                   "value": "Manitoba"}
                  ],
                 'Quebec',
@@ -124,12 +124,12 @@ layout = html.Div([
                 labelStyle={'display': 'inline-block', 'marginTop': '5px'}
             )
         ],
-            style={'width': '49%', 'display': 'inline-block'}),
+            style={'width': '49%', 'display': 'inline-block','font-family': 'oswald'}),
         # END LEFT PART
 
         # BEGIN RIGHT PART
         html.Div(["Click on the heatmap and select a zoom level"], style={'width': '49%',
-                 'float': 'right', 'display': 'inline-block'})
+                 'float': 'right', 'display': 'inline-block','font-family': 'oswald'})
         # END RIGHT PART
 
 
@@ -153,5 +153,6 @@ layout = html.Div([
                          marks={0: '0%', 3: '100%'},
                          value=0,
                          id='zoom_level')],
-             style={'width': '98%', 'padding': '0px 20px 20px 20px'})
+             style={'width': '98%', 'padding': '0px 20px 20px 20px','font-family': 'oswald'})
 ])
+
