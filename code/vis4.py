@@ -158,9 +158,9 @@ def update_graph(button_value,df_viz4):
     
     
     fig.update_layout(
-        # on the y-axis
+        
         yaxis_ticksuffix=" ms",
-        # on the colorbar
+        
         coloraxis_colorbar_ticksuffix="m",
        
     )
