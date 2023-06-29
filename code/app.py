@@ -284,7 +284,9 @@ app.layout = html.Div(
                                                                     n_intervals=0
                                                                 )
                                                             ],
-                                                            id="graph-body-1"
+                                                            id="graph-body-1",
+                                                            style={'display': 'block'}
+
                                                         ),
                                                     ],
                                             id="graph-card-1",
@@ -313,10 +315,10 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 
+                                                dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
 
                                                 dbc.CardBody(
                                                                                                   [ 
-                                                        dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
 
                                                         html.Div(className='filter-container', children=[
                                                             html.Label('Date range', style={
@@ -369,7 +371,9 @@ app.layout = html.Div(
 
 
                                                     ],
-                                                    id="graph-body-2"
+                                                    id="graph-body-2",
+                                                   style={'display': 'block'}
+
                                                 ),
                                             ],
                                             id="graph-card-2",
@@ -411,7 +415,9 @@ app.layout = html.Div(
                                                         viz_3.layout
                                                         #####
                                                     ],
-                                                    id="graph-body-3"
+                                                    id="graph-body-3",
+                                                    style={'display': 'block'}
+
                                                 )
                                             ],
                                             id="graph-card-3",
@@ -470,7 +476,9 @@ app.layout = html.Div(
                                                         
                                                         
                                                     ],
-                                                    id="graph-body-4"
+                                                    id="graph-body-4",
+                                                    style={'display': 'block'}
+
                                                 ),
                                             ],
                                             id="graph-card-4",
@@ -511,7 +519,9 @@ app.layout = html.Div(
                                                                 'width': '%100'}
                                                         ),
                                                     ],
-                                                    id="graph-body-5"
+                                                    id="graph-body-5",
+                                                   style={'display': 'block'}
+
                                                 ),
                                             ],
                                             id="graph-card-5",
@@ -543,7 +553,9 @@ app.layout = html.Div(
                                                         vis6.layout
                                                         #####
                                                     ],
-                                                    id="graph-body-6"
+                                                    id="graph-body-6",
+                                                    style={'display': 'block'}
+
                                                 ),
                                             ],
                                             id="graph-card-6",
@@ -725,39 +737,51 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     Output("graph-body-1", "style"),
     Input("graph-title-1", "n_clicks"),
     Input("button-1", "n_clicks")
+    ,State('graph-body-1', 'style')
 )
 @app.callback(
     Output("graph-body-2", "style"),
     Input("graph-title-2", "n_clicks"),
     Input("button-2", "n_clicks")
+    ,State('graph-body-2', 'style')
+
 )
 @app.callback(
     Output("graph-body-3", "style"),
     Input("graph-title-3", "n_clicks"),
     Input("button-3", "n_clicks")
+        ,State('graph-body-3', 'style')
+
 )
 @app.callback(
     Output("graph-body-4", "style"),
     Input("graph-title-4", "n_clicks"),
     Input("button-4", "n_clicks")
+    ,State('graph-body-4', 'style')
+
 )
 @app.callback(
     Output("graph-body-5", "style"),
     Input("graph-title-5", "n_clicks"),
     Input("button-5", "n_clicks")
+    ,State('graph-body-5', 'style')
+
 )
 @app.callback(
     Output("graph-body-6", "style"),
     Input("graph-title-6", "n_clicks"),
     Input("button-6", "n_clicks")
+    ,State('graph-body-6', 'style')
+
 )
-def toggle_graph(n_clicks,button_click):
-    if n_clicks and n_clicks % 2 == 1:  # Hide graph on odd clicks
-        return {"display": "none"}
-    elif button_click and button_click % 2 == 1:
-        return {"display": "none"}
-    else:  # Show graph on even clicks (or before any clicks)
-        return {'display': 'block'}  # Show the graph
+def toggle_content(open_clicks, close_clicks, style):
+    
+    if open_clicks is None and close_clicks is None:
+        return style  # No button clicks yet, maintain current style
+    display = style.get('display', 'block')
+
+    new_style = {'display': 'none'} if display == 'block' else {'display': 'block'}
+    return new_style
 
 
 
