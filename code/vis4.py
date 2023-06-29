@@ -114,9 +114,17 @@ def update_graph(button_value,df_viz4):
                hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
     )
 
-    ####
-
     
+
+##############################################################################################
+#Frames in this graph are used for animation and represen
+# different subsets of the df_viz4 DataFrame.Each frame corresponds  
+# to a specific point in time and includes traces that display the data  
+# for that particular time point. For each frame, a trace represents the average latency 
+# data for sites "Quebec",  "Ontario", and "Manitoba" under the "Network" and "Application" types.
+# By updating the frames and advancing through them, the graph can be animated to show 
+# the changes in latency over time for different sites and types.
+##############################################################################################
 
    
     fig.update(frames=[
