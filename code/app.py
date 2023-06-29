@@ -320,16 +320,27 @@ app.layout = html.Div(
                             ]
                         ),
 
+                        
+                        
+                        
+                        
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
                                     [
                                         dbc.Card(
                                             [
-                                                dbc.CardHeader(dbc.Button(
-                                                    "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
+                                                
+
                                                 dbc.CardBody(
+<<<<<<< HEAD
                                                                                                   [
+=======
+                                                    [ 
+                                                        dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
+
+>>>>>>> 5e224a8 (solve hasti code viz2)
                                                         html.Div(className='filter-container', children=[
                                                             html.Label('Date range', style={
                                                                        'padding-top': '2%', 'padding-left': '2%'}),
@@ -362,6 +373,8 @@ app.layout = html.Div(
                                                                     id='output'),
                                                             ], style={'padding': '2%', 'display': 'inline-flex'}),
                                                         ]),
+                                                        
+                                                        
                                                         html.Div(className='vis2-container' ,children=[
                                                             dcc.Graph(
                                                                     id = 'fig2-bubble',
@@ -374,7 +387,18 @@ app.layout = html.Div(
                                                                     figure = fig2_line
                                                                 ),
                                                             ]),
+<<<<<<< HEAD
                                                     ],
+=======
+                                                        
+                                                        
+
+
+                                                    ],
+                                                    id="graph-body-2"
+                                                ),
+                                            ],
+>>>>>>> 5e224a8 (solve hasti code viz2)
                                             id="graph-card-2",
                                             color="info",
                                         ),
@@ -390,6 +414,16 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -599,7 +633,7 @@ app.layout = html.Div(
                                                                                     style={'color': 'blue'}),
                                                                 "value": "Quebec"},
                                                                 {"label": html.Span("Ontario",
-                                                                                    style={'color': 'blue'}),
+                                                                                    style={'color': 'red'}),
                                                                 "value": "Ontario"},
                                                                 {"label": html.Span("Manitoba",
                                                                                     style={'color': 'green'}),
