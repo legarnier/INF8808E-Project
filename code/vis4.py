@@ -88,7 +88,7 @@ def update_graph(button_value,df_viz4):
    # line style, and hover information, based on the data used in the df_viz4 DataFrame
    # ########################################################################################
 
-   network_hover_template, app_hover_template = hover.hover_vis4() 
+   #network_hover_template, app_hover_template = hover.hover_vis4() 
     fig.add_trace(
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Quebec'].network_Average_Latency[:init], name='Quebec(Network)',
                visible=True,
