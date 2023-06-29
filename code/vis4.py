@@ -142,7 +142,10 @@ def update_graph(button_value,df_viz4):
         for k in range(init, len(df_viz4) + 1)
     ])
 
-    # Extra Formatting
+   ####################################################
+   # Extra Formatting - graph layout and configuration
+   ####################################################
+   
     fig.update_layout(plot_bgcolor='#FAF9F6')
     fig.update_xaxes(range=[date(2023, 6, 1),  date(2023, 6, 5)], ticks="outside", tickwidth=2, tickcolor='grey', ticklen=12)
     fig.update_yaxes(ticks="outside", tickwidth=2, tickcolor='white', ticklen=1)
