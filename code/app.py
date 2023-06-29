@@ -634,7 +634,7 @@ def update_gauges(site_qc_clicks, site_on_clicks, site_man_clicks, radio_type_va
                 id=f"gauge{i+1}",
                 figure=figure,
                 config={"displayModeBar": False},
-                style={"height": "200px", "width": "200px", "margin": "0"},
+                style={"height": "200px", "width": "16.66%", "margin": "0"},
             )
         )
 
@@ -751,11 +751,12 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
 
 @app.callback(
     Output("graph-body-1", "style"),
-    Input("graph-title-1", "n_clicks")
+    Input("button-1", "n_clicks")
 )
 @app.callback(
     Output("graph-body-2", "style"),
     Input("graph-title-2", "n_clicks")
+    
 )
 @app.callback(
     Output("graph-body-3", "style"),
@@ -780,7 +781,16 @@ def toggle_graph(n_clicks):
         return {'display': 'block'}  # Show the graph
 
 
+@app.callback(
+    Output("graph-body-6", "style"),
+    Input("button-6", "n_clicks")
+)
 
+def toggle_graph2(n_clicks):
+    if n_clicks and n_clicks % 2 == 1:  # Hide graph on odd clicks
+        return {"display": "none"}
+    else:  # Show graph on even clicks (or before any clicks)
+        return {'display': 'block'}  # Show the graph
 
 
 
