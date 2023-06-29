@@ -13,7 +13,6 @@ def adjust_map_sizing(fig):
         lon=-73.707014))
     fig.update_layout(mapbox_zoom=3)
     fig.update_layout(height=525, width=1000)
-    # fig.update_layout(margin_l=10)
     return fig
 
 
@@ -23,8 +22,8 @@ def adjust_map_info(fig):
 
     fig.update_layout(title_xref='paper', title_y=0.5)
 
-    title = 'Current latency in Quebec, Ontario and Manitoba '
-    # info = 'Cliquez sur un marqueur pour plus d\'information.'
+    title = 'Current latency in Quebec, Ontario and Manitoba'
+    info = 'Click on each protocol for filtering'
 
     fig.update_layout(title=title,
                       title_font_family='Oswald',
@@ -34,7 +33,7 @@ def adjust_map_info(fig):
                                         yref='paper',
                                         x=0.055, y=1.08,
                                         showarrow=False,
-                                        # text=info,
+                                        text=info,
                                         font_family='Open Sans Condensed',
                                         font_color='black',
                                         font_size=18)])
@@ -45,6 +44,5 @@ def adjust_map_info(fig):
                       legend_font_family='Open Sans Condensed',
                       legend_font_color='black',
                       legend_font_size=16)
-    # Attribute giving the width and color of border
 
     return fig
