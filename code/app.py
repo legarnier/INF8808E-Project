@@ -536,7 +536,7 @@ app.layout = html.Div(
                                                             id='fig5',
                                                             #figure=fig5,
                                                             style={
-                                                                'width': '%100', 'display': 'inline-block'}
+                                                                'width': '%100'}
                                                         ),
                                                     ],
                                                     id="graph-body-5"
@@ -634,7 +634,7 @@ def update_gauges(site_qc_clicks, site_on_clicks, site_man_clicks, radio_type_va
                 id=f"gauge{i+1}",
                 figure=figure,
                 config={"displayModeBar": False},
-                style={"height": "200px", "width": "16%", "margin": "0"},
+                style={"height": "200px", "width": "200px", "margin": "0"},
             )
         )
 
@@ -751,13 +751,11 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
 
 @app.callback(
     Output("graph-body-1", "style"),
-    Input("graph-title-1", "n_clicks"),
-    Input("button-1", "n_clicks")
+    Input("graph-title-1", "n_clicks")
 )
 @app.callback(
     Output("graph-body-2", "style"),
-    Input("graph-title-2", "n_clicks"),
-    Input("button-2", "n_clicks")
+    Input("graph-title-2", "n_clicks")
 )
 @app.callback(
     Output("graph-body-3", "style"),
