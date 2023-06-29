@@ -781,23 +781,6 @@ def toggle_graph(n_clicks):
         return {'display': 'block'}  # Show the graph
 
 
-@app.callback(
-    Output("graph-body-6", "style"),
-    Input("button-6", "n_clicks")
-)
-
-def toggle_graph2(n_clicks):
-    if n_clicks and n_clicks % 2 == 1:  # Hide graph on odd clicks
-        return {"display": "none"}
-    else:  # Show graph on even clicks (or before any clicks)
-        return {'display': 'block'}  # Show the graph
-
-
-
-
-
-
-
 
 @app.callback(
     Output('heatmap', 'figure'),
