@@ -9,7 +9,43 @@ from IPython.display import display
 import ipywidgets as widgets
 import hover_template
 
+from dash import html, dcc
 
+#I add layout of viz5 here to make apppy easier to read
+#First I have a div to have the dropdown for name of cities.
+card_layout = html.Div([
+            # BEGIN LEFT PART
+            html.Div([
+                dcc.Dropdown(
+                    [{"label": html.Span("Quebec",
+                                        style={'color': 'blue'}),
+                    "value": "Quebec"},
+                    {"label": html.Span("Ontario",
+                                        style={'color': 'red'}),
+                    "value": "Ontario"},
+                    {"label": html.Span("Manitoba",
+                                        style={'color': 'green'}),
+                    "value": "Manitoba"}
+                    ],
+                    'Quebec',
+                    id='viz5_places',
+                    searchable=False,
+                    clearable=False,
+                )
+            ],
+            style={'width': '49%', 'display': 'inline-block'}),
+            # END LEFT PART
+
+            # BEGIN RIGHT PART
+            html.Div(["Select each city to see the forecasting values for Latency"], style={'width': '49%',
+                    'float': 'right', 'display': 'inline-block'})
+            # END RIGHT PART
+
+
+        ], style={
+            'padding': '10px 5px'
+        })
+                                                        
 #In this function I add two box at the top of my graph to show two value: [last_confidence_level,last_volatility_level ]
 #I create a simaple shape by go.layout.shape and then put value there
 def addBoxes(fig,last_confidence_level,last_volatility_level,main_color,color_light) : 
