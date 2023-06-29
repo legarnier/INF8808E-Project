@@ -751,31 +751,38 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
 
 @app.callback(
     Output("graph-body-1", "style"),
+    Input("graph-title-1", "n_clicks"),
     Input("button-1", "n_clicks")
 )
 @app.callback(
     Output("graph-body-2", "style"),
-    Input("graph-title-2", "n_clicks")
-    
+    Input("graph-title-2", "n_clicks"),
+    Input("button-2", "n_clicks")
 )
 @app.callback(
     Output("graph-body-3", "style"),
-    Input("graph-title-3", "n_clicks")
+    Input("graph-title-3", "n_clicks"),
+    Input("button-3", "n_clicks")
 )
 @app.callback(
     Output("graph-body-4", "style"),
-    Input("graph-title-4", "n_clicks")
+    Input("graph-title-4", "n_clicks"),
+    Input("button-4", "n_clicks")
 )
 @app.callback(
     Output("graph-body-5", "style"),
-    Input("graph-title-5", "n_clicks")  
+    Input("graph-title-5", "n_clicks") 
+    Input("button-5", "n_clicks")
 )
 @app.callback(
     Output("graph-body-6", "style"),
     Input("graph-title-6", "n_clicks")
+    Input("button-6", "n_clicks")
 )
-def toggle_graph(n_clicks):
+def toggle_graph(n_clicks,button_click,button_click):
     if n_clicks and n_clicks % 2 == 1:  # Hide graph on odd clicks
+        return {"display": "none"}
+    elif button_click and button_click % 2 == 1:
         return {"display": "none"}
     else:  # Show graph on even clicks (or before any clicks)
         return {'display': 'block'}  # Show the graph
