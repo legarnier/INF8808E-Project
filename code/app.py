@@ -195,7 +195,7 @@ app.layout = html.Div(
                             children=[
                                 dcc.Download(id="download-text"),
                                 html.H3('Project Description:   '),
-                                dbc.Button("Download PDF:", id="btn-download",color="secondary",outline=True,
+                                dbc.Button("Download PDF", id="btn-download",color="secondary",outline=True,
                                            style={'color': 'black', 'margin-left':'10px','font-size':'0.8 rem'}),
 
                                
@@ -280,7 +280,7 @@ app.layout = html.Div(
                                                                 ),
                                                                 dcc.Interval(
                                                                     id="interval-component",
-                                                                    interval=3000,
+                                                                    interval=1000,
                                                                     n_intervals=0
                                                                 )
                                                             ],
@@ -634,7 +634,7 @@ def update_gauges(site_qc_clicks, site_on_clicks, site_man_clicks, radio_type_va
                 id=f"gauge{i+1}",
                 figure=figure,
                 config={"displayModeBar": False},
-                style={"height": "200px", "width": "200px", "margin": "0"},
+                style={"height": "200px", "width": "16%", "margin": "0"},
             )
         )
 
@@ -748,43 +748,16 @@ def bubble_clicked(bubble_clicked, start_date, end_date, protocol):
     return fig2_line
 
 
-# @app.callback(
-#     Output('graph-card-1', 'children'),
-#     [Input('button-1', 'update_output')]
-# )
-@app.callback(
-    Output('fig2', 'style'),
-    [Input('button-2', 'update_output')]
-)
-@app.callback(
-    Output('fig3', 'style'),
-    [Input('button-3', 'update_output')]
-)
-@app.callback(
-    Output('fig4', 'style'),
-    [Input('button-4', 'update_output')]
-)
-@app.callback(
-    Output('fig5', 'style'),
-    [Input('button-5', 'update_output')]
-)
-@app.callback(
-    Output('fig6', 'style'),
-    [Input('button-6', 'update_output')]
-)
-  
-def update_output(n_clicks):
-    if n_clicks is not None:  # Button has been clicked
-        return 'You clicked the button!'
-
 
 @app.callback(
     Output("graph-body-1", "style"),
-    Input("graph-title-1", "n_clicks")
+    Input("graph-title-1", "n_clicks"),
+    Input("button-1", "n_clicks")
 )
 @app.callback(
     Output("graph-body-2", "style"),
-    Input("graph-title-2", "n_clicks")
+    Input("graph-title-2", "n_clicks"),
+    Input("button-2", "n_clicks")
 )
 @app.callback(
     Output("graph-body-3", "style"),
@@ -807,6 +780,16 @@ def toggle_graph(n_clicks):
         return {"display": "none"}
     else:  # Show graph on even clicks (or before any clicks)
         return {'display': 'block'}  # Show the graph
+
+
+
+
+
+
+
+
+
+
 
 @app.callback(
     Output('heatmap', 'figure'),
