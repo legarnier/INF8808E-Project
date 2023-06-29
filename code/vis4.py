@@ -98,7 +98,8 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Quebec'].app_Average_Latency[:init], name='Quebec(Application)',
                visible=True,
                line=dict(color="#17becf", dash="dash"),
-               hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Quebec'].Site.iloc[0], 'Application']
     )
     
     
@@ -106,14 +107,16 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Ontario'].app_Average_Latency[:init], name='Ontario(Application)',
                visible=True,
                line=dict(color="#ff7f0e", dash="dash"),
-               hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               hovertemplate=hover.app_hover_template, customdata=[df[df.Site == 'Ontario'].Site.iloc[0], 'Application']
     )
     
     fig.add_trace(
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Manitoba'].app_Average_Latency[:init], name='Manitoba(Application)',
                visible=True,
                line=dict(color="#7f7f7f", dash="dash"),
-               hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Manitoba'].Site.iloc[0], 'Application']
     )
 
     
