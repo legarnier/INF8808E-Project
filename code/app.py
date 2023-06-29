@@ -450,31 +450,9 @@ app.layout = html.Div(
 
                                                 dbc.CardBody(
                                                     [
-                                                        
-                                                        
-                                                         html.Div(
-                                                            children=[
-                                                                dcc.Graph(id='animation-graph'),  # Base Plot
-                                                                dcc.Dropdown(
-                                                                    id='button-dropdown',
-                                                                    options=[
-                                                                        {'label': 'Play', 'value': 'play'},
-                                                                        {'label': 'Application', 'value': 'application'},
-                                                                        {'label': 'Network', 'value': 'network'},
-                                                                        {'label': 'Both Types', 'value': 'both_types'}
-                                                                    ],
-                                                                    value='play',
-                                                                    style={'display': 'none'}
-                                                                )
-                                                            ]
-                                                        ),
-                                                        
-                                                      
-                                                        
-                                                        
-                                                        
-                                                        
-                                                        
+                                                      #########
+                                                      vis4.vis4_layout  ,
+                                                      ##########
                                                     ],
                                                     id="graph-body-4",
                                                     style={'display': 'block'}
