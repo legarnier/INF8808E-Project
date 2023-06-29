@@ -6,7 +6,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import date
 import preprocess
-import hover
+import hover_template
 
 from dash import html, dcc
 
@@ -93,8 +93,8 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Quebec'].network_Average_Latency[:init], name='Quebec(Network)',
                visible=True,
                line=dict(color="#17becf", dash="solid"),
-               #hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>'),
-               hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Quebec'].Site.iloc[0]]
+               hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>'),
+               #hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Quebec'].Site.iloc[0]]
 
     )
     
@@ -102,8 +102,8 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Ontario'].network_Average_Latency[:init], name='Ontario(Network)',
                visible=True,
                line=dict(color="#ff7f0e", dash="solid"),
-               #hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>')
-               hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Ontario'].Site.iloc[0]]
+               hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>')
+               #hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Ontario'].Site.iloc[0]]
        
 
     )
@@ -112,16 +112,16 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Manitoba'].network_Average_Latency[:init], name='Manitoba(Network)',
                visible=True,
                line=dict(color="#7f7f7f", dash="solid"),
-               #hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>')
-               hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Manitoba'].Site.iloc[0]]
+               hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Network<extra></extra>')
+               #hovertemplate=hover.network_hover_template,customdata=[df[df.Site == 'Manitoba'].Site.iloc[0]]
     )
     
     fig.add_trace(
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Quebec'].app_Average_Latency[:init], name='Quebec(Application)',
                visible=True,
                line=dict(color="#17becf", dash="dash"),
-               #hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
-               hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Quebec'].Site.iloc[0], 'Application']
+               hovertemplate='<b>Site:</b> Quebec<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Quebec'].Site.iloc[0], 'Application']
     )
     
     
@@ -129,16 +129,16 @@ def update_graph(button_value,df_viz4):
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Ontario'].app_Average_Latency[:init], name='Ontario(Application)',
                visible=True,
                line=dict(color="#ff7f0e", dash="dash"),
-               #hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
-               hovertemplate=hover.app_hover_template, customdata=[df[df.Site == 'Ontario'].Site.iloc[0], 'Application']
+               hovertemplate='<b>Site:</b> Ontario<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate=hover.app_hover_template, customdata=[df[df.Site == 'Ontario'].Site.iloc[0], 'Application']
     )
     
     fig.add_trace(
         go.Scatter(x=df_viz4.Time[:init], y=df_viz4[df_viz4.Site == 'Manitoba'].app_Average_Latency[:init], name='Manitoba(Application)',
                visible=True,
                line=dict(color="#7f7f7f", dash="dash"),
-               #hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
-               hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Manitoba'].Site.iloc[0], 'Application']
+               hovertemplate='<b>Site:</b> Manitoba<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> Application<extra></extra>')
+               #hovertemplate=hover.app_hover_template,customdata=[df[df.Site == 'Manitoba'].Site.iloc[0], 'Application']
     )
 
     
