@@ -2,6 +2,41 @@ import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
 import math
+from datetime import date
+from dash import html, dcc
+
+viz2_layout = html.Div(className='filter-container', children=[
+                html.Label('Date range', style={
+                            'padding-top': '2%', 'padding-left': '2%'}),
+                html.Div([
+                    dcc.DatePickerRange(
+                        id='filter_date',
+                        start_date_placeholder_text="Start Period",
+                        end_date_placeholder_text="End Period",
+                        calendar_orientation='vertical',
+                        min_date_allowed=date(
+                            2023, 6, 1),
+                        max_date_allowed=date(
+                            2023, 6, 5),
+                        initial_visible_month=date(
+                            2023, 6, 5),
+                        end_date=date(
+                            2023, 6, 5),
+                        style={
+                            'padding': '2%'}
+                    ),
+                    html.Div(
+                        id='output-container-date-picker-range')
+                ]),
+                html.Label('Protocol', style={
+                    'padding-top': '2%', 'padding-left': '2%'}),
+                html.Div([
+                    dcc.Dropdown(['All', 'HTTP', 'HTTPS', 'TCP', 'UDP', 'ICMP', 'TWAMP'], 'All', id='filter_protocol', style={
+                        'width': '100px'}),
+                    html.Div(
+                        id='output'),
+                ], style={'padding': '2%', 'display': 'inline-flex'}),
+            ])
 
 def buble_chart(df):
     
