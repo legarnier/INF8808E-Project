@@ -527,6 +527,7 @@ app.layout = html.Div(
                 ),
             ],
             className="main-row",
+            style={'font-family': 'oswald'}
         ),
     ]
 )
