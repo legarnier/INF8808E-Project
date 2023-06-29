@@ -500,9 +500,9 @@ app.layout = html.Div(
                                                 dbc.CardBody(
                                                     [
                                                     #####
-                                                    graph5 layout
-                                                    #####
                                                      vis5.card_layout,
+                                                    #####
+                                                    
                                                        
                                                         dcc.Graph(
                                                             id='fig5',
