@@ -320,11 +320,6 @@ app.layout = html.Div(
                             ]
                         ),
 
-                        
-                        
-                        
-                        
-                        
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -414,16 +409,7 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -555,9 +541,6 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-
-
-
                         dbc.Row(
                             [
                                 dbc.Col(
