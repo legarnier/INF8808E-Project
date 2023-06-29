@@ -1,7 +1,6 @@
 '''
     Contains the server to run our application.
 '''
-from flask_failsafe import failsafe
 from app import app
 
 server = app.server
