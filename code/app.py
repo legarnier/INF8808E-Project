@@ -319,7 +319,11 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-
+                        
+                        
+                        
+                        
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -329,13 +333,9 @@ app.layout = html.Div(
                                                 
 
                                                 dbc.CardBody(
-<<<<<<< HEAD
-                                                                                                  [
-=======
-                                                    [ 
+                                                                                                  [ 
                                                         dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
 
->>>>>>> 5e224a8 (solve hasti code viz2)
                                                         html.Div(className='filter-container', children=[
                                                             html.Label('Date range', style={
                                                                        'padding-top': '2%', 'padding-left': '2%'}),
@@ -381,11 +381,8 @@ app.layout = html.Div(
                                                                     className = 'vis2-graph',
                                                                     figure = fig2_line
                                                                 ),
-                                                            ]),
-<<<<<<< HEAD
-                                                    ],
-=======
-                                                        
+                                                                ]),
+                                                                
                                                         
 
 
@@ -393,7 +390,6 @@ app.layout = html.Div(
                                                     id="graph-body-2"
                                                 ),
                                             ],
->>>>>>> 5e224a8 (solve hasti code viz2)
                                             id="graph-card-2",
                                             color="info",
                                         ),
@@ -409,7 +405,16 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -541,6 +546,9 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
+
+
+
                         dbc.Row(
                             [
                                 dbc.Col(
