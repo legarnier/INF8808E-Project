@@ -207,14 +207,18 @@ def generate_gauge_figure(value, variable,ref=0):
 #######################################################
 
 #vis4
-'''
-        Retrieves all the data by protocol
 
-        Args:
-            dataframe: The dataframe to process
-        Returns:
-            Dictionnary of dataframe containing latency of each Site
-    '''
+########################################################################################################
+# A new table with proper rows and attributes was created to show the average latency in each site 
+# per type in an animated line chart. Since we did not need the protocols in this visualization, 
+# We removed these values from the dataset, 
+# but each row of the table needed to be the average latency per site and by type, 
+# so we created new rows with the required information, removed the extra attribute, 
+# and combined these two datasets into a new data set that could be used for visualization 4.
+# Args: dataframe: The dataframe to process
+# Returns: new table for average latency per type in each site
+# ######################################################################################################
+
 def city_average_latency_type(df_viz4):
     pd.set_option('display.max_columns', None)
     print("df_viz4" , df_viz4)
