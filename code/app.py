@@ -813,7 +813,7 @@ def toggle_graph(n_clicks):
     Input('type', 'value'))
 def vis6_update_heatmap(place, typ):
 
-    # Create the heatmap figure
+    # Update the heatmap figure
     fig = vis6.update_heatmap(df_dense,
                               place,
                               typ)
@@ -828,6 +828,8 @@ def vis6_update_heatmap(place, typ):
     Input('type', 'value'),
 )
 def vis6_update_line(clickData, zoom_level, place, typ):
+
+    # Update the line graph
     fig = vis6.update_line(df_dense, clickData, zoom_level, place, typ)
     return fig
 
