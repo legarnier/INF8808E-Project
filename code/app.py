@@ -1,7 +1,4 @@
 import dash
-import dash_bootstrap_components as dbc
-import dash_core_components as dcc
-import dash_html_components as html
 from dash import dcc, html
 import dash_core_components as dcc
 import dash_html_components as html
@@ -13,7 +10,6 @@ import vis4
 import vis2
 import vis1
 import vis6
-import plotly.express as px
 from datetime import date
 from viz3 import viz_3
 
@@ -22,14 +18,10 @@ from dash.dependencies import Input, Output, State
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-
-
-
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
 df_dense = pd.read_csv(('../data/dense_dataset.csv'))
 df_dense['Time'] = pd.to_datetime(df_dense['Time'])
-
 
 
 # Get the vis1
@@ -91,7 +83,6 @@ viz_titles = [viz1_title, viz2_title, viz3_title,viz4_title, viz5_title, viz6_ti
 # Get the vis2
 vis2_bubble_df = preprocess.bubble_chart_df(dataframe)
 fig2_bubble = vis2.buble_chart(vis2_bubble_df)
-
 fig2_line = vis2.get_empty_figure()
 
 
