@@ -1,18 +1,18 @@
 
 import plotly.graph_objects as go
 import plotly.express as px
-# import hover_template as hover
 import numpy as np
 
+#add hover 
 def map_base_hover_template():
     # Generate the hover template
     return '<span style="font-family: Oswald">    %{properties.prov_name_en}</span>' + '<extra></extra>'
-
 
 def map_marker_hover_template(name):
     # Generate the hover template
     return f'<span style="font-family: Oswald"> {name}</span>' + '<extra></extra>'
 
+#display map
 def add_choro_trace(fig, data, locations, z_vals):
     colorscale = ['#CDD1C4', '#CDD1C4']
     # Draw the map base
@@ -33,7 +33,7 @@ def add_choro_trace(fig, data, locations, z_vals):
     fig.update_traces(hovertemplate=hover_temp)
     return fig
 
-
+#add scatters on the map
 def add_scatter_traces(fig, trace_data):
     # get range of the circles
     latency_min = np.min(trace_data['Latency'])
