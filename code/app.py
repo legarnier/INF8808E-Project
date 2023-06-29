@@ -148,7 +148,7 @@ app.layout = html.Div(
                                             id='button-' + str(graph_id),
                                             color="primary",
                                             outline=True,
-                                            style={"text-align": "center", "width":"102%"},
+                                            style={"text-align": "center","font-size":"small"},
                                         )
                                             
                                             ,width=3
@@ -193,11 +193,12 @@ app.layout = html.Div(
                         html.Div(
                             style={'display': 'flex', 'align-items': 'center'},
                             children=[
+                                dcc.Download(id="download-text"),
                                 html.H3('Project Description:   '),
-                                html.A('Download PDF', href=' ../data/INF8808E-Plan-Team_07.pdf', 
-                                       download='INF8808E-Plan-Team_07.pdf',
-                                        style={'color': 'black', 'margin-left':'10px','font-size':'0.8 rem'}
-                                       )
+                                dbc.Button("Download PDF:", id="btn-download",color="secondary",outline=True,
+                                           style={'color': 'black', 'margin-left':'10px','font-size':'0.8 rem'}),
+
+                               
                             
                             ]
                         ),
@@ -856,6 +857,14 @@ def vis5_update_linechart(viz5_places):
     fig = vis5.update_vis5(vis5_df.loc[vis5_df['Site'] == viz5_places], viz5_places)
     return fig
 
+# Callbacks for the download button
+@app.callback(
+    Output("download-text", "data"),
+    Input("btn-download", "n_clicks"),
+    prevent_initial_call=True,
+)
+def func1(n_clicks):
+    return dcc.send_file("../data/Project Description.pdf")
 
 if __name__ == "__main__":
     app.run_server(debug=True)
