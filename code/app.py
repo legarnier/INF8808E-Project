@@ -86,8 +86,7 @@ viz4_title = "Average Latency per Site"
 viz5_title = "Forecasting Latency"
 viz6_title = "Anomaly detection"
 
-viz_titles = [viz1_title, viz2_title, viz3_title,
-              viz4_title, viz5_title, viz6_title]
+viz_titles = [viz1_title, viz2_title, viz3_title,viz4_title, viz5_title, viz6_title]
 
 # Get the vis2
 vis2_bubble_df = preprocess.bubble_chart_df(dataframe)
@@ -96,19 +95,8 @@ fig2_bubble = vis2.buble_chart(vis2_bubble_df)
 fig2_line = vis2.get_empty_figure()
 
 
-# Get the vis5
+# Get the vis5 dataframe
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
-#fig5 = vis5.initial(vis5_df)
-
-#fig5.update_layout(autosize=True)
-
-
-# Get the vis4
-
-#fig4 = vis4.animated_line(dataframe)
-
-#fig4.update_layout(height=700, width=1500)
-#fig4.update_layout(autosize=True)
 
 
 app.layout = html.Div(
