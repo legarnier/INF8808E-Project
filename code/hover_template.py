@@ -25,4 +25,4 @@ def hover_vis4():
 
     app_hover_template = '<b>Site:</b> %{customdata[0]}<br><b>Time:</b> %{x}<br><b>Average Latency:</b> %{y}<br><b>Type:</b> %{customdata[1]}<extra></extra>'
 
-return network_hover_template, app_hover_template
+    return (network_hover_template, app_hover_template)
