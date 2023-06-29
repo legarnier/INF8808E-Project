@@ -499,39 +499,11 @@ app.layout = html.Div(
                                                
                                                 dbc.CardBody(
                                                     [
-                                                         
-                                                       html.Div([
-                                                        # BEGIN LEFT PART
-                                                        html.Div([
-                                                            dcc.Dropdown(
-                                                                [{"label": html.Span("Quebec",
-                                                                                    style={'color': 'blue'}),
-                                                                "value": "Quebec"},
-                                                                {"label": html.Span("Ontario",
-                                                                                    style={'color': 'red'}),
-                                                                "value": "Ontario"},
-                                                                {"label": html.Span("Manitoba",
-                                                                                    style={'color': 'green'}),
-                                                                "value": "Manitoba"}
-                                                                ],
-                                                                'Quebec',
-                                                                id='viz5_places',
-                                                                searchable=False,
-                                                                clearable=False,
-                                                            )
-                                                        ],
-                                                        style={'width': '49%', 'display': 'inline-block'}),
-                                                        # END LEFT PART
-
-                                                        # BEGIN RIGHT PART
-                                                        html.Div(["Select each city to see the forecasting values for Latency"], style={'width': '49%',
-                                                                'float': 'right', 'display': 'inline-block'})
-                                                        # END RIGHT PART
-
-
-                                                    ], style={
-                                                        'padding': '10px 5px'
-                                                    }),
+                                                    #####
+                                                    graph5 layout
+                                                    #####
+                                                     vis5.card_layout,
+                                                       
                                                         dcc.Graph(
                                                             id='fig5',
                                                             #figure=fig5,
