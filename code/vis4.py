@@ -6,9 +6,26 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import date
 import preprocess
-
 import hover
 
+from dash import html, dcc
+
+vis4_layout = html.Div(
+                children=[
+                    dcc.Graph(id='animation-graph'),  # Base Plot
+                    dcc.Dropdown(
+                        id='button-dropdown',
+                        options=[
+                            {'label': 'Play', 'value': 'play'},
+                            {'label': 'Application', 'value': 'application'},
+                            {'label': 'Network', 'value': 'network'},
+                            {'label': 'Both Types', 'value': 'both_types'}
+                        ],
+                        value='play',
+                        style={'display': 'none'}
+                    )
+                ]
+            )
 
 def update_graph(button_value,df_viz4):
    # Data Preparation
