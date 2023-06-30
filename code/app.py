@@ -131,7 +131,7 @@ app.layout = html.Div(
                         'top': 0,
                         'height': '100vh',
                         #'width': '22%',
-                        'backgroundColor': '#B0E2FF'
+                        'backgroundColor': '#d3e1f2'
                     },
                     className="sidebar",
                 ),
@@ -147,7 +147,9 @@ app.layout = html.Div(
                                                 dbc.CardHeader(
                                                     [
                                                         dbc.Button(
-                                                            "Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"),
+                                                            "Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"
+                                                            ,style={'background':'#779ecb'}
+                                                        ),
                                                     ]
                                                 ),
                                                 dbc.CardBody(
@@ -180,7 +182,8 @@ app.layout = html.Div(
                                     [
                                         dbc.Card(
                                             [ 
-                                                dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
+                                                dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2"
+                                                                          ,style={'background':'#779ecb'})),
                                                 dbc.CardBody(
                                                   [ 
                                                         ######
@@ -213,7 +216,9 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 dbc.CardHeader(dbc.Button("Graph 3: " + viz3_title, className="graph-title",
-                                                               id="graph-title-3")),
+                                                               id="graph-title-3"
+                                                                ,style={'background':'#779ecb'}   
+                                                                         )),
                                                 dbc.CardBody(
                                                     [
                                                         #####
@@ -245,7 +250,9 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 dbc.CardHeader(dbc.Button(
-                                                    "Graph 4: " + viz4_title, className="graph-title", id="graph-title-4")),
+                                                    "Graph 4: " + viz4_title, className="graph-title", id="graph-title-4"
+                                                     ,style={'background':'#779ecb'}
+                                                )),
                                                 dbc.CardBody(
                                                     [
                                                       #########
@@ -277,7 +284,9 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 dbc.CardHeader(dbc.Button(
-                                                    "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5")),  
+                                                    "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5"
+                                                 ,style={'background':'#779ecb'}
+                                                )),  
                                                 dbc.CardBody(
                                                     [
                                                     #####
@@ -315,7 +324,9 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 dbc.CardHeader(dbc.Button(
-                                                    "Graph 6: " + viz6_title, className="graph-title", id="graph-title-6")),
+                                                    "Graph 6: " + viz6_title, className="graph-title", id="graph-title-6"
+                                                 ,style={'background':'#779ecb'}
+                                                )),
                                                 dbc.CardBody(
                                                     [
                                                         #####
