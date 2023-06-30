@@ -12,7 +12,11 @@ dataframe = pd.read_csv('../data/dataset.csv')
 
 # Get the data preprocessed
 
-##################### Filter by sites and by types
+# The data is a row of  the protocol latencies so we have to reshape it
+# to have for each site and each type a row for the latency value of the 
+# protocol on target
+# So first of all we:
+##################### *Filter by sites and by types into dictionnaries
 dict_data_site = preprocess.filter_by_Site(dataframe)
 
 Qc_by_type = preprocess.filter_by_type(dict_data_site['Quebec'])
@@ -30,8 +34,8 @@ MAN_latency_network = Man_by_type['network']
 MAN_latency_app = Man_by_type['app']
 
 ############################
-
-####### Transforming the new data to dataframe to make it easier to display
+## and then we
+####### *Transform the new data dictionnary to dataframe to make it easier to display
 
 QC_latency_network_df = preprocess.Protocol_to_df(QC_latency_network)
 ON_latency_network_df = preprocess.Protocol_to_df(ON_latency_network)
@@ -55,8 +59,8 @@ dict_data_site['Ontario'] = On_by_type
 dict_data_site['Manitoba'] = Man_by_type
 
 #####################
-
-######## Data used for the default display
+# And then we choose the
+######## *Data used for the default display
 data = dict_data_site['Quebec']['app']
 
 variables = ['HTTP', 'HTTPS', 'TCP', 'ICMP', 'TWAMP', 'UDP']
@@ -65,21 +69,7 @@ default_row_index = 0
 
 #####################
 
-
-
-def Protocol_to_df (dataframe):
-  variables = dataframe['Protocol'].unique()
-  Df_protocol = pd.DataFrame(columns=variables)
-  for temps in dataframe['Time'].unique():
-    df_values = dataframe[dataframe['Time']
-                              == temps ]
-    list_values = df_values['Latency'].tolist()
-    # Add a new row using df.append
-    new_row = pd.DataFrame([list_values], columns=Df_protocol.columns)
-    Df_protocol = pd.concat([Df_protocol, new_row], ignore_index=True)
-  return Df_protocol
-
-
+# Then we display a gauge for each protocol latency from each site and type
 # Generative function for each gauge
 def generate_gauge_figure(value, variable,ref=0):
     return go.Figure(
@@ -162,7 +152,10 @@ layout = dbc.Card(
 
 
 ############################ Update the gauges with the next line
-
+# Given the data is sorted by time, two consecutive row are consecutive latencies
+# So the first gauges displayed are actually the first row of the dataset and then we update 
+# the data by a frequency chosen considering the delay between two latency values and also
+# the perfomance of the server, but for this visualization we chose a 3 seconds frequency
 def update_gauges( radio_type_value, n_intervals):
     ctx = dash.callback_context
     button_id = ctx.triggered[0]["prop_id"].split(".")[0] if ctx.triggered else "button-site-qc"
