@@ -7,7 +7,6 @@ import plotly.graph_objects as go
 from datetime import date
 import preprocess
 import hover_template
-
 from dash import html, dcc
 
 vis4_layout = html.Div(
