@@ -12,7 +12,6 @@ import vis1
 import vis6
 from datetime import date
 from viz3 import viz_3
-
 from dash.dependencies import Input, Output, State
 from callbacks import register_callbacks
 
@@ -21,57 +20,8 @@ app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
 # Get the data
 dataframe = pd.read_csv('../data/dataset.csv')
-df_dense = pd.read_csv(('../data/dense_dataset.csv'))
-df_dense['Time'] = pd.to_datetime(df_dense['Time'])
 
-
-# Get the vis1
-dict_data_site = preprocess.filter_by_Site(dataframe)
-
-Qc_by_type = preprocess.filter_by_type(dict_data_site['Quebec'])
-On_by_type = preprocess.filter_by_type(dict_data_site['Ontario'])
-Man_by_type = preprocess.filter_by_type(dict_data_site['Manitoba'])
-
-QC_latency_network = Qc_by_type['network']
-QC_latency_app = Qc_by_type['app']
-
-ON_latency_network = On_by_type['network']
-ON_latency_app = On_by_type['app']
-
-MAN_latency_network = Man_by_type['network']
-MAN_latency_app = Man_by_type['app']
-
-QC_latency_network_df = preprocess.Protocol_to_df(QC_latency_network)
-ON_latency_network_df = preprocess.Protocol_to_df(ON_latency_network)
-MAN_latency_network_df = preprocess.Protocol_to_df(MAN_latency_network)
-
-
-QC_latency_app_df = preprocess.Protocol_to_df(QC_latency_app)
-ON_latency_app_df = preprocess.Protocol_to_df(ON_latency_app)
-MAN_latency_app_df = preprocess.Protocol_to_df(MAN_latency_app)
-
-Qc_by_type['network'] = QC_latency_network_df
-On_by_type['network'] = ON_latency_network_df
-Man_by_type['network'] = MAN_latency_network_df
-
-Qc_by_type['app'] = QC_latency_app_df
-On_by_type['app'] = ON_latency_app_df
-Man_by_type['app'] = MAN_latency_app_df
-
-dict_data_site['Quebec'] = Qc_by_type
-dict_data_site['Ontario'] = On_by_type
-dict_data_site['Manitoba'] = Man_by_type
-
-data = dict_data_site['Quebec']['app']
-
-# Variables pour les jauges et les boutons radio
-variables = ['HTTP', 'HTTPS', 'TCP', 'ICMP', 'TWAMP', 'UDP']
-num_gauges = len(variables)
-default_row_index = 0
-
-
-# add your graph title here:
-
+# graph title:
 viz1_title = "Current protocol latency in Milliseconds"
 viz2_title = "Average Latency per application type"
 viz3_title = "Current Latency Geographical Map"
@@ -86,10 +36,8 @@ vis2_bubble_df = preprocess.bubble_chart_df(dataframe)
 fig2_bubble = vis2.buble_chart(vis2_bubble_df)
 fig2_line = vis2.get_empty_figure()
 
-
 # Get the vis5 dataframe
 vis5_df = preprocess.filter_groupby_time_city(dataframe)
-
 
 app.layout = html.Div(
     [
@@ -103,17 +51,13 @@ app.layout = html.Div(
                                html.H1("INF8808 ", className="project-title"),
                                 html.H1("Final Project ",
                                         className="project-title"),
-
                                 html.H3("Team Number: 7",
                                         className="team-number"),
                                 html.H3("Summer 2023", className="date"),
                             ],
                             className="header-container",
-
                             style={
-
                                 'backgroundColor': '#B0E2FF'
-
                             },
                         ),
                         dbc.ListGroup(
@@ -129,13 +73,11 @@ app.layout = html.Div(
                                             color="primary",
                                             outline=True,
                                             style={"text-align": "center","font-size":"small"},
-                                        )
-                                            
+                                        )     
                                             ,width=3
                                         ),
                                         
-                                        dbc.Col(
-                                            
+                                        dbc.Col(   
                                           dbc.CardBody(
                                             [
                                                 html.H5(
@@ -151,25 +93,18 @@ app.layout = html.Div(
                                                 "index": graph_id},
                                             is_open=False,
                                             ),width = 3
-                                        ) 
-                                            
+                                        )       
                                         ],
                                          align='center'
-                                        )
-                                        
-                                          
+                                        )   
                                     ]
                                 ) 
                                 for graph_id in range(1, 7)  # Update the range based on the number of graphs
                             ],
                             className="sidebar-content",
-
                         ),
-                        
                         html.Hr(),
-                         
-                        
-                        
+
                         html.Div(
                             style={'display': 'flex', 'align-items': 'center'},
                             children=[
@@ -177,9 +112,6 @@ app.layout = html.Div(
                                 html.H3('Project Description:   '),
                                 dbc.Button("Download PDF", id="btn-download",color="secondary",outline=True,
                                            style={'color': 'black', 'margin-left':'10px','font-size':'0.8 rem'}),
-
-                               
-                            
                             ]
                         ),
 
@@ -192,8 +124,6 @@ app.layout = html.Div(
                                         style={'color': 'black'}) # set link color to black)
                             ]
                         ),    
-                        
-                        
                     ],
                     width=3,
                     style={
@@ -204,13 +134,10 @@ app.layout = html.Div(
                         'backgroundColor': '#B0E2FF'
                     },
                     className="sidebar",
-
                 ),
                 # Graphs
                 dbc.Col(
                     [
-
-
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -225,48 +152,12 @@ app.layout = html.Div(
                                                 ),
                                                 dbc.CardBody(
                                                             [
-                                                                html.H5("Site "),
-                                                                dbc.Button(
-                                                                    "Quebec",
-                                                                    id="button-site-qc",
-                                                                    color="primary",
-                                                                    className="mr-1"
-                                                                ),
-                                                                dbc.Button(
-                                                                    "Ontario",
-                                                                    id="button-site-on",
-                                                                    color="primary",
-                                                                    className="mr-1"
-                                                                ),
-                                                                dbc.Button(
-                                                                    "Manitoba",
-                                                                    id="button-site-man",
-                                                                    color="primary",
-                                                                    className="mr-1"
-                                                                ),
-                                                                html.H5("Protocol Type "),
-                                                                dcc.RadioItems(
-                                                                    id="radio-type",
-                                                                    options=[
-                                                                        {"label": " Application ", "value": "app"},
-                                                                        {"label": " Network ", "value": "network"}
-                                                                    ],
-                                                                    value="app",
-                                                                    className="mb-2"
-                                                                ),
-                                                                html.Div(
-                                                                    id="gauges-container",
-                                                                    style={"display": "flex", "justify-content": "center"}
-                                                                ),
-                                                                dcc.Interval(
-                                                                    id="interval-component",
-                                                                    interval=3000,
-                                                                    n_intervals=0
-                                                                )
+                                                               #####
+                                                                vis1.layout
+                                                               #####
                                                             ],
                                                             id="graph-body-1",
                                                             style={'display': 'block'}
-
                                                         ),
                                                     ],
                                             id="graph-card-1",
@@ -283,30 +174,21 @@ app.layout = html.Div(
                                 ),
                             ]
                         ),
-                        
-                        
-                        
-                        
-                        
                         dbc.Row(
                             [
                                 dbc.Col(
                                     [
                                         dbc.Card(
-                                            [
-                                                
+                                            [ 
                                                 dbc.CardHeader(dbc.Button( "Graph 2: " + viz2_title, className="graph-title", id="graph-title-2")),
-
                                                 dbc.CardBody(
                                                   [ 
                                                         ######
                                                         vis2.viz2_layout,
                                                         #######
-
                                                     ],
                                                     id="graph-body-2",
                                                    style={'display': 'block'}
-
                                                 ),
                                             ],
                                             id="graph-card-2",
@@ -319,21 +201,11 @@ app.layout = html.Div(
                                         'top': 0,
                                         'left': '33%',
                                         'margin-top' : 20
-
                                     },
                                 ),
                             ]
                         ),
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        
+ 
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -350,12 +222,10 @@ app.layout = html.Div(
                                                     ],
                                                     id="graph-body-3",
                                                     style={'display': 'block'}
-
                                                 )
                                             ],
                                             id="graph-card-3",
                                             color="info",
-
                                         ),
                                     ],
                                     width=12,
@@ -364,14 +234,10 @@ app.layout = html.Div(
                                         'top': 0,
                                         'left': '33%',
                                         'margin-top' : 20
-
                                     },
                                 ),
                             ]
                         ),
-
-
-
                         dbc.Row(
                             [
                                 dbc.Col(
@@ -380,7 +246,6 @@ app.layout = html.Div(
                                             [
                                                 dbc.CardHeader(dbc.Button(
                                                     "Graph 4: " + viz4_title, className="graph-title", id="graph-title-4")),
-
                                                 dbc.CardBody(
                                                     [
                                                       #########
@@ -389,7 +254,6 @@ app.layout = html.Div(
                                                     ],
                                                     id="graph-body-4",
                                                     style={'display': 'block'}
-
                                                 ),
                                             ],
                                             id="graph-card-4",
@@ -402,7 +266,6 @@ app.layout = html.Div(
                                         'top': 0,
                                         'left': '33%',
                                         'margin-top' : 20
-
                                     },
                                 ),
                             ]
@@ -414,15 +277,12 @@ app.layout = html.Div(
                                         dbc.Card(
                                             [
                                                 dbc.CardHeader(dbc.Button(
-                                                    "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5")),
-                                               
+                                                    "Graph 5: " + viz5_title, className="graph-title", id="graph-title-5")),  
                                                 dbc.CardBody(
                                                     [
                                                     #####
                                                      vis5.card_layout,
                                                     #####
-                                                    
-                                                       
                                                         dcc.Graph(
                                                             id='fig5',
                                                             #figure=fig5,
@@ -432,7 +292,6 @@ app.layout = html.Div(
                                                     ],
                                                     id="graph-body-5",
                                                    style={'display': 'block'}
-
                                                 ),
                                             ],
                                             id="graph-card-5",
@@ -445,7 +304,6 @@ app.layout = html.Div(
                                         'top': 0,
                                         'left': '33%',
                                         'margin-top' : 20
-
                                     },
                                 ),
                             ]
@@ -466,7 +324,6 @@ app.layout = html.Div(
                                                     ],
                                                     id="graph-body-6",
                                                     style={'display': 'block'}
-
                                                 ),
                                             ],
                                             id="graph-card-6",
@@ -479,7 +336,6 @@ app.layout = html.Div(
                                         'top': 0,
                                         'left': '33%',
                                         'margin-top' : 20
-
                                     },
                                 ),
                             ]
@@ -495,7 +351,7 @@ app.layout = html.Div(
     ]
 )
 
-register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5_df,dataframe)
+register_callbacks(app,vis1.dict_data_site,vis1.variables,vis1.df_dense,vis2_bubble_df,vis5_df,dataframe)
 
 if __name__ == "__main__":
     app.run_server(debug=True)
