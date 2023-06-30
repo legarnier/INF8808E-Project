@@ -50,7 +50,7 @@ def update_heatmap(df, place_name, type_name):
         'visible': True,  # numbers below
     })
 
-    fig.update_traces(hovertemplate="<span>Latency: %{z:.2f}<br>Time: %{x|%H:%M}</span><extra></extra>")
+    fig.update_traces(hovertemplate="<span><b>Latency:</b> %{z:.2f} ms<br><b>Time:</b> %{x|%H:%M}</span><extra></extra>")
 
     return fig
 
@@ -81,7 +81,7 @@ def update_line(df, clickData, zoom_level, place, typ):
                       (df['Time'] <= selected_time+pd.Timedelta(seconds=time_range))]
     fig = px.line(dataline, x='Time', y='Latency',
                   title=protocol_name)
-    fig.update_traces(hovertemplate="<span>Latency: %{y:.2f}<br>Time: %{x|%H:%M}</span><extra></extra>")
+    fig.update_traces(hovertemplate="<span>Time: %{x|%H:%M}<br>Latency: %{y:.2f} ms</span><extra></extra>")
 
     return fig
 
@@ -98,10 +98,10 @@ layout = html.Div([
         html.Div([
             dcc.Dropdown(
                 [{"label": html.Span("Quebec",
-                                     style={'color': 'red','font-family': 'oswald'}),
+                                     style={'color': 'blue','font-family': 'oswald'}),
                   "value": "Quebec"},
                  {"label": html.Span("Ontario",
-                                     style={'color': 'blue','font-family': 'oswald'}),
+                                     style={'color': 'red','font-family': 'oswald'}),
                   "value": "Ontario"},
                  {"label": html.Span("Manitoba",
                                      style={'color': 'green','font-family': 'oswald'}),
