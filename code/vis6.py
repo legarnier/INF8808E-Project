@@ -11,6 +11,9 @@ df = pd.read_csv(('../data/dense_dataset.csv'))
 ######## Heatmap ########
 
 def extract_heatmap_data(df, site, typ):
+    """
+    extract the heatmap data for a particular site and a particular type
+    """
     heatmap_data = df.loc[(df['Site'] == site) & (df['Type'] == typ)]
     heatmap_data = pd.pivot_table(
         heatmap_data, index='Time', columns='Protocol', values='Latency')
@@ -39,33 +42,31 @@ def update_heatmap(df, place_name, type_name):
                     aspect='auto')
 
     fig.update_xaxes({
-        'showgrid': False,  # thin lines in the background
-        'zeroline': False,  # thick line at x=0
-        'visible': True,  # numbers below
+        'showgrid': False, 
+        'zeroline': False, 
+        'visible': True, 
     })
 
     fig.update_yaxes({
-        'showgrid': False,  # thin lines in the background
-        'zeroline': False,  # thick line at x=0
-        'visible': True,  # numbers below
+        'showgrid': False, 
+        'zeroline': False, 
+        'visible': True, 
     })
 
+    # Add hovertemplate
     fig.update_traces(hovertemplate="<span><b>Time:</b> %{x|%H:%M}<br><b>Latency:</b> %{z:.2f} ms</span><extra></extra>")
 
     return fig
 
 ######## Line ########
 
-
-def get_empty_figure():
-    fig = px.line({})
-    return fig
-
-
 def update_line(df, clickData, zoom_level, place, typ):
-
+    """
+    Update the line graph according to the cell clicked and options selected
+    """
     max_time_range = (df['Time'].max() - df['Time'].min()).seconds
 
+    # Time window displayed according to the zoom level
     time_range = int(max_time_range/10**zoom_level)
 
     if clickData is not None:
@@ -81,13 +82,10 @@ def update_line(df, clickData, zoom_level, place, typ):
                       (df['Time'] <= selected_time+pd.Timedelta(seconds=time_range))]
     fig = px.line(dataline, x='Time', y='Latency',
                   title=protocol_name)
+
+    # Add hovertemplate
     fig.update_traces(hovertemplate="<span><b>Time: </b>%{x|%H:%M}<br><b>Latency: </b>%{y:.2f} ms</span><extra></extra>")
 
-    return fig
-
-
-def get_empty_figure():
-    fig = px.line({})
     return fig
 
 
