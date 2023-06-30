@@ -61,7 +61,7 @@ app.layout = html.Div(
                                 className="header-container",
                                 style={
                                     'margin-left': '20px',
-                                    'margin-top','25px'
+                                    'margin-top':'25px',
                                 },
                         ),
                         dbc.ListGroup(
