@@ -126,9 +126,28 @@ app.layout = html.Div(
                             style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem','margin-left':'20px'},
                             children=[
                                  html.A('Demo video', href='https://www.youtube.com/', className='youtube-link',
-                                        style={'color': 'black'}) # set link color to black)
-                            ]
-                        ),    
+                                        style={'color': 'black'}), # set link color to black)
+                                
+                            ],
+                           
+                            
+                            
+                        ),   
+                        html.Div(
+                            style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem','margin-left':'20px'},
+                            children=[
+                                   html.A('Our Github', href='https://github.com/legarnier/INF8808E-Project/', className='youtube-link',
+                                        style={'color': 'black'}) # set link color to black)  
+                                
+                            ],
+                           
+                            
+                            
+                        ),
+                        
+                        
+                        
+                        
                     ],
                     width=3,
                     style={
