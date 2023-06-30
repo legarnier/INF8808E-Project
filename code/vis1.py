@@ -59,22 +59,25 @@ layout =html.Div(
         dbc.Button(
             "Quebec",
             id="button-site-qc",
-            color="primary",
-            className="mr-1"
+            className="mr-1",
+            style={"background-color": "rgb(119, 158, 203)","margin-right":"10px"}
+
         ),
         dbc.Button(
             "Ontario",
             id="button-site-on",
-            color="primary",
-            className="mr-1"
+            className="mr-1",
+            style={"background-color": "rgb(119, 158, 203)","margin-right":"10px"}
+
         ),
         dbc.Button(
             "Manitoba",
             id="button-site-man",
-            color="primary",
-            className="mr-1"
+            className="mr-1",
+            style={"background-color": "rgb(119, 158, 203)","margin-right":"10px"}
+
         ),
-        html.H5("Protocol Type "),
+        html.H5("Protocol Type ",style={"margin-top": "10px"}),
         dcc.RadioItems(
             id="radio-type",
             options=[
@@ -82,7 +85,8 @@ layout =html.Div(
                 {"label": " Network ", "value": "network"}
             ],
             value="app",
-            className="mb-2"
+            className="mb-2",
+            
         ),
         html.Div(
             id="gauges-container",
