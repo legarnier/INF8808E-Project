@@ -302,23 +302,6 @@ app.layout = html.Div(
                                                         ######
                                                         vis2.viz2_layout,
                                                         #######
-                                                        
-                                                        
-                                                        html.Div(className='vis2-container' ,children=[
-                                                            dcc.Graph(
-                                                                    id = 'fig2-bubble',
-                                                                    className = 'vis2-graph',
-                                                                    figure = fig2_bubble
-                                                                ),
-                                                            dcc.Graph(
-                                                                    id = 'fig2-line',
-                                                                    className = 'vis2-graph',
-                                                                    figure = fig2_line
-                                                                ),
-                                                                ]),
-                                                                
-                                                        
-
 
                                                     ],
                                                     id="graph-body-2",
