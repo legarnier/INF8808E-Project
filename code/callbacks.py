@@ -51,7 +51,7 @@ def register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5
 
 
 
-    # apply filters on graph 2
+    # apply filters on graph 2 (bubble chart)
     @app.callback(
         Output('fig2-bubble', 'figure'),
         [Input('filter_date', 'start_date'),
@@ -60,13 +60,13 @@ def register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5
     )
     def update_output(start_date, end_date, value):
         dataframe = pd.read_csv('../data/dataset.csv')
-        if value == 'All' and start_date is None:
+        if value == 'All' and start_date is None: # no filter
             fig2 = vis2.buble_chart(vis2_bubble_df)
-        elif value != 'All' and start_date is None:
+        elif value != 'All' and start_date is None: # filter protocol
             protocol_df = preprocess.filter_protocol(dataframe, value)
             vis2_df_filtered = preprocess.bubble_chart_df(protocol_df)
             fig2 = vis2.buble_chart(vis2_df_filtered)
-        elif value == 'All' and start_date is not None and end_date is not None:
+        elif value == 'All' and start_date is not None and end_date is not None: # filter date
             start_date_object = date.fromisoformat(start_date)
             end_date_object = date.fromisoformat(end_date)
 
@@ -74,7 +74,7 @@ def register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5
                 dataframe, start_date_object, end_date_object)
             vis2_df_filtered = preprocess.bubble_chart_df(date_df)
             fig2 = vis2.buble_chart(vis2_df_filtered)
-        else:
+        else: # filter date and protocol
             start_date_object = date.fromisoformat(start_date)
             end_date_object = date.fromisoformat(end_date)
 
@@ -86,7 +86,7 @@ def register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5
 
         return fig2
 
-    # Graph2: change line chart based in the clicked point on bubble chart
+    # Graph2: change line chart based in the clicked point on bubble chart and filters
 
 
     @app.callback(
