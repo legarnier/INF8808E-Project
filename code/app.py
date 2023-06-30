@@ -48,17 +48,20 @@ app.layout = html.Div(
                     [
                         html.Div(
                             children=[
-                               html.H1("INF8808 ", className="project-title"),
-                                html.H1("Final Project ",
-                                        className="project-title"),
-                                html.H3("Team Number: 7",
-                                        className="team-number"),
-                                html.H3("Summer 2023", className="date"),
-                            ],
-                            className="header-container",
-                            style={
-                                'backgroundColor': '#B0E2FF'
-                            },
+                                      html.Img(src=app.get_asset_url('poly.png')
+                                              ,style = {'width':'100%'}   
+                                    ),
+                                   html.H2("INF8808 - Final Project", className="project-title"
+                                            ,style = {'margin-top':'25px'}),               
+    
+                                    html.H3("Team Number: 7",
+                                            className="team-number"),
+                                    html.H3("Summer 2023", className="date"),
+                                ],
+                                className="header-container",
+                                style={
+                                    'backgroundColor': '#B0E2FF'
+                                },
                         ),
                         dbc.ListGroup(
                             [
@@ -148,7 +151,7 @@ app.layout = html.Div(
                                                     [
                                                         dbc.Button(
                                                             "Graph 1: " + viz1_title, className="graph-title", id="graph-title-1"
-                                                            ,style={'background':'#779ecb'}
+                                                            ,style={'background':'#779ecb','font-weight':'bold'}
                                                         ),
                                                     ]
                                                 ),
