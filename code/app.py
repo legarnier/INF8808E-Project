@@ -60,7 +60,8 @@ app.layout = html.Div(
                                 ],
                                 className="header-container",
                                 style={
-                                    'backgroundColor': '#B0E2FF'
+                                    'margin-left': '20px',
+                                    'margin-top','25px'
                                 },
                         ),
                         dbc.ListGroup(
@@ -109,7 +110,7 @@ app.layout = html.Div(
                         html.Hr(),
 
                         html.Div(
-                            style={'display': 'flex', 'align-items': 'center'},
+                            style={'display': 'flex', 'align-items': 'center','margin-left':'20px'},
                             children=[
                                 dcc.Download(id="download-text"),
                                 html.H3('Project Description:   '),
@@ -121,7 +122,7 @@ app.layout = html.Div(
                         html.Hr(),
                         
                         html.Div(
-                            style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem'},
+                            style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem','margin-left':'20px'},
                             children=[
                                  html.A('Demo video', href='https://www.youtube.com/', className='youtube-link',
                                         style={'color': 'black'}) # set link color to black)
