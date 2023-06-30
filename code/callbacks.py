@@ -205,7 +205,7 @@ def register_callbacks(app,dict_data_site,variables,df_dense,vis2_bubble_df,vis5
             return style  # No button clicks yet, maintain current style
         display = style.get('display', 'block')
 
-        new_style = {'display': 'none'} if display == 'block' else {'display': 'block'}
+        new_style = {'display': 'none','background':'rgb(176, 226, 255)'} if display == 'block' else {'display': 'block','background':'rgb(176, 226, 255)'}
         return new_style
 
 
