@@ -125,7 +125,7 @@ app.layout = html.Div(
                         html.Div(
                             style={'display': 'flex', 'align-items': 'center','font-size':'1.75rem','margin-left':'20px'},
                             children=[
-                                 html.A('Demo video', href='https://www.youtube.com/', className='youtube-link',
+                                 html.A('Demo video', href='https://www.youtube.com/watch?v=OmcE94BwEow', className='youtube-link',
                                         style={'color': 'black'}), # set link color to black)
                                 
                             ],
